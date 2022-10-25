@@ -14,6 +14,7 @@ import { ROUTE_PATH } from '../../constants';
 import styles from './styles.module.scss';
 
 import addOnImg from '../../assets/images/right-arrow.png';
+import Logo from '../../assets/images/dashboard_icon.png';
 
 const AdminDashboard = () => {
     const navigate = useNavigate();
@@ -32,12 +33,32 @@ const AdminDashboard = () => {
 
     const goPrepareWorkout = () => {
         navigate(ROUTE_PATH.prepare_workout);
-    }
+    };
 
     return (
         <div className={styles.container}>
-            <legend>～選擇您的操作～</legend>
-            <fieldset>
+            <legend>
+                醫生端
+            </legend>
+            <div
+                style={{
+                    background: `url(${Logo})`,
+                    width: 240,
+                    height: 270,
+                    backgroundSize: '100%',
+                    backgroundRepeat: 'no-repeat',
+                }}
+            />
+            <div className={styles.cst_btn} onClick={goUserList}>
+                病歷資訊
+            </div>
+            <div className={styles.cst_btn}>
+                連線配對
+            </div>
+            <div className={styles.cst_btn}>
+                基本資料填寫
+            </div>
+            <fieldset style={{display: 'none'}}>
                 <TileWithIconAndAction
                     icon={<TeamOutlined />}
                     label="管理會員資訊"

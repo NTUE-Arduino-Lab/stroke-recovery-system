@@ -16,12 +16,12 @@ import { getAuth } from 'firebase/auth';
 // For Firebase JS SDK v7.20.0 and later, measurementId is optional
 const firebaseConfig = {
     apiKey: process.env.REACT_APP_API_KEY,
-    authDomain: 'physical-therapy-system.firebaseapp.com',
-    projectId: 'physical-therapy-system',
-    storageBucket: 'physical-therapy-system.appspot.com',
-    messagingSenderId: '411714019674',
+    authDomain: 'stroke-recovery-system.firebaseapp.com',
+    projectId: 'stroke-recovery-system',
+    storageBucket: 'stroke-recovery-system.appspot.com',
+    messagingSenderId: '344233774087',
     appId: process.env.REACT_APP_APP_ID,
-    measurementId: 'G-93J05VGEJN',
+    measurementId: 'G-S5GSD31L4H',
 };
 
 // Initialize Firebase

@@ -1,11 +1,104 @@
 .container {
-  height: calc(100vh - 48px);
+  height: 100vh;
   width: 100%;
-  background-color: #fff;
+  background-color: rgb(244, 189, 107);
+  padding-top: 100px;
+
+  legend {
+    font-size: 24px;
+    letter-spacing: 6%;
+    font-weight: 400;
+    color: #3D4EAE;
+    position:absolute;
+    right: 24px;
+    top: 30px;
+    width: fit-content;
+  }
+
+  .innerContainer {
+    margin-right: 24px;
+    margin-left: 24px;
+    height: 100%;
+    border: 4px solid #3D4EAE;
+    background-color: white;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: relative;
+    padding-top: 28px;
+  }
+
+  input {
+    width: 70%;
+    border: 2px solid #3D4EAE;
+    border-radius: 71px;
+    font-size: 20px;
+    padding-left: 18px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+  }
+  
+  // 近期病例
+  caption {
+    color: black;
+    align-self: flex-start;
+    margin-left: 15%;
+    letter-spacing: 3px;
+  }
+
+  .horiLine {
+    width: 70%;
+    border: 1px solid #3D4EAE;
+    height: 1px;
+    margin-top: 30px;
+  }
+
+  // 資料外容器
+  .listWrapper {
+    width: 67%;
+    overflow-y: scroll;
+  }
+
+  // 單一資料內容
+  section {
+    color: black;
+    letter-spacing: 3px;
+    align-self: flex-start;
+    border-bottom: 1px solid #3D4EAE;
+    margin-top: 6px;
+    padding-bottom: 6px;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+  }
+
+  .item_btn {
+    border-radius: 71px;
+    text-align: center;
+    padding: 6px 20px;
+    font-weight: 400;
+    color: white;
+    background-color: #3D4EAE;
+  }
 
   a {
     display: contents !important;
   }
+}
+
+.cst_btn {
+  border-radius: 71px;
+  width: 430px;
+  text-align: center;
+  padding-bottom: 12px;
+  padding-top: 12px;
+  font-weight: 400;
+  font-size: 24px;
+  color: white;
+  letter-spacing: 5px;
+  background-color: #3D4EAE;
+  
+  margin-bottom: 25px;
 }
 
 .descriptions, 

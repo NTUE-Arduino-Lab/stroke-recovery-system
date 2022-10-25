@@ -1,3 +1,4 @@
+/* eslint-disable no-unreachable */
 /* eslint-disable react/display-name */
 /* eslint-disable no-unused-vars */
 import React, { useEffect, useState, useRef } from 'react';
@@ -40,6 +41,9 @@ import { ROUTE_PATH } from '../../constants';
 import styles from './styles.module.scss';
 
 import { usersRef } from '../../services/firebase';
+
+import Logo from '../../assets/images/page_icon.png';
+import Leave_Icon from '../../assets/images/leave_icon.png';
 
 const { Content } = Layout;
 const { Text } = Typography;
@@ -242,6 +246,58 @@ const UserList = () => {
     const goTrainingWeekRecord = (targetUserId) => {
         navigate(`${ROUTE_PATH.training_week_record}/${targetUserId}`);
     };
+
+    return (
+        <div className={styles.container}>
+            <div
+                style={{
+                    background: `url(${Logo})`,
+                    width: 258,
+                    height: 56,
+                    left: 24,
+                    top: 20,
+                    position: 'absolute',
+                    backgroundSize: '100%',
+                    backgroundRepeat: 'no-repeat',
+                }}
+            />
+            <legend>醫生端</legend>
+            <div className={styles.innerContainer}>
+                <div
+                    onClick={goDashboard}
+                    style={{
+                        background: `url(${Leave_Icon})`,
+                        width: 84,
+                        height: 56,
+                        right: 24,
+                        top: 32,
+                        position: 'absolute',
+                        backgroundSize: '100%',
+                        backgroundRepeat: 'no-repeat',
+                    }}
+                />
+                <div className={styles.cst_btn}>病歷資訊</div>
+                <input />
+                <div className={styles.horiLine} />
+                <caption>近期病例</caption>
+                <div className={styles.listWrapper}>
+                    {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15].map(
+                        (e, i) => (
+                            <section key={i}>
+                                <span>2022/10/2</span>
+                                <span>王曉明</span>
+                                <span>1235</span>
+                                <span>左手中風</span>
+                                <span>復健5次</span>
+                                <div className={styles.item_btn}>詳情</div>
+                                <div className={styles.item_btn}>修改</div>
+                            </section>
+                        ),
+                    )}
+                </div>
+            </div>
+        </div>
+    );
 
     if (!isDone) {
         return (
