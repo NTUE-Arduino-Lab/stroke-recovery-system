@@ -12,6 +12,7 @@ const ROUTE_PATH = {
     training_week_record: '/training-week-record',
 
     personnel_info: '/personnel-info',
+    game1_direct: '/game1_direct',
 };
 
 export default ROUTE_PATH;

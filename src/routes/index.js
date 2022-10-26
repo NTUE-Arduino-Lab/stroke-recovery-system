@@ -16,6 +16,7 @@ import FinishedWorkout from '../layouts/FinishedWorkout';
 import RecordList from '../layouts/RecordList';
 import TrainingWeekRecord from '../layouts/TrainingWeekRecord';
 import PersonnelInfo from '../layouts/PersonnelInfo';
+import Game1Direct from '../layouts/Game1Direct';
 
 const AppRoutes = () => {
     return (
@@ -53,6 +54,10 @@ const AppRoutes = () => {
                 <Route
                     path={ROUTE_PATH.personnel_info}
                     element={<PersonnelInfo />}
+                />
+                <Route
+                    path={ROUTE_PATH.game1_direct}
+                    element={<Game1Direct />}
                 />
                 <Route
                     path={`${ROUTE_PATH.finsished_workout}/:recordId`}

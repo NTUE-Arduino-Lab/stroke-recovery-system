@@ -437,13 +437,13 @@ const PrepareWorkout = () => {
                 onClose={() => setOpen(false)}
                 overlayColour="rgba(243, 151, 0, 50%)"
             >
-                <div className={styles.cst_btn} onClick={goDashboard}>
+                <div className={styles.modal_btn} onClick={goDashboard}>
                     圓柱練習
                 </div>
-                <div className={styles.cst_btn} onClick={goDashboard}>
+                <div className={styles.modal_btn} onClick={goDashboard}>
                     多元練習
                 </div>
-                <div className={styles.cst_btn} onClick={goDashboard}>
+                <div className={styles.modal_btn} onClick={goDashboard}>
                     細圓柱練習
                 </div>
             </CustomModal>

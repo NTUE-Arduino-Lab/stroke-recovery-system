@@ -203,6 +203,10 @@ const PersonnelInfo = () => {
         }
     };
 
+    const goGame1Direct = async () => {
+        navigate(ROUTE_PATH.game1_direct);
+    };
+
     const goMonitoring = () => {
         navigate(`${ROUTE_PATH.monitoring_workout}/${targetgetRecordId}`, {
             replace: true,
@@ -394,6 +398,7 @@ const PersonnelInfo = () => {
         e.preventDefault();
 
         console.log(e);
+        setOpen(true);
     };
 
     return (
@@ -470,13 +475,13 @@ const PersonnelInfo = () => {
                 onClose={() => setOpen(false)}
                 overlayColour="rgba(243, 151, 0, 50%)"
             >
-                <div className={styles.cst_btn} onClick={goDashboard}>
+                <div className={styles.modal_btn} onClick={goGame1Direct}>
                     圓柱練習
                 </div>
-                <div className={styles.cst_btn} onClick={goDashboard}>
+                <div className={styles.modal_btn} onClick={goDashboard}>
                     多元練習
                 </div>
-                <div className={styles.cst_btn} onClick={goDashboard}>
+                <div className={styles.modal_btn} onClick={goDashboard}>
                     細圓柱練習
                 </div>
             </CustomModal>
