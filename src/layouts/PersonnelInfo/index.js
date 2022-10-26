@@ -207,6 +207,14 @@ const PersonnelInfo = () => {
         navigate(ROUTE_PATH.game1_direct);
     };
 
+    const goGame2Direct = async () => {
+        navigate(ROUTE_PATH.game2_direct);
+    };
+
+    const goGame3Direct = async () => {
+        navigate(ROUTE_PATH.game3_direct);
+    };
+
     const goMonitoring = () => {
         navigate(`${ROUTE_PATH.monitoring_workout}/${targetgetRecordId}`, {
             replace: true,
@@ -478,10 +486,10 @@ const PersonnelInfo = () => {
                 <div className={styles.modal_btn} onClick={goGame1Direct}>
                     圓柱練習
                 </div>
-                <div className={styles.modal_btn} onClick={goDashboard}>
+                <div className={styles.modal_btn} onClick={goGame2Direct}>
                     多元練習
                 </div>
-                <div className={styles.modal_btn} onClick={goDashboard}>
+                <div className={styles.modal_btn} onClick={goGame3Direct}>
                     細圓柱練習
                 </div>
             </CustomModal>

@@ -400,6 +400,7 @@ const Game1Direct = () => {
 
     return (
         <div className={styles.container}>
+            <legend>醫生端</legend>
             <div className={styles.leftContainer}>
                 <div className={styles.subject} onClick={goDashboard}>
                     圓柱關卡

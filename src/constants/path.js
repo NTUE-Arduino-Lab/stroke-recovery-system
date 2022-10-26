@@ -13,6 +13,8 @@ const ROUTE_PATH = {
 
     personnel_info: '/personnel-info',
     game1_direct: '/game1_direct',
+    game2_direct: '/game2_direct',
+    game3_direct: '/game3_direct',
 };
 
 export default ROUTE_PATH;
