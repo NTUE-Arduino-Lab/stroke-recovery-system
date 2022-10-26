@@ -1,3 +1,4 @@
+/* eslint-disable no-unreachable */
 /* eslint-disable no-unused-vars */
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
@@ -42,6 +43,9 @@ import _ from '../../util/helper';
 
 import { ROUTE_PATH, VALID_MIN, WARN_THRESHOLD, WARN } from '../../constants';
 import styles from './styles.module.scss';
+
+import Leave_Icon from '../../assets/images/leave_icon.png';
+import Logo from '../../assets/images/page_icon.png';
 
 import {
     usersRef,
@@ -371,6 +375,50 @@ const PrepareWorkout = () => {
             {/* <Button onClick={pairWithApp} disabled={isAppConnected}>
                 我要配對
             </Button> */}
+        </div>
+    );
+
+    return (
+        <div className={styles.container}>
+            <div
+                style={{
+                    background: `url(${Logo})`,
+                    width: 258,
+                    height: 56,
+                    left: 24,
+                    top: 20,
+                    position: 'absolute',
+                    backgroundSize: '100%',
+                    backgroundRepeat: 'no-repeat',
+                }}
+            />
+            <legend>醫生端</legend>
+            <div className={styles.innerContainer}>
+                <div
+                    onClick={goDashboard}
+                    style={{
+                        background: `url(${Leave_Icon})`,
+                        width: 84,
+                        height: 56,
+                        right: 24,
+                        top: 1,
+                        position: 'absolute',
+                        backgroundSize: '100%',
+                        backgroundRepeat: 'no-repeat',
+                    }}
+                />
+                <caption>輸入配對碼...</caption>
+                <div className={styles.item_btn}>
+                    <span>配</span>
+                    <span>對</span>
+                    <span>碼</span>
+                </div>
+                <input />
+                <div className={styles.cst_btn}>進入遊戲</div>
+                <div className={styles.cst_btn} onClick={goDashboard}>
+                    返回主頁
+                </div>
+            </div>
         </div>
     );
 

@@ -52,7 +52,7 @@ const AdminDashboard = () => {
             <div className={styles.cst_btn} onClick={goUserList}>
                 病歷資訊
             </div>
-            <div className={styles.cst_btn}>
+            <div className={styles.cst_btn} onClick={goPrepareWorkout}>
                 連線配對
             </div>
             <div className={styles.cst_btn}>
