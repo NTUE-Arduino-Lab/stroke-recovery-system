@@ -46,6 +46,7 @@ import styles from './styles.module.scss';
 
 import Leave_Icon from '../../assets/images/leave_icon.png';
 import Logo from '../../assets/images/page_icon.png';
+import CustomModal from '../../components/CustomModal';
 
 import {
     usersRef,
@@ -103,6 +104,16 @@ const PrepareWorkout = () => {
 
     // for functionality testing
     const [inputPairId, setInputPairId] = useState(''); // 輸入的配對碼
+
+    //
+    /// 針對中風復健新增的內容
+    ////
+    /////
+    const [open, setOpen] = useState(false);
+    //
+    ///
+    ////
+    /////
 
     useEffect(() => {
         init();
@@ -414,11 +425,28 @@ const PrepareWorkout = () => {
                     <span>碼</span>
                 </div>
                 <input />
-                <div className={styles.cst_btn}>進入遊戲</div>
+                <div className={styles.cst_btn} onClick={() => setOpen(true)}>
+                    進入遊戲
+                </div>
                 <div className={styles.cst_btn} onClick={goDashboard}>
                     返回主頁
                 </div>
             </div>
+            <CustomModal
+                open={open}
+                onClose={() => setOpen(false)}
+                overlayColour="rgba(243, 151, 0, 50%)"
+            >
+                <div className={styles.cst_btn} onClick={goDashboard}>
+                    圓柱練習
+                </div>
+                <div className={styles.cst_btn} onClick={goDashboard}>
+                    多元練習
+                </div>
+                <div className={styles.cst_btn} onClick={goDashboard}>
+                    細圓柱練習
+                </div>
+            </CustomModal>
         </div>
     );
 
