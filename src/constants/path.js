@@ -10,6 +10,8 @@ const ROUTE_PATH = {
     record_list: '/record-list',
     finsished_workout: '/finished-workout',
     training_week_record: '/training-week-record',
+
+    personnel_info: '/personnel-info',
 };
 
 export default ROUTE_PATH;

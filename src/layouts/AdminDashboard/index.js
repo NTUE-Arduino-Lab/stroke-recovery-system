@@ -34,6 +34,10 @@ const AdminDashboard = () => {
     const goPrepareWorkout = () => {
         navigate(ROUTE_PATH.prepare_workout);
     };
+    
+    const goPersonnelInfo = () => {
+        navigate(ROUTE_PATH.personnel_info);
+    }
 
     return (
         <div className={styles.container}>
@@ -55,7 +59,7 @@ const AdminDashboard = () => {
             <div className={styles.cst_btn} onClick={goPrepareWorkout}>
                 連線配對
             </div>
-            <div className={styles.cst_btn}>
+            <div className={styles.cst_btn} onClick={goPersonnelInfo}>
                 基本資料填寫
             </div>
             <fieldset style={{display: 'none'}}>

@@ -1,0 +1,165 @@
+.container {
+  height: 100vh;
+  width: 100%;
+  background-color: #F5F5F5;
+  padding-top: 120px;
+  position: relative;
+
+  legend {
+    font-size: 24px;
+    letter-spacing: 6%;
+    font-weight: 400;
+    color: #3D4EAE;
+    position:absolute;
+    right: 24px;
+    top: 30px;
+    width: fit-content;
+  }
+  
+  .innerContainer {
+    margin-right: 24px;
+    margin-left: 24px;
+    height: 100%;
+    // border: 4px solid #3D4EAE;
+    background-color: #F5F5F5;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: relative;
+    padding-top: 0px;
+  }
+
+  // 基本資料填寫
+  h1 {
+    font-size: 40px;
+    letter-spacing: 12px;
+    font-weight: 400;
+    color: #3D4EAE;
+  }
+
+ // Form (using grid as layout system)
+ .grid_wrapper {
+  display: grid;
+  grid-template-areas: 
+    "name name"
+    "birth age"
+    "height weight"
+    "id id"
+    "record record"
+    "submit submit";
+
+  grid-template-columns: repeat(2, 1fr);
+  grid-template-rows: repeat(5, 70px);
+  grid-gap: 10px;
+
+  width: 55%;
+} 
+
+  .name {
+    grid-area: name;
+  }
+  
+  .birth {
+    grid-area: birth;
+  }
+  
+  .age {
+    grid-area: age;
+  }
+  
+  .height {
+    grid-area: height;
+  }
+  
+  .weight {
+    grid-area: weight;
+  }
+  
+  .id {
+    grid-area: id;
+  }
+  
+  .record {
+    grid-area: record;
+  }
+
+
+  // Form 表格
+  label {
+    display: flex;
+    align-items: center;
+
+    span {
+      font-size: 24px;
+      width: fit-content;
+      padding: 3px;
+    }
+
+    input {
+      flex-grow: 1;
+      background-color: #F5F5F5;
+      border: 1px solid;
+      border-radius: 20px;
+      margin-left: 18px;
+      padding-top: 10px;
+      padding-bottom: 10px;
+      width: fit-content;
+    }
+  }
+
+  
+}
+
+.cst_btn {
+  grid-area: submit;
+
+  border-radius: 71px !important;
+  width: 350px !important;
+  text-align: center;
+  padding-bottom: 12px !important;
+  padding-top: 12px !important;
+  font-weight: 400;
+  font-size: 36px !important;
+  color: white;
+  letter-spacing: 10px;
+  background-color: #3D4EAE !important;
+  margin-top: 36px !important;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+
+
+
+
+
+
+
+
+
+
+// Legacy Code 
+// Below
+.pairIdWrapper {
+  display: flex;
+  align-items: center;
+
+  h2 {
+    font-size: 14px;
+  }
+
+  pre:nth-child(1),
+  pre:nth-child(2), 
+  pre:nth-child(3),
+  pre:nth-child(4) { // 4位數 pairid
+    margin: 0;
+    font-size: 7rem;
+    font-weight: bold;
+    margin-right: 12px;
+  }
+
+  > div { // 倒計時 wrapper
+    margin-left: 24px;
+    width: max-content;
+  }
+}
