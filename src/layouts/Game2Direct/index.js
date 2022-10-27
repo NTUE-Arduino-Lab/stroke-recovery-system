@@ -205,6 +205,10 @@ const Game2Direct = () => {
         }
     };
 
+    const goGameMoni = () => {
+        navigate(ROUTE_PATH.game2_monitoring);
+    };
+
     const goMonitoring = () => {
         navigate(`${ROUTE_PATH.monitoring_workout}/${targetgetRecordId}`, {
             replace: true,
@@ -402,9 +406,7 @@ const Game2Direct = () => {
         <div className={styles.container}>
             <legend>醫生端</legend>
             <div className={styles.leftContainer}>
-                <div className={styles.subject} onClick={goDashboard}>
-                    多元關卡
-                </div>
+                <div className={styles.subject}>多元關卡</div>
                 <h2>請在遊戲開始計時期間將圖形放入對應色彩的孔洞中!</h2>
                 <h3>
                     開始遊戲前請先套上對應套子開始遊戲前請先套上該關卡對應套子!
@@ -423,7 +425,7 @@ const Game2Direct = () => {
                 />
             </div>
             <div className={styles.rightContainer}>
-                <div className={styles.start} onClick={goDashboard}>
+                <div className={styles.start} onClick={goGameMoni}>
                     開始玩
                 </div>
                 <div

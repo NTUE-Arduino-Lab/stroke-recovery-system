@@ -1,0 +1,20 @@
+/* eslint-disable no-unused-vars */
+/* eslint-disable react/prop-types */
+import React from 'react';
+
+const ShapeHexagon = ({ width = '70%', height = '70%', fill }) => (
+    <svg
+        width={width}
+        height={height}
+        viewBox="0 0 193 217"
+        fill="none"
+        xmlns="http://www.w3.org/2000/svg"
+    >
+        <path
+            d="M0.470208 64.5294C0.470207 57.384 4.28219 50.7815 10.4702 47.2088L86.5474 3.28565C92.7354 -0.287008 100.359 -0.287012 106.547 3.28564L182.625 47.2088C188.813 50.7815 192.625 57.384 192.625 64.5294L192.625 152.376C192.625 159.521 188.813 166.124 182.625 169.696L106.547 213.619C100.359 217.192 92.7355 217.192 86.5474 213.619L10.4702 169.696C4.28219 166.124 0.470208 159.521 0.470209 152.376L0.470208 64.5294Z"
+            fill={fill}
+        />
+    </svg>
+);
+
+export default ShapeHexagon;

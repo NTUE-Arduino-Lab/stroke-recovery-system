@@ -406,9 +406,7 @@ const Game1Direct = () => {
         <div className={styles.container}>
             <legend>醫生端</legend>
             <div className={styles.leftContainer}>
-                <div className={styles.subject} onClick={goDashboard}>
-                    圓柱關卡
-                </div>
+                <div className={styles.subject}>圓柱關卡</div>
                 <h2>請在遊戲開始計時期間將圓柱放入對應色彩的孔洞中!</h2>
                 <h3>
                     開始遊戲前請先套商對應套子開始遊戲前請先套上該關卡對應套子!
