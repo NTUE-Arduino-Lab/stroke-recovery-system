@@ -46,8 +46,7 @@ import styles from './styles.module.scss';
 
 import Leave_Icon from '../../assets/images/game_dir_leave.png';
 import Home_Icon from '../../assets/images/game_dir_home.png';
-import Dir_Img from '../../assets/images/game1_dir_img.png';
-import Logo from '../../assets/images/page_icon.png';
+import Logo from '../../assets/images/dashboard_icon.png';
 import CustomModal from '../../components/CustomModal';
 
 import {
@@ -72,7 +71,7 @@ const initialPacket = {
 
 let unsubscribe = null;
 
-const Game1Direct = () => {
+const Game1Moni = () => {
     const navigate = useNavigate();
     const [form] = Form.useForm();
 
@@ -205,8 +204,8 @@ const Game1Direct = () => {
         }
     };
 
-    const goGameMoni = () => {
-        navigate(ROUTE_PATH.game1_monitoring);
+    const goGameDirect = async () => {
+        navigate(ROUTE_PATH.game1_direct);
     };
 
     const goMonitoring = () => {
@@ -404,52 +403,50 @@ const Game1Direct = () => {
 
     return (
         <div className={styles.container}>
-            <legend>醫生端</legend>
-            <div className={styles.leftContainer}>
-                <div className={styles.subject} onClick={goDashboard}>
-                    圓柱關卡
-                </div>
-                <h2>請在遊戲開始計時期間將圓柱放入對應色彩的孔洞中!</h2>
-                <h3>
-                    開始遊戲前請先套商對應套子開始遊戲前請先套上該關卡對應套子!
-                </h3>
-                <div
-                    style={{
-                        background: `url(${Dir_Img})`,
-                        width: 500,
-                        height: '52%',
-                        bottom: 50,
-                        right: 12,
-                        position: 'absolute',
-                        backgroundSize: '100%',
-                        backgroundRepeat: 'no-repeat',
-                    }}
-                />
-            </div>
+            <div className={styles.leftContainer}>XXXXXX</div>
             <div className={styles.rightContainer}>
-                <div className={styles.start} onClick={goGameMoni}>
-                    開始玩
+                <section>
+                    <caption>計時</caption>
+                    <div className={styles.contentTime}>1:59</div>
+                </section>
+                <section>
+                    <caption>分數</caption>
+                    <div className={styles.contentScore}>5</div>
+                </section>
+                <div
+                    onClick={goDashboard}
+                    style={{
+                        background: `url(${Logo})`,
+                        width: '100%',
+                        height: 111,
+                        flexGrow: 1,
+                        marginTop: '50%',
+                        backgroundSize: '100%',
+                        backgroundRepeat: 'no-repeat',
+                    }}
+                />
+                <div className={styles.actionsContainer}>
+                    <div
+                        onClick={goGameDirect}
+                        style={{
+                            background: `url(${Leave_Icon})`,
+                            width: '95%',
+                            height: 76,
+                            backgroundSize: '100%',
+                            backgroundRepeat: 'no-repeat',
+                        }}
+                    />
+                    <div
+                        onClick={goDashboard}
+                        style={{
+                            background: `url(${Home_Icon})`,
+                            width: '95%',
+                            height: 76,
+                            backgroundSize: '100%',
+                            backgroundRepeat: 'no-repeat',
+                        }}
+                    />
                 </div>
-                <div
-                    onClick={goDashboard}
-                    style={{
-                        background: `url(${Leave_Icon})`,
-                        width: '95%',
-                        height: 76,
-                        backgroundSize: '100%',
-                        backgroundRepeat: 'no-repeat',
-                    }}
-                />
-                <div
-                    onClick={goDashboard}
-                    style={{
-                        background: `url(${Home_Icon})`,
-                        width: '95%',
-                        height: 76,
-                        backgroundSize: '100%',
-                        backgroundRepeat: 'no-repeat',
-                    }}
-                />
             </div>
         </div>
     );
@@ -510,4 +507,4 @@ const tailLayout = {
     },
 };
 
-export default Game1Direct;
+export default Game1Moni;

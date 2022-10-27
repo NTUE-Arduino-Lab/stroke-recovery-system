@@ -15,6 +15,9 @@ const ROUTE_PATH = {
     game1_direct: '/game1_direct',
     game2_direct: '/game2_direct',
     game3_direct: '/game3_direct',
+    game1_monitoring: '/game1_monitoring',
+    game2_monitoring: '/game2_monitoring',
+    game3_monitoring: '/game3_monitoring',
 };
 
 export default ROUTE_PATH;
