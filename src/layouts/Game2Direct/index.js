@@ -413,7 +413,7 @@ const Game2Direct = () => {
                     style={{
                         background: `url(${Dir_Img})`,
                         width: 500,
-                        height: '52%',
+                        height: '54%',
                         bottom: 50,
                         right: 12,
                         position: 'absolute',

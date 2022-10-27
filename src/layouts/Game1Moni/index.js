@@ -33,6 +33,7 @@ import {
     Typography,
     Badge,
 } from 'antd';
+import Icon from '@ant-design/icons';
 import {
     LoadingOutlined,
     ExclamationCircleOutlined,
@@ -48,6 +49,8 @@ import Leave_Icon from '../../assets/images/game_dir_leave.png';
 import Home_Icon from '../../assets/images/game_dir_home.png';
 import Logo from '../../assets/images/dashboard_icon.png';
 import CustomModal from '../../components/CustomModal';
+
+import ShapeCircle from '../../components/ShapeCircle';
 
 import {
     usersRef,
@@ -403,7 +406,23 @@ const Game1Moni = () => {
 
     return (
         <div className={styles.container}>
-            <div className={styles.leftContainer}>XXXXXX</div>
+            <div className={styles.leftContainer}>
+                <ShapeCircle fill="#000000" />
+                <ShapeCircle fill="#000000" />
+                <ShapeCircle fill="#000000" />
+                <ShapeCircle fill="#000000" />
+                <ShapeCircle fill="#000000" />
+                <ShapeCircle fill="#000000" />
+                <ShapeCircle fill="#000000" />
+                <ShapeCircle fill="#000000" />
+                <ShapeCircle fill="#000000" />
+                <ShapeCircle fill="#000000" />
+                <ShapeCircle fill="#000000" />
+                <ShapeCircle fill="#000000" />
+                <ShapeCircle fill="#000000" />
+                <ShapeCircle fill="#000000" />
+                <ShapeCircle fill="#000000" />
+            </div>
             <div className={styles.rightContainer}>
                 <section>
                     <caption>計時</caption>
@@ -420,33 +439,31 @@ const Game1Moni = () => {
                         width: '100%',
                         height: 111,
                         flexGrow: 1,
-                        marginTop: '50%',
+                        marginTop: '30%',
                         backgroundSize: '100%',
                         backgroundRepeat: 'no-repeat',
                     }}
                 />
-                <div className={styles.actionsContainer}>
-                    <div
-                        onClick={goGameDirect}
-                        style={{
-                            background: `url(${Leave_Icon})`,
-                            width: '95%',
-                            height: 76,
-                            backgroundSize: '100%',
-                            backgroundRepeat: 'no-repeat',
-                        }}
-                    />
-                    <div
-                        onClick={goDashboard}
-                        style={{
-                            background: `url(${Home_Icon})`,
-                            width: '95%',
-                            height: 76,
-                            backgroundSize: '100%',
-                            backgroundRepeat: 'no-repeat',
-                        }}
-                    />
-                </div>
+                <div
+                    onClick={goGameDirect}
+                    style={{
+                        background: `url(${Leave_Icon})`,
+                        width: '95%',
+                        height: 76,
+                        backgroundSize: '100%',
+                        backgroundRepeat: 'no-repeat',
+                    }}
+                />
+                <div
+                    onClick={goDashboard}
+                    style={{
+                        background: `url(${Home_Icon})`,
+                        width: '95%',
+                        height: 76,
+                        backgroundSize: '100%',
+                        backgroundRepeat: 'no-repeat',
+                    }}
+                />
             </div>
         </div>
     );

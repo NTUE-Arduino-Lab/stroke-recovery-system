@@ -12,12 +12,15 @@
 
     border: 20px solid #3D4EAE;
     border-radius: 75px;
-    background-color: #FFFFFF;
-    display: flex;
+    background-color: #FFAC2F;
     flex-direction: column;
     align-items: flex-start;
     position: relative;
-    padding: 40px 50px;
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    grid-template-rows: repeat(3, 1fr);
+    align-items: center;
+    justify-items: center;
   }
 
   .rightContainer {
@@ -28,6 +31,7 @@
     justify-content: space-between;
     padding-left: 20px;
     gap: 20px;
+    padding-bottom: 50px;
 
     section {
       margin-top: 12px;
@@ -42,6 +46,8 @@
       font-size: 20px !important;
       color: #000000;
       margin-top: 10px;
+      padding-top: 0;
+      padding-bottom: 0%;
     }
 
     .contentTime {
@@ -52,6 +58,7 @@
       font-size: 32px;
       width: 100%;
       text-align: center;
+      margin-top: 5px;
     }
 
     .contentScore {
@@ -64,13 +71,6 @@
       height: 90px;
       text-align: center;
       margin-top: 5px;
-    }
-
-    .actionsContainer {
-      display: flex;
-      flex-direction: column;
-      width: 100%;
-      gap: 20px;
     }
   }
 }
