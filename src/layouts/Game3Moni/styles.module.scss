@@ -63,7 +63,17 @@
     gap: 20px;
     padding-bottom: 50px;
 
-    section {
+    .infoWrapper {
+      
+    }
+
+    .actionWrapper {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    .section {
       margin-top: 12px;
       display: flex;
       flex-direction: column;

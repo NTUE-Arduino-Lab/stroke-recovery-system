@@ -45,10 +45,11 @@ import _ from '../../util/helper';
 import { ROUTE_PATH, VALID_MIN, WARN_THRESHOLD, WARN } from '../../constants';
 import styles from './styles.module.scss';
 
-import Leave_Icon from '../../assets/images/game_dir_leave.png';
-import Home_Icon from '../../assets/images/game_dir_home.png';
 import Logo from '../../assets/images/dashboard_icon.png';
 import CustomModal from '../../components/CustomModal';
+import Leave_Icon from '../../components/IconLeave';
+import Home_Icon from '../../components/IconHome';
+import Logo_Icon from '../../components/IconLogo';
 
 import ShapeCircle from '../../components/ShapeCircle';
 
@@ -424,46 +425,27 @@ const Game1Moni = () => {
                 <ShapeCircle fill="#000000" />
             </div>
             <div className={styles.rightContainer}>
-                <section>
-                    <caption>計時</caption>
-                    <div className={styles.contentTime}>1:59</div>
-                </section>
-                <section>
-                    <caption>分數</caption>
-                    <div className={styles.contentScore}>5</div>
-                </section>
-                <div
-                    onClick={goDashboard}
-                    style={{
-                        background: `url(${Logo})`,
-                        width: '100%',
-                        height: 111,
-                        flexGrow: 1,
-                        marginTop: '30%',
-                        backgroundSize: '100%',
-                        backgroundRepeat: 'no-repeat',
-                    }}
-                />
-                <div
-                    onClick={goGameDirect}
-                    style={{
-                        background: `url(${Leave_Icon})`,
-                        width: '95%',
-                        height: 76,
-                        backgroundSize: '100%',
-                        backgroundRepeat: 'no-repeat',
-                    }}
-                />
-                <div
-                    onClick={goDashboard}
-                    style={{
-                        background: `url(${Home_Icon})`,
-                        width: '95%',
-                        height: 76,
-                        backgroundSize: '100%',
-                        backgroundRepeat: 'no-repeat',
-                    }}
-                />
+                <div className={styles.infoWrapper}>
+                    <div className={styles.section}>
+                        <caption>計時</caption>
+                        <div className={styles.contentTime}>1:59</div>
+                    </div>
+                    <div className={styles.section}>
+                        <caption>分數</caption>
+                        <div className={styles.contentScore}>5</div>
+                    </div>
+                </div>
+                <div className={styles.actionWrapper}>
+                    <div>
+                        <Logo_Icon onClick={goDashboard} />
+                    </div>
+                    <div>
+                        <Leave_Icon onClick={goGameDirect} />
+                    </div>
+                    <div>
+                        <Home_Icon onClick={goDashboard} />
+                    </div>
+                </div>
             </div>
         </div>
     );

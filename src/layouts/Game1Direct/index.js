@@ -44,11 +44,10 @@ import _ from '../../util/helper';
 import { ROUTE_PATH, VALID_MIN, WARN_THRESHOLD, WARN } from '../../constants';
 import styles from './styles.module.scss';
 
-import Leave_Icon from '../../assets/images/game_dir_leave.png';
-import Home_Icon from '../../assets/images/game_dir_home.png';
 import Dir_Img from '../../assets/images/game1_dir_img.png';
 import Logo from '../../assets/images/page_icon.png';
-import CustomModal from '../../components/CustomModal';
+import Leave_Icon from '../../components/IconLeave';
+import Home_Icon from '../../components/IconHome';
 
 import {
     usersRef,
@@ -428,26 +427,12 @@ const Game1Direct = () => {
                 <div className={styles.start} onClick={goGameMoni}>
                     開始玩
                 </div>
-                <div
-                    onClick={goDashboard}
-                    style={{
-                        background: `url(${Leave_Icon})`,
-                        width: '95%',
-                        height: 76,
-                        backgroundSize: '100%',
-                        backgroundRepeat: 'no-repeat',
-                    }}
-                />
-                <div
-                    onClick={goDashboard}
-                    style={{
-                        background: `url(${Home_Icon})`,
-                        width: '95%',
-                        height: 76,
-                        backgroundSize: '100%',
-                        backgroundRepeat: 'no-repeat',
-                    }}
-                />
+                <div>
+                    <Leave_Icon onClick={goDashboard} />
+                </div>
+                <div>
+                    <Home_Icon onClick={goDashboard} />
+                </div>
             </div>
         </div>
     );
