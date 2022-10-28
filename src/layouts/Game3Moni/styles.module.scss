@@ -1,0 +1,155 @@
+.container {
+  height: 100vh;
+  width: 100vw;
+  background-color: #F5F5F5;
+  padding: 30px 20px 30px 40px;
+  position: relative;
+  display: flex;
+  overflow: hidden;
+  
+  .leftContainer {
+    flex: 1;
+
+    border: 20px solid #3D4EAE;
+    border-radius: 75px;
+    background-color: #FFAC2F;
+    display: flex;
+    flex-direction: column;
+    padding: 40px 30px;
+
+    .rightBar {
+      flex: 2;
+      border-right: 12px solid #3D4EAE;
+    }
+
+    .hori {
+      width: 100%;
+      border: 3px solid #3D4EAE;
+      margin-top: 6px;
+      margin-bottom: 6px;
+    }
+
+    .separate_top {
+      margin-top: 12px;
+    }
+
+    .separate_bottom {
+      margin-bottom: 12px;
+    }
+
+    .dotsWrapper {
+      flex: 1;
+      
+      // display: grid;
+      // grid-template-columns: repeat(21, 1fr);
+      // grid-template-rows: repeat(2, 1fr);
+      // align-items: center;
+      // justify-items: stretch;
+
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+      align-items: center;
+    }
+  }
+
+  .rightContainer {
+    width: 12%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    padding-left: 20px;
+    gap: 20px;
+    padding-bottom: 50px;
+
+    section {
+      margin-top: 12px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      width: 100%;
+    }
+
+    caption {
+      font-weight: 400;
+      font-size: 20px !important;
+      color: #000000;
+      margin-top: 10px;
+      padding-top: 0;
+      padding-bottom: 0%;
+    }
+
+    .contentTime {
+      border-radius: 50px;
+      background-color: #FFAC2F;
+      color: #3D4EAE;
+      padding: 20px;
+      font-size: 32px;
+      width: 100%;
+      text-align: center;
+      margin-top: 5px;
+    }
+
+    .contentScore {
+      border-radius: 50%;
+      background-color: #FFAC2F;
+      color: #3D4EAE;
+      padding: 20px;
+      font-size: 40px;
+      width: 90px;
+      height: 90px;
+      text-align: center;
+      margin-top: 5px;
+    }
+  }
+}
+
+.start {
+  border-radius: 71px !important;
+  width: 100% !important;
+  text-align: center;
+  padding-bottom: 20px !important;
+  padding-top: 20px !important;
+  font-weight: 400;
+  font-size: 24px !important;
+  color: white;
+  background-color: #3D4EAE !important;
+  margin-top: 36px !important;
+}
+
+
+
+
+
+
+
+
+
+
+
+// Legacy Code 
+// Below
+.pairIdWrapper {
+  display: flex;
+  align-items: center;
+
+  h2 {
+    font-size: 14px;
+  }
+
+  pre:nth-child(1),
+  pre:nth-child(2), 
+  pre:nth-child(3),
+  pre:nth-child(4) { // 4位數 pairid
+    margin: 0;
+    font-size: 7rem;
+    font-weight: bold;
+    margin-right: 12px;
+  }
+
+  > div { // 倒計時 wrapper
+    margin-left: 24px;
+    width: max-content;
+  }
+}

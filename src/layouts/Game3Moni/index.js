@@ -33,6 +33,7 @@ import {
     Typography,
     Badge,
 } from 'antd';
+import Icon from '@ant-design/icons';
 import {
     LoadingOutlined,
     ExclamationCircleOutlined,
@@ -46,9 +47,10 @@ import styles from './styles.module.scss';
 
 import Leave_Icon from '../../assets/images/game_dir_leave.png';
 import Home_Icon from '../../assets/images/game_dir_home.png';
-import Dir_Img from '../../assets/images/game3_dir_img.png';
-import Logo from '../../assets/images/page_icon.png';
+import Logo from '../../assets/images/dashboard_icon.png';
 import CustomModal from '../../components/CustomModal';
+
+import ShapeDot from '../../components/ShapeDot';
 
 import {
     usersRef,
@@ -72,7 +74,7 @@ const initialPacket = {
 
 let unsubscribe = null;
 
-const Game3Direct = () => {
+const Game3Moni = () => {
     const navigate = useNavigate();
     const [form] = Form.useForm();
 
@@ -205,8 +207,8 @@ const Game3Direct = () => {
         }
     };
 
-    const goGameMoni = () => {
-        navigate(ROUTE_PATH.game3_monitoring);
+    const goGameDirect = async () => {
+        navigate(ROUTE_PATH.game3_direct);
     };
 
     const goMonitoring = () => {
@@ -404,34 +406,83 @@ const Game3Direct = () => {
 
     return (
         <div className={styles.container}>
-            <legend>醫生端</legend>
             <div className={styles.leftContainer}>
-                <div className={styles.subject} onClick={goDashboard}>
-                    細圓柱關卡
+                <div className={styles.rightBar} />
+                <div className={`${styles.hori} ${styles.separate_top}`} />
+                <div className={styles.hori} />
+                <div className={styles.dotsWrapper}>
+                    <ShapeDot fill="#000000" />
+                    <ShapeDot fill="#000000" />
+                    <ShapeDot fill="#000000" />
+                    <ShapeDot fill="#000000" />
+                    <ShapeDot fill="#000000" />
+                    <ShapeDot fill="#000000" />
+                    <ShapeDot fill="#000000" />
+                    <ShapeDot fill="#000000" />
+                    <ShapeDot fill="#000000" />
+                    <ShapeDot fill="#000000" />
+                    <ShapeDot fill="#000000" />
+                    <ShapeDot fill="#000000" />
+                    <ShapeDot fill="#000000" />
+                    <ShapeDot fill="#000000" />
+                    <ShapeDot fill="#000000" />
+                    <ShapeDot fill="#000000" />
+                    <ShapeDot fill="#000000" />
+                    <ShapeDot fill="#000000" />
+                    <ShapeDot fill="#000000" />
+                    <ShapeDot fill="#000000" />
+                    <ShapeDot fill="#000000" />
                 </div>
-                <h2>請在遊戲開始計時期間將圓柱放入對應色彩的孔洞中!</h2>
-                <h3>
-                    開始遊戲前請先套商對應套子開始遊戲前請先套上該關卡對應套子!
-                </h3>
+                <div className={styles.dotsWrapper}>
+                    <ShapeDot fill="#000000" />
+                    <ShapeDot fill="#000000" />
+                    <ShapeDot fill="#000000" />
+                    <ShapeDot fill="#000000" />
+                    <ShapeDot fill="#000000" />
+                    <ShapeDot fill="#000000" />
+                    <ShapeDot fill="#000000" />
+                    <ShapeDot fill="#000000" />
+                    <ShapeDot fill="#000000" />
+                    <ShapeDot fill="#000000" />
+                    <ShapeDot fill="#000000" />
+                    <ShapeDot fill="#000000" />
+                    <ShapeDot fill="#000000" />
+                    <ShapeDot fill="#000000" />
+                    <ShapeDot fill="#000000" />
+                    <ShapeDot fill="#000000" />
+                    <ShapeDot fill="#000000" />
+                    <ShapeDot fill="#000000" />
+                    <ShapeDot fill="#000000" />
+                    <ShapeDot fill="#000000" />
+                    <ShapeDot fill="#000000" />
+                </div>
+                <div className={styles.hori} />
+                <div className={`${styles.hori} ${styles.separate_bottom}`} />
+                <div className={styles.rightBar} />
+            </div>
+            <div className={styles.rightContainer}>
+                <section>
+                    <caption>計時</caption>
+                    <div className={styles.contentTime}>1:59</div>
+                </section>
+                <section>
+                    <caption>分數</caption>
+                    <div className={styles.contentScore}>5</div>
+                </section>
                 <div
+                    onClick={goDashboard}
                     style={{
-                        background: `url(${Dir_Img})`,
-                        width: 500,
-                        height: '54%',
-                        bottom: 50,
-                        right: 12,
-                        position: 'absolute',
+                        background: `url(${Logo})`,
+                        width: '100%',
+                        height: 111,
+                        flexGrow: 1,
+                        marginTop: '30%',
                         backgroundSize: '100%',
                         backgroundRepeat: 'no-repeat',
                     }}
                 />
-            </div>
-            <div className={styles.rightContainer}>
-                <div className={styles.start} onClick={goGameMoni}>
-                    開始玩
-                </div>
                 <div
-                    onClick={goDashboard}
+                    onClick={goGameDirect}
                     style={{
                         background: `url(${Leave_Icon})`,
                         width: '95%',
@@ -510,4 +561,4 @@ const tailLayout = {
     },
 };
 
-export default Game3Direct;
+export default Game3Moni;

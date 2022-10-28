@@ -21,6 +21,7 @@ import Game2Direct from '../layouts/Game2Direct';
 import Game3Direct from '../layouts/Game3Direct';
 import Game1Moni from '../layouts/Game1Moni';
 import Game2Moni from '../layouts/Game2Moni';
+import Game3Moni from '../layouts/Game3Moni';
 
 const AppRoutes = () => {
     return (
@@ -78,6 +79,10 @@ const AppRoutes = () => {
                 <Route
                     path={ROUTE_PATH.game2_monitoring}
                     element={<Game2Moni />}
+                />
+                <Route
+                    path={ROUTE_PATH.game3_monitoring}
+                    element={<Game3Moni />}
                 />
                 <Route
                     path={`${ROUTE_PATH.finsished_workout}/:recordId`}
