@@ -31,6 +31,13 @@
     position: relative;
     padding: 40px 50px;
     margin-bottom: 30px;
+
+    .gameDir {
+      width: 50%;
+      position: absolute;
+      right: 12px;
+      bottom: 200px;
+    }
   }
 
   .rightContainer {

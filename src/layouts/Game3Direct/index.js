@@ -44,10 +44,9 @@ import _ from '../../util/helper';
 import { ROUTE_PATH, VALID_MIN, WARN_THRESHOLD, WARN } from '../../constants';
 import styles from './styles.module.scss';
 
-import Dir_Img from '../../assets/images/game1_dir_img.png';
-import Logo from '../../assets/images/page_icon.png';
 import Leave_Icon from '../../components/IconLeave';
 import Home_Icon from '../../components/IconHome';
+import Game_Dir from '../../components/Game3Direct';
 
 import {
     usersRef,
@@ -412,18 +411,9 @@ const Game3Direct = () => {
                 <h3>
                     開始遊戲前請先套商對應套子開始遊戲前請先套上該關卡對應套子!
                 </h3>
-                <div
-                    style={{
-                        background: `url(${Dir_Img})`,
-                        width: 500,
-                        height: '54%',
-                        bottom: 200,
-                        right: 12,
-                        position: 'absolute',
-                        backgroundSize: '100%',
-                        backgroundRepeat: 'no-repeat',
-                    }}
-                />
+                <div className={styles.gameDir}>
+                    <Game_Dir />
+                </div>
             </div>
             <div className={styles.rightContainer}>
                 <div className={styles.start} onClick={goGameMoni}>
