@@ -33,7 +33,6 @@ import {
     Typography,
     Badge,
 } from 'antd';
-import Icon from '@ant-design/icons';
 import {
     LoadingOutlined,
     ExclamationCircleOutlined,
@@ -45,11 +44,7 @@ import _ from '../../util/helper';
 import { ROUTE_PATH, VALID_MIN, WARN_THRESHOLD, WARN } from '../../constants';
 import styles from './styles.module.scss';
 
-import CustomModal from '../../components/CustomModal';
-import Leave_Icon from '../../components/IconLeave';
-import Home_Icon from '../../components/IconHome';
 import Logo_Icon from '../../components/IconLogo';
-
 import ShapeCircle from '../../components/ShapeCircle';
 
 import {
@@ -74,7 +69,7 @@ const initialPacket = {
 
 let unsubscribe = null;
 
-const Game1Moni = () => {
+const Game1Result = () => {
     const navigate = useNavigate();
     const [form] = Form.useForm();
 
@@ -207,12 +202,8 @@ const Game1Moni = () => {
         }
     };
 
-    const goGameDirect = async () => {
-        navigate(ROUTE_PATH.game1_direct);
-    };
-
-    const goGameResult = async () => {
-        navigate(ROUTE_PATH.game1_result);
+    const goGameMoni = () => {
+        navigate(ROUTE_PATH.game1_monitoring);
     };
 
     const goMonitoring = () => {
@@ -410,44 +401,76 @@ const Game1Moni = () => {
 
     return (
         <div className={styles.container}>
+            <legend>醫生端</legend>
             <div className={styles.leftContainer}>
-                <ShapeCircle fill="#000000" />
-                <ShapeCircle fill="#000000" />
-                <ShapeCircle fill="#000000" />
-                <ShapeCircle fill="#000000" />
-                <ShapeCircle fill="#000000" />
-                <ShapeCircle fill="#000000" />
-                <ShapeCircle fill="#000000" />
-                <ShapeCircle fill="#000000" />
-                <ShapeCircle fill="#000000" />
-                <ShapeCircle fill="#000000" />
-                <ShapeCircle fill="#000000" />
-                <ShapeCircle fill="#000000" />
-                <ShapeCircle fill="#000000" />
-                <ShapeCircle fill="#000000" />
-                <ShapeCircle fill="#000000" />
-            </div>
-            <div className={styles.rightContainer}>
-                <div className={styles.infoWrapper}>
-                    <div className={styles.section}>
-                        <caption>計時</caption>
-                        <div className={styles.contentTime}>1:59</div>
-                    </div>
-                    <div className={styles.section}>
-                        <caption>分數</caption>
-                        <div className={styles.contentScore}>5</div>
+                <div className={`${styles.infoBlock} ${styles.time}`}>
+                    <h2>10:59</h2>
+                    <h3>花費時間</h3>
+                </div>
+                <div className={`${styles.infoBlock} ${styles.score}`}>
+                    <div>
+                        <h1>10</h1>
+                        <h3>得分</h3>
                     </div>
                 </div>
-                <div className={styles.actionWrapper}>
-                    <div>
-                        <Logo_Icon onClick={goGameResult} />
+                <div className={`${styles.infoBlock} ${styles.detail}`}>
+                    <div className={styles.singleInfoWrapper}>
+                        <div className={styles.shapeWrapper}>
+                            <ShapeCircle
+                                fill="#FD6B6B"
+                                width="100%"
+                                height="100%"
+                            />
+                            <h4>3</h4>
+                        </div>
                     </div>
-                    <div>
-                        <Leave_Icon onClick={goGameDirect} />
+                    <div className={styles.singleInfoWrapper}>
+                        <div className={styles.shapeWrapper}>
+                            <ShapeCircle
+                                fill="#6CB3F3"
+                                width="100%"
+                                height="100%"
+                            />
+                            <h4>3</h4>
+                        </div>
                     </div>
-                    <div>
-                        <Home_Icon onClick={goDashboard} />
+                    <div className={styles.singleInfoWrapper}>
+                        <div className={styles.shapeWrapper}>
+                            <ShapeCircle
+                                fill="#F6D735"
+                                width="100%"
+                                height="100%"
+                            />
+                            <h4>1</h4>
+                        </div>
                     </div>
+                    <div
+                        className={`${styles.singleInfoWrapper} ${styles.error}`}
+                    >
+                        <div className={styles.shapeWrapper}>
+                            <ShapeCircle
+                                fill="rgba(0,0,0, .76)"
+                                width="100%"
+                                height="100%"
+                            />
+                            <h4>1</h4>
+                        </div>
+                        <h3>錯誤</h3>
+                    </div>
+                </div>
+            </div>
+            <div className={styles.rightContainer}>
+                <div className={styles.logo}>
+                    <Logo_Icon onClick={goDashboard} />
+                </div>
+                <div className={styles.action} onClick={goGameMoni}>
+                    重新開始
+                </div>
+                <div className={styles.action} onClick={goGameMoni}>
+                    下一關卡
+                </div>
+                <div className={styles.action} onClick={goGameMoni}>
+                    過往紀錄
                 </div>
             </div>
         </div>
@@ -509,4 +532,4 @@ const tailLayout = {
     },
 };
 
-export default Game1Moni;
+export default Game1Result;

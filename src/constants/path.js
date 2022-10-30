@@ -18,6 +18,9 @@ const ROUTE_PATH = {
     game1_monitoring: '/game1_monitoring',
     game2_monitoring: '/game2_monitoring',
     game3_monitoring: '/game3_monitoring',
+    game1_result: '/game1_result',
+    game2_result: '/game2_result',
+    game3_result: '/game3_result',
 };
 
 export default ROUTE_PATH;
