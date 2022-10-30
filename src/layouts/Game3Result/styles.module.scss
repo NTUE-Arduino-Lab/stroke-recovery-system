@@ -1,0 +1,171 @@
+.container {
+  height: 100vh;
+  width: 100vw;
+  background-color: #F5F5F5;
+  padding: 80px 30px 40px 40px;
+  position: relative;
+  display: flex;
+  overflow: hidden;
+
+  legend {
+    font-size: 24px;
+    letter-spacing: 6%;
+    font-weight: 400;
+    color: #3D4EAE;
+    position:absolute;
+    right: 24px;
+    top: 30px;
+    width: fit-content;
+  }
+
+  
+  .leftContainer {
+    flex: 1;
+
+    border: 8px solid #3D4EAE;
+    border-radius: 30px;
+    background-color: #FFFFFF;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    position: relative;
+    padding: 40px 50px;
+  }
+
+  .infoBlock {
+    flex: 1;
+    display: flex;
+    width: 100%;
+  }
+
+  .infoBlock.time {
+    flex-direction: column;
+    align-items: center;
+    align-self: center;
+  }
+
+  .infoBlock.score {
+    width: 100%;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    text-align: end;
+  }
+
+  // 得分：框框
+  .infoBlock.score > div {
+    display: flex;
+    align-items: flex-end;
+  }
+
+  // 得分：文字
+  .infoBlock.score  h3 {
+    margin-bottom: 2.5em;
+  }
+
+
+  .infoBlock.detail {
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 60%;
+
+    .dotsWrapper {
+      width: 40%;
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+      align-items: center;
+    }
+  }
+
+  .rightContainer {
+    width: 30%;
+    border: 8px solid #3D4EAE;
+    border-radius: 30px;
+    margin-left: 30px;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 2em;
+    padding: 3em;
+  }
+  
+  h1 {
+    font-weight: 500;
+    font-size: 13em !important;
+    letter-spacing: 2px;
+    color: #3D4EAE;
+    margin-bottom: 0;
+  }
+
+  h2 {
+    font-weight: 500;
+    font-size: 75px !important;
+    letter-spacing: 2px;
+    color: #3D4EAE;
+    margin-bottom: 0;
+  }
+
+  h3 {
+    font-weight: 400;
+    font-size: 24px !important;
+    letter-spacing: 4px;
+    color: #000000;
+  }
+}
+
+.logo {
+  width: 80%;
+  height: 40%;
+}
+
+.action {
+  border-radius: 71px !important;
+  width: 100% !important;
+  text-align: center;
+  padding-bottom: 20px !important;
+  padding-top: 20px !important;
+  font-weight: 400;
+  font-size: 30px !important;
+  color: white;
+  background-color: #3D4EAE !important;
+}
+
+
+
+
+
+
+
+
+
+
+// Legacy Code 
+// Below
+.pairIdWrapper {
+  display: flex;
+  align-items: center;
+
+  h2 {
+    font-size: 14px;
+  }
+
+  pre:nth-child(1),
+  pre:nth-child(2), 
+  pre:nth-child(3),
+  pre:nth-child(4) { // 4位數 pairid
+    margin: 0;
+    font-size: 7rem;
+    font-weight: bold;
+    margin-right: 12px;
+  }
+
+  > div { // 倒計時 wrapper
+    margin-left: 24px;
+    width: max-content;
+  }
+
+}

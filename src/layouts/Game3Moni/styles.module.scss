@@ -40,12 +40,6 @@
     .dotsWrapper {
       flex: 1;
       
-      // display: grid;
-      // grid-template-columns: repeat(21, 1fr);
-      // grid-template-rows: repeat(2, 1fr);
-      // align-items: center;
-      // justify-items: stretch;
-
       display: flex;
       flex-direction: row;
       justify-content: space-between;

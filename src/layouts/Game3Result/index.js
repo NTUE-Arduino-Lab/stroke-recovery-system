@@ -33,7 +33,6 @@ import {
     Typography,
     Badge,
 } from 'antd';
-import Icon from '@ant-design/icons';
 import {
     LoadingOutlined,
     ExclamationCircleOutlined,
@@ -45,13 +44,8 @@ import _ from '../../util/helper';
 import { ROUTE_PATH, VALID_MIN, WARN_THRESHOLD, WARN } from '../../constants';
 import styles from './styles.module.scss';
 
-import Logo from '../../assets/images/dashboard_icon.png';
-import CustomModal from '../../components/CustomModal';
-import Leave_Icon from '../../components/IconLeave';
-import Home_Icon from '../../components/IconHome';
-import Logo_Icon from '../../components/IconLogo';
-
 import ShapeDot from '../../components/ShapeDot';
+import Logo_Icon from '../../components/IconLogo';
 
 import {
     usersRef,
@@ -75,7 +69,7 @@ const initialPacket = {
 
 let unsubscribe = null;
 
-const Game3Moni = () => {
+const Game3Result = () => {
     const navigate = useNavigate();
     const [form] = Form.useForm();
 
@@ -208,12 +202,8 @@ const Game3Moni = () => {
         }
     };
 
-    const goGameDirect = async () => {
-        navigate(ROUTE_PATH.game3_direct);
-    };
-
-    const goGameResult = async () => {
-        navigate(ROUTE_PATH.game3_result);
+    const goGameMoni = () => {
+        navigate(ROUTE_PATH.game1_monitoring);
     };
 
     const goMonitoring = () => {
@@ -411,81 +401,47 @@ const Game3Moni = () => {
 
     return (
         <div className={styles.container}>
+            <legend>醫生端</legend>
             <div className={styles.leftContainer}>
-                <div className={styles.rightBar} />
-                <div className={`${styles.hori} ${styles.separate_top}`} />
-                <div className={styles.hori} />
-                <div className={styles.dotsWrapper}>
-                    <ShapeDot fill="#000000" />
-                    <ShapeDot fill="#000000" />
-                    <ShapeDot fill="#000000" />
-                    <ShapeDot fill="#000000" />
-                    <ShapeDot fill="#000000" />
-                    <ShapeDot fill="#000000" />
-                    <ShapeDot fill="#000000" />
-                    <ShapeDot fill="#000000" />
-                    <ShapeDot fill="#000000" />
-                    <ShapeDot fill="#000000" />
-                    <ShapeDot fill="#000000" />
-                    <ShapeDot fill="#000000" />
-                    <ShapeDot fill="#000000" />
-                    <ShapeDot fill="#000000" />
-                    <ShapeDot fill="#000000" />
-                    <ShapeDot fill="#000000" />
-                    <ShapeDot fill="#000000" />
-                    <ShapeDot fill="#000000" />
-                    <ShapeDot fill="#000000" />
-                    <ShapeDot fill="#000000" />
-                    <ShapeDot fill="#000000" />
+                <div className={`${styles.infoBlock} ${styles.time}`}>
+                    <h2>10:59</h2>
+                    <h3>花費時間</h3>
                 </div>
-                <div className={styles.dotsWrapper}>
-                    <ShapeDot fill="#000000" />
-                    <ShapeDot fill="#000000" />
-                    <ShapeDot fill="#000000" />
-                    <ShapeDot fill="#000000" />
-                    <ShapeDot fill="#000000" />
-                    <ShapeDot fill="#000000" />
-                    <ShapeDot fill="#000000" />
-                    <ShapeDot fill="#000000" />
-                    <ShapeDot fill="#000000" />
-                    <ShapeDot fill="#000000" />
-                    <ShapeDot fill="#000000" />
-                    <ShapeDot fill="#000000" />
-                    <ShapeDot fill="#000000" />
-                    <ShapeDot fill="#000000" />
-                    <ShapeDot fill="#000000" />
-                    <ShapeDot fill="#000000" />
-                    <ShapeDot fill="#000000" />
-                    <ShapeDot fill="#000000" />
-                    <ShapeDot fill="#000000" />
-                    <ShapeDot fill="#000000" />
-                    <ShapeDot fill="#000000" />
+                <div className={`${styles.infoBlock} ${styles.score}`}>
+                    <div>
+                        <h1>10</h1>
+                        <h3>得分</h3>
+                    </div>
                 </div>
-                <div className={styles.hori} />
-                <div className={`${styles.hori} ${styles.separate_bottom}`} />
-                <div className={styles.rightBar} />
+                <div className={`${styles.infoBlock} ${styles.detail}`}>
+                    <div className={styles.dotsWrapper}>
+                        <ShapeDot fill="#3D4EAE" />
+                        <ShapeDot fill="#3D4EAE" />
+                        <ShapeDot fill="#3D4EAE" />
+                        <ShapeDot fill="#3D4EAE" />
+                        <ShapeDot fill="#3D4EAE" />
+                    </div>
+                    <div className={styles.dotsWrapper}>
+                        <ShapeDot fill="#3D4EAE" />
+                        <ShapeDot fill="#3D4EAE" />
+                        <ShapeDot fill="#3D4EAE" />
+                        <ShapeDot fill="#3D4EAE" />
+                        <ShapeDot fill="#3D4EAE" />
+                    </div>
+                </div>
             </div>
             <div className={styles.rightContainer}>
-                <div className={styles.infoWrapper}>
-                    <div className={styles.section}>
-                        <caption>計時</caption>
-                        <div className={styles.contentTime}>1:59</div>
-                    </div>
-                    <div className={styles.section}>
-                        <caption>分數</caption>
-                        <div className={styles.contentScore}>5</div>
-                    </div>
+                <div className={styles.logo}>
+                    <Logo_Icon onClick={goDashboard} />
                 </div>
-                <div className={styles.actionWrapper}>
-                    <div>
-                        <Logo_Icon onClick={goGameResult} />
-                    </div>
-                    <div>
-                        <Leave_Icon onClick={goGameDirect} />
-                    </div>
-                    <div>
-                        <Home_Icon onClick={goDashboard} />
-                    </div>
+                <div className={styles.action} onClick={goGameMoni}>
+                    重新開始
+                </div>
+                <div className={styles.action} onClick={goGameMoni}>
+                    下一關卡
+                </div>
+                <div className={styles.action} onClick={goGameMoni}>
+                    過往紀錄
                 </div>
             </div>
         </div>
@@ -547,4 +503,4 @@ const tailLayout = {
     },
 };
 
-export default Game3Moni;
+export default Game3Result;
