@@ -1,7 +1,7 @@
 /* eslint-disable no-unreachable */
 /* eslint-disable no-unused-vars */
 import React, { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import {
     addDoc,
     collection,
@@ -72,6 +72,7 @@ let unsubscribe = null;
 
 const PrepareWorkout = () => {
     const navigate = useNavigate();
+    const params = useParams();
     const [form] = Form.useForm();
 
     const [users, setUsers] = useState();
@@ -114,6 +115,16 @@ const PrepareWorkout = () => {
     ///
     ////
     /////
+
+    //
+    /// 針對中風復健新增的內容
+    ////
+    /////
+    useEffect(() => {
+        if (params?.action == 'open-modal') {
+            setOpen(true);
+        }
+    }, [params]);
 
     useEffect(() => {
         init();

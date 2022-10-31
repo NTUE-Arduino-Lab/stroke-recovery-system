@@ -206,6 +206,10 @@ const Game1Result = () => {
         navigate(ROUTE_PATH.game1_monitoring);
     };
 
+    const goNextGameDir = () => {
+        navigate(ROUTE_PATH.game2_direct);
+    };
+
     const goMonitoring = () => {
         navigate(`${ROUTE_PATH.monitoring_workout}/${targetgetRecordId}`, {
             replace: true,
@@ -466,7 +470,7 @@ const Game1Result = () => {
                 <div className={styles.action} onClick={goGameMoni}>
                     重新開始
                 </div>
-                <div className={styles.action} onClick={goGameMoni}>
+                <div className={styles.action} onClick={goNextGameDir}>
                     下一關卡
                 </div>
                 <div className={styles.action} onClick={goGameMoni}>

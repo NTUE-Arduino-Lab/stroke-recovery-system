@@ -32,7 +32,7 @@ const AdminDashboard = () => {
     };
 
     const goPrepareWorkout = () => {
-        navigate(ROUTE_PATH.prepare_workout);
+        navigate(`${ROUTE_PATH.prepare_workout}/null`);
     };
     
     const goPersonnelInfo = () => {

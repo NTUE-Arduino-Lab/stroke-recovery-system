@@ -44,7 +44,7 @@ const AppRoutes = () => {
                     element={<AdminDashboard />}
                 />
                 <Route
-                    path={ROUTE_PATH.prepare_workout}
+                    path={`${ROUTE_PATH.prepare_workout}/:action`}
                     element={<PrepareWorkout />}
                 />
                 <Route
