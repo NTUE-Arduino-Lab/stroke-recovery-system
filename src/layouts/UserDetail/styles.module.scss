@@ -1,0 +1,211 @@
+.container {
+  height: 100vh;
+  width: 100%;
+  background-color: rgb(244, 189, 107);
+  padding-top: 2.5em;
+  padding-bottom: 2em;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1em;
+
+  legend {
+    font-size: 24px;
+    letter-spacing: 6%;
+    font-weight: 400;
+    color: #3D4EAE;
+    position:absolute;
+    right: 24px;
+    top: 30px;
+    width: fit-content;
+  }
+
+  // 1325 王曉明
+  h1 {
+    font-size: 2.5em;
+    letter-spacing: 6px;
+    font-weight: 400;
+    color: #3D4EAE;
+  }
+
+
+  .top {
+    border: 5px solid #3D4EAE;
+    border-radius: 30px;
+    background-color: #FFFFFF;
+
+    width: 65%;
+    height: 28%;
+    padding: 1em 8em 1em 8em;
+    display: flex;
+    flex-direction: column;
+    justify-items: center;
+    align-items: center;
+    position: relative;
+
+    .symptoms {
+      position: absolute;
+      right: 0.8em;
+      top: -2em;
+      color: #3D4EAE;
+      font-size: 1.4em;
+      letter-spacing: 3px;
+    }
+
+    .back_btn {
+      position: absolute;
+      right: -6em;
+      top: -1em;
+
+      background-color: #3D4EAE !important;
+      font-size: 1.7em;
+      border-radius: 71px;
+      text-align: center;
+      padding: 7px 24px;
+      font-weight: 400;
+      color: white;
+      background-color: #3D4EAE;
+    }
+
+     // 資料外容器
+    .listWrapper {
+      max-height: 100%;
+      overflow-y: scroll;
+      width: 100%;
+    }
+
+    section {
+      color: black;
+      letter-spacing: 3px;
+      align-self: flex-start;
+      border-bottom: 1px solid #000000;
+      margin-top: 12px;
+      padding-bottom: 12px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 1.5em;
+
+      &.active {
+        color: #3D4EAE;
+        border-bottom: 1px solid #3D4EAE;
+      }
+    }
+
+
+  } 
+
+  .bottom {
+    flex: 1;
+    width: 90%;
+
+    border: 5px solid #3D4EAE;
+    border-radius: 30px;
+    background-color: #FFFFFF;
+
+    padding: 2em 3em;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: relative;
+
+    gap: 1.1em;
+
+    h2 {
+      font-size: 1.8em;
+      position: absolute;
+      letter-spacing: 3px;
+      right: 2em;
+      top: 1em;
+    }
+
+    article {
+      flex: 1;
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+
+      h3 {
+        font-size: 1.7em;
+      }
+
+      section {
+        flex: 1;
+
+        display: flex;
+        flex-direction: row;
+        justify-content: space-around;
+        align-items: center;
+        font-size: 1.7em;
+
+        border: 3px solid #3D4EAE;
+
+        & > div {
+          display: flex;
+          flex: row;
+          align-items: center;
+          gap: 0.3em;
+          letter-spacing: 0.2em;
+        }
+
+        span {
+          color: #3D4EAE;
+          font-size: 2em;
+          letter-spacing: initial;
+        }
+
+        .error {
+          width: 1.2em;
+          height: 1.2em;
+          
+          background-color: rgba(0,0,0, .76);
+          border-radius: 50%;
+          color: #FFFFFF;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+        }
+        
+      }
+    }
+  } 
+
+  
+}
+
+
+
+
+
+
+
+
+
+
+// Legacy Code 
+// Below
+.pairIdWrapper {
+  display: flex;
+  align-items: center;
+
+  h2 {
+    font-size: 14px;
+  }
+
+  pre:nth-child(1),
+  pre:nth-child(2), 
+  pre:nth-child(3),
+  pre:nth-child(4) { // 4位數 pairid
+    margin: 0;
+    font-size: 7rem;
+    font-weight: bold;
+    margin-right: 12px;
+  }
+
+  > div { // 倒計時 wrapper
+    margin-left: 24px;
+    width: max-content;
+  }
+}

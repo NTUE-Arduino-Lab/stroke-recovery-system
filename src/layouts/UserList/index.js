@@ -243,6 +243,10 @@ const UserList = () => {
         navigate(ROUTE_PATH.admin_dashbaord);
     };
 
+    const goUserDetail = () => {
+        navigate(ROUTE_PATH.user_detail);
+    };
+
     const goTrainingWeekRecord = (targetUserId) => {
         navigate(`${ROUTE_PATH.training_week_record}/${targetUserId}`);
     };
@@ -289,7 +293,12 @@ const UserList = () => {
                                 <span>1235</span>
                                 <span>左手中風</span>
                                 <span>復健5次</span>
-                                <div className={styles.item_btn}>詳情</div>
+                                <div
+                                    className={styles.item_btn}
+                                    onClick={goUserDetail}
+                                >
+                                    詳情
+                                </div>
                                 <div className={styles.item_btn}>修改</div>
                             </section>
                         ),

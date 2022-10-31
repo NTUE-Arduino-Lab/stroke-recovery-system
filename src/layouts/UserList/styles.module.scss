@@ -44,6 +44,7 @@
     align-self: flex-start;
     margin-left: 15%;
     letter-spacing: 3px;
+    font-size: 1.3em;
   }
 
   .horiLine {
@@ -65,11 +66,12 @@
     letter-spacing: 3px;
     align-self: flex-start;
     border-bottom: 1px solid #3D4EAE;
-    margin-top: 6px;
-    padding-bottom: 6px;
+    margin-top: 12px;
+    padding-bottom: 12px;
     display: flex;
     justify-content: space-around;
     align-items: center;
+    font-size: 1.3em;
   }
 
   .item_btn {
