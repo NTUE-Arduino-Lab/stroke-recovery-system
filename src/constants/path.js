@@ -12,6 +12,7 @@ const ROUTE_PATH = {
     training_week_record: '/training-week-record',
 
     personnel_info: '/personnel-info',
+    personnel_info_done: '/personnel-info-done',
     game1_direct: '/game1_direct',
     game2_direct: '/game2_direct',
     game3_direct: '/game3_direct',

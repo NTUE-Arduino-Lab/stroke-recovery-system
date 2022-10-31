@@ -70,7 +70,7 @@ const initialPacket = {
 
 let unsubscribe = null;
 
-const PersonnelInfo = () => {
+const PersonnelInfoDone = () => {
     const navigate = useNavigate();
     const [form] = Form.useForm();
 
@@ -201,10 +201,6 @@ const PersonnelInfo = () => {
         } else {
             navigate(ROUTE_PATH.admin_dashbaord);
         }
-    };
-
-    const goPersonnelInfoDone = async () => {
-        navigate(ROUTE_PATH.personnel_info_done);
     };
 
     const goGame1Direct = async () => {
@@ -405,13 +401,12 @@ const PersonnelInfo = () => {
         </div>
     );
 
-    /// 送出資料
+    ///
     const onSubmit = (e) => {
         e.preventDefault();
 
-        goPersonnelInfoDone();
-        // console.log(e);
-        // setOpen(true);
+        console.log(e);
+        setOpen(true);
     };
 
     return (
@@ -430,58 +425,25 @@ const PersonnelInfo = () => {
             />
             <legend>醫生端</legend>
             <div className={styles.innerContainer}>
-                <div
-                    onClick={goDashboard}
-                    style={{
-                        background: `url(${Leave_Icon})`,
-                        width: 84,
-                        height: 56,
-                        right: 24,
-                        top: 12,
-                        position: 'absolute',
-                        backgroundSize: '100%',
-                        backgroundRepeat: 'no-repeat',
-                    }}
-                />
-                <h1>基本資料填寫</h1>
-                <form className={styles.grid_wrapper} onSubmit={onSubmit}>
-                    <label htmlFor="name" className={`${styles.name}`}>
-                        <span className={styles.labelWrapper}>姓名</span>
-                        <input type="text" />
-                    </label>
-                    <label className={`${styles.birth}`}>
-                        <span className={styles.labelWrapper}>生日</span>
-                        <input type="text" />
-                    </label>
-                    <label className={`${styles.age}`}>
-                        <span className={styles.labelWrapper}>年齡</span>
-                        <input type="text" />
-                    </label>
-                    <label className={`${styles.height}`}>
-                        <span className={styles.labelWrapper}>身高</span>
-                        <input type="text" />
-                    </label>
-                    <label className={`${styles.weight}`}>
-                        <span className={styles.labelWrapper}>體重</span>
-                        <input type="text" />
-                    </label>
-                    <label className={`${styles.id}`}>
-                        <span className={styles.labelWrapper}>身分證字號</span>
-                        <input type="text" />
-                    </label>
-                    <label className={`${styles.record}`}>
-                        <span className={styles.labelWrapper}>病例狀況</span>
-                        <input type="text" />
-                    </label>
-                    <input
-                        type="submit"
-                        className={styles.cst_btn}
-                        value="確認送出"
-                    />
-                </form>
-                {/* <div className={styles.cst_btn} onClick={() => setOpen(true)}>
-                    確認送出
-                </div> */}
+                <div className={styles.grid_wrapper}>
+                    <h2 className={styles.title}>
+                        序號<span>1325</span>填寫完成
+                    </h2>
+                    <div className={styles.name}>姓名-王曉明</div>
+                    <div className={styles.birth}>生日-85.09.03</div>
+                    <div className={styles.age}>年齡-22</div>
+                    <div className={styles.height}>身高-157</div>
+                    <div className={styles.weight}>體重-60</div>
+                    <div className={styles.id}>身分證字號-A123456789</div>
+                    <div className={styles.record}>病例狀況-左手部中風</div>
+                </div>
+
+                <div className={styles.cst_btn} onClick={() => setOpen(true)}>
+                    進入遊戲
+                </div>
+                <div className={styles.cst_btn} onClick={goDashboard}>
+                    返回主頁
+                </div>
             </div>
             <CustomModal
                 open={open}
@@ -889,4 +851,4 @@ const tailLayout = {
     },
 };
 
-export default PersonnelInfo;
+export default PersonnelInfoDone;
