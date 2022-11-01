@@ -1,3 +1,4 @@
+/* eslint-disable no-debugger */
 /* eslint-disable no-unreachable */
 /* eslint-disable no-unused-vars */
 import React, { useEffect, useState } from 'react';
@@ -55,6 +56,10 @@ import {
     generateValidPairId,
     validateInputPairId,
 } from '../../services/firebase';
+
+import { useStore } from '../../store';
+import { SET_CUR_USER } from '../../store/actions';
+
 import wait from '../../util/wait';
 
 const { Countdown } = Statistic;
@@ -73,6 +78,7 @@ let unsubscribe = null;
 const PersonnelInfo = () => {
     const navigate = useNavigate();
     const [form] = Form.useForm();
+    const { dispatch } = useStore();
 
     const [users, setUsers] = useState();
     const [difficulties, setDifficulties] = useState([]);
@@ -110,6 +116,15 @@ const PersonnelInfo = () => {
     ////
     /////
     const [open, setOpen] = useState(false);
+    /////////
+    const [name, setName] = useState();
+    const [birthday, setBirthday] = useState();
+    const [age, setAge] = useState();
+    const [height, setHeight] = useState();
+    const [weight, setWeight] = useState();
+    const [idNumber, setIdNumber] = useState();
+    const [situation, setSituation] = useState();
+
     //
     ///
     ////
@@ -291,16 +306,6 @@ const PersonnelInfo = () => {
         setPairDeadline(deadline);
 
         message.info({ content: '配對碼已生成！請在時間內進行配對！' }, 5);
-
-        // targetHeartRate
-        // upperLimitHeartRate
-        // pairId
-        // isAppConnected
-        // user
-        // beginWorkoutTime
-        // finishedWorkoutTime
-        // createdTime
-        // difficulty
     };
 
     const deleteRecord = async (leave = false) => {
@@ -406,12 +411,35 @@ const PersonnelInfo = () => {
     );
 
     /// 送出資料
-    const onSubmit = (e) => {
+    const onSubmit = async (e) => {
         e.preventDefault();
+        console.log(name);
+        console.log(birthday);
+        console.log(age);
+        console.log(height);
+        console.log(weight);
+        console.log(idNumber);
+        console.log(situation);
 
+        if (!name || !birthday || !age || !height || !weight || !idNumber) {
+            message.error('有資料未完成');
+            return;
+        }
+
+        const targetUserRef = await addDoc(usersRef, {
+            name,
+            birthday,
+            age,
+            height,
+            weight,
+            idNumber,
+            situation,
+        });
+        console.log('Document written with ID: ', targetUserRef.id);
+        dispatch({ type: SET_CUR_USER, payload: targetUserRef.id });
+
+        // 成功前往配對畫面;
         goPersonnelInfoDone();
-        // console.log(e);
-        // setOpen(true);
     };
 
     return (
@@ -447,31 +475,52 @@ const PersonnelInfo = () => {
                 <form className={styles.grid_wrapper} onSubmit={onSubmit}>
                     <label htmlFor="name" className={`${styles.name}`}>
                         <span className={styles.labelWrapper}>姓名</span>
-                        <input type="text" />
+                        <input
+                            type="text"
+                            onChange={(e) => setName(e.target.value)}
+                        />
                     </label>
                     <label className={`${styles.birth}`}>
                         <span className={styles.labelWrapper}>生日</span>
-                        <input type="text" />
+                        <input
+                            type="date"
+                            onChange={(e) => setBirthday(e.target.value)}
+                        />
                     </label>
                     <label className={`${styles.age}`}>
                         <span className={styles.labelWrapper}>年齡</span>
-                        <input type="text" />
+                        <input
+                            type="number"
+                            onChange={(e) => setAge(e.target.value)}
+                        />
                     </label>
                     <label className={`${styles.height}`}>
-                        <span className={styles.labelWrapper}>身高</span>
-                        <input type="text" />
+                        <span className={styles.labelWrapper}>身高(cm)</span>
+                        <input
+                            type="number"
+                            onChange={(e) => setHeight(e.target.value)}
+                        />
                     </label>
                     <label className={`${styles.weight}`}>
-                        <span className={styles.labelWrapper}>體重</span>
-                        <input type="text" />
+                        <span className={styles.labelWrapper}>體重(kg)</span>
+                        <input
+                            type="number"
+                            onChange={(e) => setWeight(e.target.value)}
+                        />
                     </label>
                     <label className={`${styles.id}`}>
                         <span className={styles.labelWrapper}>身分證字號</span>
-                        <input type="text" />
+                        <input
+                            type="text"
+                            onChange={(e) => setIdNumber(e.target.value)}
+                        />
                     </label>
                     <label className={`${styles.record}`}>
                         <span className={styles.labelWrapper}>病例狀況</span>
-                        <input type="text" />
+                        <input
+                            type="text"
+                            onChange={(e) => setSituation(e.target.value)}
+                        />
                     </label>
                     <input
                         type="submit"
@@ -479,9 +528,6 @@ const PersonnelInfo = () => {
                         value="確認送出"
                     />
                 </form>
-                {/* <div className={styles.cst_btn} onClick={() => setOpen(true)}>
-                    確認送出
-                </div> */}
             </div>
             <CustomModal
                 open={open}

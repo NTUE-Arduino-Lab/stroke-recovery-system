@@ -1,7 +1,7 @@
 /* eslint-disable prettier/prettier */
 /* eslint-disable no-unused-vars */
 /* eslint-disable react/prop-types */
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import {
     TeamOutlined,
@@ -10,6 +10,7 @@ import {
     RocketOutlined,
 } from '@ant-design/icons';
 
+import { useStore } from '../../store';
 import { ROUTE_PATH } from '../../constants';
 import styles from './styles.module.scss';
 
@@ -18,6 +19,11 @@ import Logo from '../../assets/images/dashboard_icon.png';
 
 const AdminDashboard = () => {
     const navigate = useNavigate();
+    const { state } = useStore();
+
+    useEffect(() => {
+        console.log(state);
+    }, [])
 
     const goUserList = () => {
         navigate(ROUTE_PATH.user_list);

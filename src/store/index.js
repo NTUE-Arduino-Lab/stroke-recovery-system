@@ -1,6 +1,6 @@
 import { createContext, useReducer, useContext } from 'react';
 import PropTypes from 'prop-types';
-import { SET_AUTH } from './actions';
+import { SET_AUTH, SET_CUR_USER, SET_CUR_RECORD } from './actions';
 
 import { ROLES } from '../constants';
 
@@ -11,6 +11,8 @@ const initialState = {
         isValid: true,
         roles: [ROLES.Admin], // 1984: Editor ; 5150: Admin
     },
+    currentUser: '',
+    currentRecord: '',
 };
 
 const reducer = (state, action) => {
@@ -21,6 +23,16 @@ const reducer = (state, action) => {
                 auth: {
                     ...action.payload,
                 },
+            };
+        case SET_CUR_RECORD:
+            return {
+                ...state,
+                currentRecord: action.payload,
+            };
+        case SET_CUR_USER:
+            return {
+                ...state,
+                currentUser: action.payload,
             };
         default:
             return state;

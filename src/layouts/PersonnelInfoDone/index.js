@@ -203,6 +203,10 @@ const PersonnelInfoDone = () => {
         }
     };
 
+    const goWaitingRoom = () => {
+        navigate(ROUTE_PATH.waiting_room);
+    };
+
     const goGame1Direct = async () => {
         navigate(ROUTE_PATH.game1_direct);
     };
@@ -438,8 +442,8 @@ const PersonnelInfoDone = () => {
                     <div className={styles.record}>病例狀況-左手部中風</div>
                 </div>
 
-                <div className={styles.cst_btn} onClick={() => setOpen(true)}>
-                    進入遊戲
+                <div className={styles.cst_btn} onClick={goWaitingRoom}>
+                    進行連線
                 </div>
                 <div className={styles.cst_btn} onClick={goDashboard}>
                     返回主頁
