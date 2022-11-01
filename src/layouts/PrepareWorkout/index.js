@@ -111,7 +111,8 @@ const PrepareWorkout = () => {
     /// 針對中風復健新增的內容
     ////
     /////
-    const [open, setOpen] = useState(false);
+    const [open, setOpen] = useState(false); // 選擇關卡的 modal
+    const [searchResult, setSearchResult] = useState([]); // 選擇關卡的 modal
     //
     ///
     ////
@@ -216,7 +217,18 @@ const PrepareWorkout = () => {
     };
 
     const goWaitingRoom = async () => {
+        if (!selectedUser) {
+            return;
+        }
         navigate(ROUTE_PATH.waiting_room);
+    };
+
+    const onSearch = () => {
+        setSearchResult([1, 2, 3]);
+    };
+
+    const onSelectUser = (id) => {
+        setSelectedUser(id);
     };
 
     const goMonitoring = () => {
@@ -444,25 +456,45 @@ const PrepareWorkout = () => {
                 <div className={styles.inputGroup}>
                     <input />
                     <div className={styles.iconWrapper}>
-                        <IconSearch />
+                        <IconSearch onClick={onSearch} />
                     </div>
                 </div>
-                <div className={styles.listWrapper}>
-                    {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15].map(
-                        (e, i) => (
-                            <section key={i} className={styles.active}>
+                {searchResult.length > 0 ? (
+                    <div className={styles.listWrapper}>
+                        {searchResult.map((e, i) => (
+                            <section
+                                key={i}
+                                className={
+                                    selectedUser === e ? styles.active : null
+                                }
+                            >
                                 <span>1235</span>
                                 <span>王曉明</span>
                                 <span>A443854896</span>
                                 <span>左手中風</span>
-                                <div className={styles.action}>選擇</div>
+                                <div
+                                    className={`${styles.action} ${
+                                        selectedUser === e
+                                            ? styles.active
+                                            : null
+                                    }`}
+                                    onClick={() => onSelectUser(e)}
+                                >
+                                    選擇
+                                </div>
                             </section>
-                        ),
-                    )}
-                </div>
+                        ))}
+                    </div>
+                ) : null}
 
-                <div className={styles.cst_btn} onClick={goWaitingRoom}>
-                    進入遊戲
+                <div
+                    className={styles.cst_btn}
+                    onClick={goWaitingRoom}
+                    style={{
+                        background: selectedUser ? '#3D4EAE' : '#D9D9D9',
+                    }}
+                >
+                    進行連線
                 </div>
                 <div className={styles.cst_btn} onClick={goDashboard}>
                     返回主頁
