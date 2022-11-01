@@ -27,6 +27,7 @@ import Game1Result from '../layouts/Game1Result';
 import Game2Result from '../layouts/Game2Result';
 import Game3Result from '../layouts/Game3Result';
 import UserDetail from '../layouts/UserDetail';
+import WaitingRoom from '../layouts/WaitingRoom';
 
 const AppRoutes = () => {
     return (
@@ -105,6 +106,10 @@ const AppRoutes = () => {
                 <Route
                     path={ROUTE_PATH.game3_result}
                     element={<Game3Result />}
+                />
+                <Route
+                    path={ROUTE_PATH.waiting_room}
+                    element={<WaitingRoom />}
                 />
                 <Route
                     path={`${ROUTE_PATH.finsished_workout}/:recordId`}

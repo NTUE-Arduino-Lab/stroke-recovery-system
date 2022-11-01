@@ -71,7 +71,7 @@ const initialPacket = {
 
 let unsubscribe = null;
 
-const PrepareWorkout = () => {
+const WaitingRoom = () => {
     const navigate = useNavigate();
     const params = useParams();
     const [form] = Form.useForm();
@@ -112,6 +112,7 @@ const PrepareWorkout = () => {
     ////
     /////
     const [open, setOpen] = useState(false);
+    const [isConnected, setIsConnected] = useState(false);
     //
     ///
     ////
@@ -215,8 +216,12 @@ const PrepareWorkout = () => {
         }
     };
 
-    const goWaitingRoom = async () => {
-        navigate(ROUTE_PATH.waiting_room);
+    //
+    /// 針對中風復健新增的內容
+    ////
+    /////
+    const forceConnect = () => {
+        setIsConnected(true);
     };
 
     const goMonitoring = () => {
@@ -434,39 +439,28 @@ const PrepareWorkout = () => {
                         backgroundRepeat: 'no-repeat',
                     }}
                 />
-                <div className={styles.item_btn}>
-                    <span>連</span>
-                    <span>線</span>
-                    <span>復</span>
-                    <span>健</span>
-                    <span>人</span>
+                <div className={styles.info}>
+                    <h1>1325</h1>
+                    <h1>王曉明</h1>
                 </div>
-                <div className={styles.inputGroup}>
-                    <input />
-                    <div className={styles.iconWrapper}>
-                        <IconSearch />
+                {isConnected ? (
+                    <>
+                        <h1>配對成功！</h1>
+                        <div
+                            className={styles.cst_btn}
+                            onClick={() => setOpen(true)}
+                        >
+                            進入遊戲
+                        </div>
+                        <div className={styles.cst_btn} onClick={goDashboard}>
+                            返回主頁
+                        </div>
+                    </>
+                ) : (
+                    <div className={styles.info}>
+                        <h2 onClick={forceConnect}>系統連線中....</h2>
                     </div>
-                </div>
-                <div className={styles.listWrapper}>
-                    {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15].map(
-                        (e, i) => (
-                            <section key={i} className={styles.active}>
-                                <span>1235</span>
-                                <span>王曉明</span>
-                                <span>A443854896</span>
-                                <span>左手中風</span>
-                                <div className={styles.action}>選擇</div>
-                            </section>
-                        ),
-                    )}
-                </div>
-
-                <div className={styles.cst_btn} onClick={goWaitingRoom}>
-                    進入遊戲
-                </div>
-                <div className={styles.cst_btn} onClick={goDashboard}>
-                    返回主頁
-                </div>
+                )}
             </div>
             <CustomModal
                 open={open}
@@ -874,4 +868,4 @@ const tailLayout = {
     },
 };
 
-export default PrepareWorkout;
+export default WaitingRoom;

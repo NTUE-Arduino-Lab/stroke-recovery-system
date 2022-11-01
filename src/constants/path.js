@@ -23,6 +23,7 @@ const ROUTE_PATH = {
     game1_result: '/game1_result',
     game2_result: '/game2_result',
     game3_result: '/game3_result',
+    waiting_room: '/waiting-room',
 };
 
 export default ROUTE_PATH;

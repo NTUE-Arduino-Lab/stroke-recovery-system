@@ -2,7 +2,7 @@
   height: 100vh;
   width: 100%;
   background-color: #F5F5F5;
-  padding-top: 120px;
+  padding-top: 80px;
   position: relative;
 
   legend {
@@ -26,15 +26,8 @@
     flex-direction: column;
     align-items: center;
     position: relative;
-    padding-top: 50px;
-  }
-
-  // 請輸入配對碼...
-  caption {
-    color: black;
-    align-self: center;
-    letter-spacing: 12px;
-    font-size: 20px;
+    padding-bottom: 2em;
+    gap: 2em;
   }
 
   // 配對碼 Label
@@ -48,23 +41,70 @@
     font-size: 24px;
     margin-top: 20px;
     display: flex;
-    width: 12%;
+    width: 18%;
     justify-content: space-around;
   }
 
-  input {
-    width: 48%;
-    background-color: #D9d9d9;
-    border-radius: 18px;
-    margin-top: 16px;
-    font-size: 54px;
-    margin-bottom: 48px;
+  .inputGroup {
+    display: flex;
+    flex-direction: row;
+    height: 7%;
+    width: 70%;
+    align-items: center;
+    gap: 1em;
 
 
-    padding-left: 18px;
-    padding-top: 5px;
-    padding-bottom: 5px;
+    input {
+      border: 2px solid #3D4EAE;
+      border-radius: 71px;
+      font-size: 24px;
+      padding-left: 18px;
+      padding-top: 5px;
+      padding-bottom: 5px;
+      height: 100%;
+    }
+
+    .iconWrapper {
+      height: 80%;
+    }
   }
+
+  .listWrapper {
+    height: 16em;
+    overflow-y: scroll;
+    width: 65%;
+    border: 1px solid #3D4EAE;
+    padding: 1em 3em;
+  }
+
+  section {
+    color: black;
+    letter-spacing: 3px;
+    align-self: flex-start;
+    border-bottom: 1px solid #000000;
+    margin-top: 12px;
+    padding-bottom: 12px;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    font-size: 1.5em;
+
+    &.active {
+      color: #3D4EAE;
+      border-bottom: 1px solid #3D4EAE;
+    }
+
+    .action {
+      border-radius: 71px;
+      text-align: center;
+      padding: 6px 20px;
+      font-weight: 400;
+      color: white;
+      background-color: #3D4EAE;
+    }   
+  }
+
+  
 }
 
 .cst_btn,
@@ -79,8 +119,6 @@
   color: white;
   letter-spacing: 10px;
   background-color: #3D4EAE;
-  
-  margin-bottom: 48px;
 }
 
 
