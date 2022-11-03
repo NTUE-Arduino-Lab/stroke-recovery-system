@@ -11,7 +11,7 @@ const initialState = {
         isValid: true,
         roles: [ROLES.Admin], // 1984: Editor ; 5150: Admin
     },
-    currentUser: '',
+    currentUser: 'lhDOmjMXa3v59z89okhy', // lhDOmjMXa3v59z89okhy
     currentRecord: '',
 };
 
