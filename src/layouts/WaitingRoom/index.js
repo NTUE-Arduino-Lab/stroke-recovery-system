@@ -10,35 +10,9 @@ import {
     updateDoc,
     deleteDoc,
     Timestamp,
-    getDocs,
-    query,
-    where,
 } from 'firebase/firestore';
-import {
-    Statistic,
-    Layout,
-    Form,
-    PageHeader,
-    Input,
-    Button,
-    message,
-    Modal,
-    Select,
-    Divider,
-    Popover,
-    Spin,
-    Row,
-    Col,
-    Descriptions,
-    Typography,
-    Badge,
-} from 'antd';
-import {
-    LoadingOutlined,
-    ExclamationCircleOutlined,
-    SettingOutlined,
-    ArrowRightOutlined,
-} from '@ant-design/icons';
+import { Statistic, Input, message, Popover } from 'antd';
+import { SettingOutlined } from '@ant-design/icons';
 import _ from '../../util/helper';
 
 import { ROUTE_PATH, VALID_MIN, WARN_THRESHOLD, WARN } from '../../constants';
@@ -49,52 +23,31 @@ import Logo from '../../assets/images/page_icon.png';
 import CustomModal from '../../components/CustomModal';
 
 import {
-    usersRef,
-    difficultiesRef,
     recordsRef,
     generateValidPairId,
     validateInputPairId,
 } from '../../services/firebase';
+import { useStore } from '../../store';
+import { SET_CUR_RECORD } from '../../store/actions';
 import wait from '../../util/wait';
-import IconSearch from '../../components/IconSearch';
 
 const { Countdown } = Statistic;
-const { Content } = Layout;
-const { Option } = Select;
-const { Text } = Typography;
 
-const initialPacket = {
-    rpm: 0,
-    time: 0,
-    heartRate: 0,
+// TODO: 新增每關卡初始數據
+const initialLevelData = {
+    isStart: false,
+    isEnd: false,
+    data: [],
 };
 
 let unsubscribe = null;
 
 const WaitingRoom = () => {
     const navigate = useNavigate();
+    const { state, dispatch } = useStore();
     const params = useParams();
-    const [form] = Form.useForm();
 
-    const [users, setUsers] = useState();
-    const [difficulties, setDifficulties] = useState([]);
     const [isDone, setIsDone] = useState(false);
-
-    // store [id]
-    const [selectedUser, setSelectedUser] = useState();
-    const [selectedDiff, setSelectedDiff] = useState();
-
-    // 提供查看[使用者], [關卡]所需資訊。store data object
-    const [selectedUserData, setSelectedUserData] = useState();
-    const [selectedDiffData, setSelectedDiffData] = useState();
-    const [userModalVis, setUserModalVis] = useState(false);
-    const [diffModalVis, setDiffModalVis] = useState(false);
-
-    //
-    // 顯示”當前關卡“各階段警示心率的值
-    const [warnHRValues, setWarnHRValues] = useState([]);
-    //
-    //
 
     const [isPairing, setIsPairing] = useState(false);
 
@@ -112,7 +65,6 @@ const WaitingRoom = () => {
     ////
     /////
     const [open, setOpen] = useState(false);
-    const [isConnected, setIsConnected] = useState(false);
     //
     ///
     ////
@@ -127,6 +79,10 @@ const WaitingRoom = () => {
             setOpen(true);
         }
     }, [params]);
+    //
+    ///
+    ////
+    /////
 
     useEffect(() => {
         init();
@@ -137,12 +93,16 @@ const WaitingRoom = () => {
     }, []);
 
     const init = async () => {
-        const users = await fetchUsers();
-        const difficulties = await fetchDiffs();
+        await wait(3000);
+        const user = state.currentUser;
+        if (!user) {
+            message.error('伺服器異常，前往主畫面');
+            await wait(3000);
+            goDashboard();
+        }
 
-        setUsers(users);
-        setDifficulties(difficulties);
         setIsDone(true);
+        createRecord();
     };
 
     useEffect(() => {
@@ -165,6 +125,11 @@ const WaitingRoom = () => {
                     setPairDeadline(null);
                     setIsPairing(false);
                     setIsAppConnected(true);
+
+                    dispatch({
+                        type: SET_CUR_RECORD,
+                        payload: targetgetRecordId,
+                    });
                     message.success('配對成功，您可以前往監視畫面了！');
                 }
             }
@@ -173,96 +138,24 @@ const WaitingRoom = () => {
         // going to listen doc change!
     }, [targetgetRecordId]);
 
-    const fetchUsers = async () => {
-        const q = query(usersRef, where('isDeleted', '!=', true));
-
-        const users = [];
-        const querySnapshot = await getDocs(q);
-        querySnapshot.forEach((doc) => {
-            users.push({
-                ...doc.data(),
-                id: doc.id,
-            });
-        });
-
-        return users;
-    };
-
-    const fetchDiffs = async () => {
-        const q = query(difficultiesRef, where('isDeleted', '!=', true));
-
-        const difficulties = [];
-        const querySnapshot = await getDocs(q);
-        querySnapshot.forEach((doc) => {
-            difficulties.push({
-                ...doc.data(),
-                id: doc.id,
-            });
-        });
-
-        return difficulties;
-    };
-
     const goDashboard = async () => {
-        if (targetgetRecordId) {
-            Modal.confirm({
-                title: '即將離開！',
-                icon: <ExclamationCircleOutlined />,
-                content: '將刪除所選資訊',
-                onOk: () => deleteRecord('leave'),
-            });
-        } else {
-            navigate(ROUTE_PATH.admin_dashbaord);
-        }
+        navigate(ROUTE_PATH.admin_dashbaord);
     };
 
-    //
-    /// 針對中風復健新增的內容
-    ////
-    /////
-    const forceConnect = () => {
-        setIsConnected(true);
+    const goGame1Direct = async () => {
+        navigate(ROUTE_PATH.game1_direct);
     };
 
-    const goMonitoring = () => {
-        navigate(`${ROUTE_PATH.monitoring_workout}/${targetgetRecordId}`, {
-            replace: true,
-        });
+    const goGame2Direct = async () => {
+        navigate(ROUTE_PATH.game2_direct);
     };
 
-    const confirmUserAndDiff = async () => {
-        // const valid = await form.validateFields();
-
-        // console.log(valid);
-
-        if (selectedUser == null || selectedDiff == null) {
-            Modal.error({
-                title: '有內容沒有完成...',
-                content: '請填寫好騎乘者資訊以及關卡資訊',
-            });
-            return;
-        }
-
-        Modal.confirm({
-            title: '即將產生配對碼！',
-            icon: <ExclamationCircleOutlined />,
-            content: '資料一旦輸入將無法進行修改，請確認無誤！',
-            onOk: () => createRecord(),
-        });
+    const goGame3Direct = async () => {
+        navigate(ROUTE_PATH.game3_direct);
     };
 
     const createRecord = async () => {
-        if (selectedUser == null || selectedDiff == null) {
-            return;
-        }
-
-        const theDiff = difficulties.find((d) => d.id === selectedDiff);
-
-        const targetHeartRate = theDiff.targetHeartRate; // careful the type
-        const upperLimitHeartRate = theDiff.upperLimitHeartRate; // careful the type
-        // constant
-        const user = selectedUser;
-        const difficulty = selectedDiff;
+        const user = state.currentUser;
         const pairId = await generateValidPairId();
         const isAppConnected = false;
         const createdTime = Timestamp.now();
@@ -270,22 +163,27 @@ const WaitingRoom = () => {
         const finishedWorkoutTime = null;
 
         const targetRecordRef = await addDoc(recordsRef, {
-            targetHeartRate,
-            upperLimitHeartRate,
             pairId,
             isAppConnected,
             user,
             createdTime,
             beginWorkoutTime,
             finishedWorkoutTime,
-            difficulty,
         });
         console.log('Document written with ID: ', targetRecordRef.id);
 
-        // initialize sub collection - packets
+        // 初始化 3關 資料
         await addDoc(
-            collection(recordsRef, targetRecordRef.id, 'packets'),
-            initialPacket,
+            collection(recordsRef, targetRecordRef.id, 'level1'),
+            initialLevelData,
+        );
+        await addDoc(
+            collection(recordsRef, targetRecordRef.id, 'level2'),
+            initialLevelData,
+        );
+        await addDoc(
+            collection(recordsRef, targetRecordRef.id, 'level3'),
+            initialLevelData,
         );
 
         setTargetRecordId(targetRecordRef.id);
@@ -296,16 +194,6 @@ const WaitingRoom = () => {
         setPairDeadline(deadline);
 
         message.info({ content: '配對碼已生成！請在時間內進行配對！' }, 5);
-
-        // targetHeartRate
-        // upperLimitHeartRate
-        // pairId
-        // isAppConnected
-        // user
-        // beginWorkoutTime
-        // finishedWorkoutTime
-        // createdTime
-        // difficulty
     };
 
     const deleteRecord = async (leave = false) => {
@@ -336,61 +224,15 @@ const WaitingRoom = () => {
     };
 
     const onDeadlineExpired = async () => {
-        message.warn('連結過期，請重新選擇！', 3);
+        message.warn('連結過期，重新配對', 3);
 
         await wait(1000);
         await deleteRecord();
         setTargetRecordId(null);
         setPairId(null);
-        setSelectedUser();
-        setSelectedDiff();
         setPairDeadline(null);
         setInputPairId(null);
-        form.resetFields();
-    };
-
-    const onUserChange = (value) => setSelectedUser(value);
-    const onDiffChange = (value) => setSelectedDiff(value);
-
-    const openUserModal = () => {
-        const selectedUserData = users.find((u) => u.id === selectedUser);
-
-        setUserModalVis(true);
-        setSelectedUserData(selectedUserData);
-    };
-    const openDiffModal = () => {
-        const selectedDiffData = difficulties.find(
-            (d) => d.id === selectedDiff,
-        );
-        const warnHRValues = getExactThresholdValue(
-            selectedDiffData.upperLimitHeartRate,
-        );
-
-        setDiffModalVis(true);
-        setSelectedDiffData(selectedDiffData);
-        setWarnHRValues(warnHRValues);
-    };
-    const closeUserModal = () => {
-        setUserModalVis(false);
-        setSelectedUserData();
-    };
-    const closeDiffModal = () => {
-        setDiffModalVis(false);
-        setSelectedDiffData();
-    };
-
-    const getExactThresholdValue = (upperLimitHeartRate) => {
-        if (!_.isNumber(upperLimitHeartRate)) {
-            return;
-        }
-
-        const calBase = upperLimitHeartRate / 100;
-
-        const overHigh = Math.ceil(calBase * WARN_THRESHOLD.High);
-        const overMedium = Math.ceil(calBase * WARN_THRESHOLD.Medium);
-        const overSlight = Math.ceil(calBase * WARN_THRESHOLD.Slight);
-
-        return [overSlight, overMedium, overHigh];
+        createRecord();
     };
 
     const simulateAppCotent = (
@@ -404,9 +246,6 @@ const WaitingRoom = () => {
                 disabled={isAppConnected}
                 loading={isPairing}
             />
-            {/* <Button onClick={pairWithApp} disabled={isAppConnected}>
-                我要配對
-            </Button> */}
         </div>
     );
 
@@ -440,12 +279,56 @@ const WaitingRoom = () => {
                     }}
                 />
                 <div className={styles.info}>
-                    <h1>1325</h1>
-                    <h1>王曉明</h1>
+                    <h1>{state.currentUserSerial}</h1>
+                    <h1>{state.currentUserName}</h1>
                 </div>
-                {isConnected ? (
-                    <>
-                        <h1>配對成功！</h1>
+                {!isDone && (
+                    <div className={styles.info}>
+                        <h2>資料確認中....</h2>
+                    </div>
+                )}
+                {isDone && !pairId && (
+                    <div className={styles.info}>
+                        <h2>初始化連線中....</h2>
+                    </div>
+                )}
+                {pairId && !isAppConnected && (
+                    <div className={styles.info}>
+                        <div className={styles.pairId}>
+                            <h2>配對碼 {pairId}</h2>
+                            {pairDeadline && (
+                                <div className={styles.time}>
+                                    <Countdown
+                                        title={
+                                            <div>
+                                                有效時間
+                                                <Popover
+                                                    content={simulateAppCotent}
+                                                    placement="bottomRight"
+                                                    title="更多操作"
+                                                    trigger="click"
+                                                >
+                                                    <SettingOutlined
+                                                        width={'2.5em'}
+                                                    />
+                                                </Popover>
+                                            </div>
+                                        }
+                                        value={pairDeadline}
+                                        valueStyle={{
+                                            fontSize: '2.5em',
+                                        }}
+                                        onFinish={onDeadlineExpired}
+                                    />
+                                </div>
+                            )}
+                        </div>
+                    </div>
+                )}
+
+                {isAppConnected && (
+                    <div className={styles.info}>
+                        <h2>配對成功！</h2>
                         <div
                             className={styles.cst_btn}
                             onClick={() => setOpen(true)}
@@ -455,10 +338,6 @@ const WaitingRoom = () => {
                         <div className={styles.cst_btn} onClick={goDashboard}>
                             返回主頁
                         </div>
-                    </>
-                ) : (
-                    <div className={styles.info}>
-                        <h2 onClick={forceConnect}>系統連線中....</h2>
                     </div>
                 )}
             </div>
@@ -467,405 +346,18 @@ const WaitingRoom = () => {
                 onClose={() => setOpen(false)}
                 overlayColour="rgba(243, 151, 0, 50%)"
             >
-                <div className={styles.modal_btn} onClick={goDashboard}>
+                <div className={styles.modal_btn} onClick={goGame1Direct}>
                     圓柱練習
                 </div>
-                <div className={styles.modal_btn} onClick={goDashboard}>
+                <div className={styles.modal_btn} onClick={goGame2Direct}>
                     多元練習
                 </div>
-                <div className={styles.modal_btn} onClick={goDashboard}>
+                <div className={styles.modal_btn} onClick={goGame3Direct}>
                     細圓柱練習
                 </div>
             </CustomModal>
         </div>
     );
-
-    if (!isDone) {
-        return (
-            <Layout style={{ padding: '24px' }}>
-                <div className={styles.container}>
-                    <PageHeader
-                        className={styles.PageHeader}
-                        title="資料讀取中..."
-                    />
-                </div>
-            </Layout>
-        );
-    }
-
-    return (
-        <Layout>
-            <Content className="site-layout" style={{ padding: '24px' }}>
-                <div className={styles.container}>
-                    <PageHeader
-                        className={styles.PageHeader}
-                        title="準備騎乘！進行騎乘設定"
-                        subTitle="選擇騎乘者及關卡資訊"
-                        onBack={goDashboard}
-                    />
-
-                    <Form {...formLayout} form={form} style={{ marginTop: 36 }}>
-                        <Form.Item
-                            name="user"
-                            label="騎乘者"
-                            // rules={[
-                            //     {
-                            //         required: true,
-                            //         message: '請選擇騎乘者',
-                            //     },
-                            // ]}
-                        >
-                            <Row gutter={8}>
-                                <Col span={18}>
-                                    <Select
-                                        placeholder="選擇騎乘者"
-                                        onChange={onUserChange}
-                                        disabled={pairId}
-                                    >
-                                        {users.map((user) => (
-                                            <Option
-                                                value={user.id}
-                                                key={user.id}
-                                            >
-                                                {user.name}
-                                            </Option>
-                                        ))}
-                                    </Select>
-                                </Col>
-                                <Col span={6}>
-                                    <Button
-                                        disabled={!selectedUser}
-                                        onClick={openUserModal}
-                                    >
-                                        查看騎乘者資訊
-                                    </Button>
-                                </Col>
-                            </Row>
-                        </Form.Item>
-                        <Form.Item
-                            name="difficulty"
-                            label="關卡資訊"
-                            // rules={[
-                            //     {
-                            //         required: true,
-                            //         message: '請選擇關卡資訊',
-                            //     },
-                            // ]}
-                        >
-                            <Row gutter={8}>
-                                <Col span={18}>
-                                    <Select
-                                        placeholder="選擇關卡資訊"
-                                        onChange={onDiffChange}
-                                        disabled={pairId}
-                                    >
-                                        {difficulties.map((diff) => (
-                                            <Option
-                                                value={diff.id}
-                                                key={diff.id}
-                                            >
-                                                {diff.name}・
-                                                {diff.targetWorkoutTime}{' '}
-                                                分鐘・目標{' '}
-                                                {diff.targetHeartRate} BPM
-                                            </Option>
-                                        ))}
-                                    </Select>
-                                </Col>
-                                <Col span={6}>
-                                    <Button
-                                        disabled={!selectedDiff}
-                                        onClick={openDiffModal}
-                                    >
-                                        查看關卡資訊
-                                    </Button>
-                                </Col>
-                            </Row>
-                        </Form.Item>
-                        <Form.Item {...tailLayout}>
-                            <Button
-                                type="primary"
-                                htmlType="submit"
-                                onClick={confirmUserAndDiff}
-                                disabled={pairId}
-                            >
-                                下一步，生成配對碼
-                            </Button>
-                        </Form.Item>
-                    </Form>
-
-                    <Modal
-                        title="檢視騎乘者"
-                        visible={userModalVis}
-                        onCancel={closeUserModal}
-                        footer={null} // no [Ok], [Cancel] button
-                    >
-                        <Descriptions
-                            bordered
-                            className={styles.descriptions}
-                            size="middle"
-                        >
-                            <Descriptions.Item label="會員編號" span={3}>
-                                {selectedUserData?.idNumber}
-                            </Descriptions.Item>
-                            <Descriptions.Item label="姓名" span={3}>
-                                {selectedUserData?.name}
-                            </Descriptions.Item>
-                            <Descriptions.Item label="身高" span={3}>
-                                {selectedUserData?.height} 公分
-                            </Descriptions.Item>
-                            <Descriptions.Item label="體重" span={3}>
-                                {selectedUserData?.weight} 公斤
-                            </Descriptions.Item>
-                            <Descriptions.Item label="運動心率" span={3}>
-                                {selectedUserData?.exerciseHeartRate} BPM
-                            </Descriptions.Item>
-                            <Descriptions.Item label="運動阻力" span={3}>
-                                {selectedUserData?.exerciseResist}
-                            </Descriptions.Item>
-                            <Descriptions.Item label="運動速度" span={3}>
-                                {selectedUserData?.exerciseSpeed}
-                            </Descriptions.Item>
-                            <Descriptions.Item label="是否服用藥物" span={3}>
-                                {selectedUserData?.medicine ? '是' : '否'}
-                            </Descriptions.Item>
-                            <Descriptions.Item label="備註" span={3}>
-                                {selectedUserData?.note}
-                            </Descriptions.Item>
-                        </Descriptions>
-                    </Modal>
-                    <Modal
-                        title="檢視難度"
-                        visible={diffModalVis}
-                        onCancel={closeDiffModal}
-                        footer={null} // no [Ok], [Cancel] button
-                        width={600}
-                    >
-                        <Descriptions
-                            bordered
-                            className={styles.descriptions}
-                            size="middle"
-                            column={2}
-                        >
-                            <Descriptions.Item label="難度名稱" span={1}>
-                                {selectedDiffData?.name}
-                            </Descriptions.Item>
-                            <Descriptions.Item label="目標騎乘時間" span={1}>
-                                {selectedDiffData?.targetWorkoutTime} 分
-                            </Descriptions.Item>
-                            <Descriptions.Item label="目標心率數值" span={2}>
-                                {selectedDiffData?.targetHeartRate}
-                            </Descriptions.Item>
-                            <Descriptions.Item label="上限心率數值" span={2}>
-                                {selectedDiffData?.upperLimitHeartRate}
-                            </Descriptions.Item>
-                            <Descriptions.Item
-                                label={
-                                    <>
-                                        警示心率門檻
-                                        <br />
-                                        <Text
-                                            type="secondary"
-                                            style={{
-                                                fontSize: '0.8em',
-                                            }}
-                                        >
-                                            依據上限心率數值計算
-                                        </Text>
-                                    </>
-                                }
-                                span={2}
-                            >
-                                <Badge
-                                    color="blue"
-                                    text={WarnHRValueDisplay(
-                                        warnHRValues?.[0],
-                                        WARN.Slight,
-                                    )}
-                                    style={{
-                                        display: 'flex',
-                                        alignItems: 'center',
-                                    }}
-                                />
-
-                                <Badge
-                                    color="gold"
-                                    text={WarnHRValueDisplay(
-                                        warnHRValues?.[1],
-                                        WARN.Medium,
-                                    )}
-                                    style={{
-                                        display: 'flex',
-                                        alignItems: 'center',
-                                    }}
-                                />
-
-                                <Badge
-                                    color="volcano"
-                                    text={WarnHRValueDisplay(
-                                        warnHRValues?.[2],
-                                        WARN.High,
-                                    )}
-                                    style={{
-                                        display: 'flex',
-                                        alignItems: 'center',
-                                    }}
-                                />
-                            </Descriptions.Item>
-                            <Descriptions.Item label="備註" span={2}>
-                                {selectedDiffData?.note}
-                            </Descriptions.Item>
-                        </Descriptions>
-                    </Modal>
-
-                    {pairId && (
-                        <>
-                            <Divider
-                                dashed={true}
-                                style={{
-                                    minWidth: '90%',
-                                    width: '90%',
-                                    borderWidth: '2px',
-                                    margin: 'auto',
-                                    marginRight: 'auto',
-                                    marginTop: '4em',
-                                    marginBottom: '4em',
-                                }}
-                            />
-                            <Form {...formLayout}>
-                                <Form.Item
-                                    label={
-                                        <>
-                                            配對碼
-                                            <Popover
-                                                content={simulateAppCotent}
-                                                placement="bottomRight"
-                                                title="更多操作"
-                                                trigger="click"
-                                            >
-                                                <SettingOutlined
-                                                    width={'1em'}
-                                                />
-                                            </Popover>
-                                        </>
-                                    }
-                                    style={{
-                                        display: 'flex',
-                                        alignItems: 'center',
-                                    }}
-                                >
-                                    <div className={styles.pairIdWrapper}>
-                                        {pairId.split('').map((c, i) => (
-                                            <pre key={c + i}>{c}</pre>
-                                        ))}
-
-                                        {/* <Countdown
-                                            title="有效時間"
-                                            value={Date.now() + 1000 * 60 * 10}
-                                            onFinish={onDeadlineExpired}
-                                        /> */}
-                                        {pairDeadline && (
-                                            <Countdown
-                                                title="有效時間"
-                                                value={pairDeadline}
-                                                onFinish={onDeadlineExpired}
-                                            />
-                                        )}
-                                    </div>
-                                </Form.Item>
-                                {!isAppConnected && (
-                                    <Form.Item
-                                        label=" "
-                                        colon={false}
-                                        style={{ marginTop: '3em' }}
-                                    >
-                                        <Spin
-                                            indicator={
-                                                <LoadingOutlined
-                                                    style={{
-                                                        fontSize: 24,
-                                                        marginRight: '1em',
-                                                    }}
-                                                    spin
-                                                />
-                                            }
-                                        />
-                                        等待配對中...
-                                    </Form.Item>
-                                )}
-
-                                <Form.Item
-                                    label=" "
-                                    colon={false}
-                                    style={{ marginTop: '5em' }}
-                                >
-                                    <Button
-                                        onClick={goMonitoring}
-                                        type={
-                                            isAppConnected
-                                                ? 'primary'
-                                                : 'dashed'
-                                        }
-                                        disabled={!isAppConnected}
-                                        icon={
-                                            isAppConnected && (
-                                                <ArrowRightOutlined />
-                                            )
-                                        }
-                                        size="large"
-                                    >
-                                        前往監視畫面
-                                    </Button>
-                                </Form.Item>
-                            </Form>
-                        </>
-                    )}
-                </div>
-            </Content>
-        </Layout>
-    );
-};
-
-const WarnHRValueDisplay = (value, warn) => {
-    let phase;
-    let overVal;
-    if (warn === WARN.Slight) {
-        phase = '一';
-        overVal = WARN_THRESHOLD.Slight - 100;
-    }
-    if (warn === WARN.Medium) {
-        phase = '二';
-        overVal = WARN_THRESHOLD.Medium - 100;
-    }
-    if (warn === WARN.High) {
-        phase = '三';
-        overVal = WARN_THRESHOLD.High - 100;
-    }
-
-    return (
-        <div style={{ display: 'flex' }}>
-            第{phase}階段：{value}
-            <Text type="secondary" style={{ fontSize: '0.85em' }}>
-                （超出 {overVal}％）
-            </Text>
-        </div>
-    );
-};
-
-const formLayout = {
-    labelCol: {
-        span: 8,
-    },
-    wrapperCol: {
-        span: 10,
-    },
-};
-
-const tailLayout = {
-    wrapperCol: {
-        offset: 8,
-        span: 16,
-    },
 };
 
 export default WaitingRoom;

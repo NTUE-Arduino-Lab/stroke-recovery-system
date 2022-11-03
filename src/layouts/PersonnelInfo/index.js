@@ -58,7 +58,11 @@ import {
 } from '../../services/firebase';
 
 import { useStore } from '../../store';
-import { SET_CUR_USER } from '../../store/actions';
+import {
+    SET_CUR_USER,
+    SET_CUR_USER_NAME,
+    SET_CUR_USER_SERIAL,
+} from '../../store/actions';
 
 import wait from '../../util/wait';
 
@@ -437,6 +441,8 @@ const PersonnelInfo = () => {
         });
         console.log('Document written with ID: ', targetUserRef.id);
         dispatch({ type: SET_CUR_USER, payload: targetUserRef.id });
+        dispatch({ type: SET_CUR_USER_NAME, payload: name });
+        dispatch({ type: SET_CUR_USER_SERIAL, payload: '1325' });
 
         // 成功前往配對畫面;
         goPersonnelInfoDone();

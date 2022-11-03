@@ -1,6 +1,12 @@
 import { createContext, useReducer, useContext } from 'react';
 import PropTypes from 'prop-types';
-import { SET_AUTH, SET_CUR_USER, SET_CUR_RECORD } from './actions';
+import {
+    SET_AUTH,
+    SET_CUR_USER,
+    SET_CUR_RECORD,
+    SET_CUR_USER_NAME,
+    SET_CUR_USER_SERIAL,
+} from './actions';
 
 import { ROLES } from '../constants';
 
@@ -13,6 +19,10 @@ const initialState = {
     },
     currentUser: 'lhDOmjMXa3v59z89okhy', // lhDOmjMXa3v59z89okhy
     currentRecord: '',
+
+    // 儲存經常顯示之用戶資訊，避免重複撈取資料
+    currentUserName: '王曉東',
+    currentUserSerial: '1325',
 };
 
 const reducer = (state, action) => {
@@ -33,6 +43,16 @@ const reducer = (state, action) => {
             return {
                 ...state,
                 currentUser: action.payload,
+            };
+        case SET_CUR_USER_NAME:
+            return {
+                ...state,
+                currentUserName: action.payload,
+            };
+        case SET_CUR_USER_SERIAL:
+            return {
+                ...state,
+                currentUserSerial: action.payload,
             };
         default:
             return state;

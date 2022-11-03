@@ -203,11 +203,11 @@ const Game3Result = () => {
     };
 
     const goGameMoni = () => {
-        navigate(ROUTE_PATH.game1_monitoring);
+        navigate(ROUTE_PATH.game3_monitoring);
     };
 
     const goNextGameDir = () => {
-        navigate(`${ROUTE_PATH.prepare_workout}/open-modal`);
+        navigate(ROUTE_PATH.game1_direct);
     };
 
     const goUserDetail = () => {
@@ -443,13 +443,13 @@ const Game3Result = () => {
                     <Logo_Icon onClick={goDashboard} />
                 </div>
                 <div className={styles.action} onClick={goGameMoni}>
-                    重新開始
+                    繼續遊戲
                 </div>
                 <div className={styles.action} onClick={goNextGameDir}>
-                    下一關卡
+                    重頭來過
                 </div>
                 <div className={styles.action} onClick={goUserDetail}>
-                    過往紀錄
+                    訓練結束看成績
                 </div>
             </div>
         </div>
