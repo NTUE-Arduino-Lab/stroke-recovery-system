@@ -4,7 +4,13 @@ import styles from './styles.module.scss';
 
 import Close_btn from '../../assets/images/modal_close.png';
 
-const Modal = ({ open, onClose, overlayColour, children }) => {
+const Modal = ({
+    open,
+    onClose,
+    overlayColour,
+    children,
+    paddingTop = '140px',
+}) => {
     if (!open) return null;
     return (
         <div
@@ -17,6 +23,7 @@ const Modal = ({ open, onClose, overlayColour, children }) => {
                     e.stopPropagation();
                 }}
                 className={styles.modalContainer}
+                style={{ paddingTop: paddingTop }}
             >
                 <div
                     onClick={onClose}

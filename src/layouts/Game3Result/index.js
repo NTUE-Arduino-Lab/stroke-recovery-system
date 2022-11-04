@@ -46,6 +46,8 @@ import styles from './styles.module.scss';
 
 import ShapeDot from '../../components/ShapeDot';
 import Logo_Icon from '../../components/IconLogo';
+import CustomModal from '../../components/CustomModal';
+import Home_Icon from '../../components/IconHome';
 
 import {
     usersRef,
@@ -190,34 +192,19 @@ const Game3Result = () => {
     };
 
     const goDashboard = async () => {
-        if (targetgetRecordId) {
-            Modal.confirm({
-                title: '即將離開！',
-                icon: <ExclamationCircleOutlined />,
-                content: '將刪除所選資訊',
-                onOk: () => deleteRecord('leave'),
-            });
-        } else {
-            navigate(ROUTE_PATH.admin_dashbaord);
-        }
+        navigate(ROUTE_PATH.admin_dashbaord);
     };
 
-    const goGameMoni = () => {
-        navigate(ROUTE_PATH.game3_monitoring);
-    };
-
-    const goNextGameDir = () => {
+    const goGame1Direct = async () => {
         navigate(ROUTE_PATH.game1_direct);
     };
 
-    const goUserDetail = () => {
-        navigate(ROUTE_PATH.user_detail);
+    const goGame2Direct = async () => {
+        navigate(ROUTE_PATH.game2_direct);
     };
 
-    const goMonitoring = () => {
-        navigate(`${ROUTE_PATH.monitoring_workout}/${targetgetRecordId}`, {
-            replace: true,
-        });
+    const goGame3Direct = async () => {
+        navigate(ROUTE_PATH.game3_direct);
     };
 
     const confirmUserAndDiff = async () => {
@@ -442,16 +429,46 @@ const Game3Result = () => {
                 <div className={styles.logo}>
                     <Logo_Icon onClick={goDashboard} />
                 </div>
-                <div className={styles.action} onClick={goGameMoni}>
+                <div className={styles.action} onClick={goGame3Direct}>
                     重新開始
                 </div>
-                <div className={styles.action} onClick={goNextGameDir}>
+                <div className={styles.action} onClick={() => setOpen(true)}>
                     關卡選擇
                 </div>
-                <div className={styles.action} onClick={goUserDetail}>
+                <div className={styles.action} onClick={goDashboard}>
                     結束訓練
                 </div>
             </div>
+            <CustomModal
+                open={open}
+                paddingTop="30px"
+                onClose={() => setOpen(false)}
+                overlayColour="rgba(243, 151, 0, 50%)"
+            >
+                <div className={styles.actionWrapper}>
+                    <h4>
+                        <span>關</span>
+                        <span>卡</span>
+                        <span>選</span>
+                        <span>擇</span>
+                    </h4>
+                    <div style={{ margin: '0.8em', width: '16%' }}>
+                        <Logo_Icon />
+                    </div>
+                    <div className={styles.modal_btn} onClick={goGame1Direct}>
+                        圓柱練習
+                    </div>
+                    <div className={styles.modal_btn} onClick={goGame2Direct}>
+                        多元練習
+                    </div>
+                    <div className={styles.modal_btn} onClick={goGame3Direct}>
+                        細圓柱練習
+                    </div>
+                    <div className={styles.home}>
+                        <Home_Icon />
+                    </div>
+                </div>
+            </CustomModal>
         </div>
     );
 

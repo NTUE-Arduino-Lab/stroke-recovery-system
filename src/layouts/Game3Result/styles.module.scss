@@ -134,7 +134,43 @@
   background-color: #3D4EAE !important;
 }
 
+.actionWrapper {
+  width: 80em;
+  height: 50em;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 
+  h4 {
+    font-size: 4em;
+    display: flex;
+    flex-direction: row;
+    gap: 0.5em;
+    color: #3D4EAE;
+    margin-bottom: 0;
+  }
+
+  .modal_btn {
+    border-radius: 71px;
+    width: 380px;
+    text-align: center;
+    padding-bottom: 25px;
+    padding-top: 25px;
+    font-weight: 400;
+    font-size: 40px;
+    color: white;
+    letter-spacing: 10px;
+    background-color: #3D4EAE;
+    margin-bottom: 24px;
+  }
+  
+  .home {
+    position: absolute;
+    width: 8em;
+    bottom: 30px;
+    right: 30px;
+  }
+}
 
 
 

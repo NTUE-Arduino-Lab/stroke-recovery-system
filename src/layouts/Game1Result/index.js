@@ -46,6 +46,8 @@ import styles from './styles.module.scss';
 
 import Logo_Icon from '../../components/IconLogo';
 import ShapeCircle from '../../components/ShapeCircle';
+import CustomModal from '../../components/CustomModal';
+import Home_Icon from '../../components/IconHome';
 
 import {
     usersRef,
@@ -202,22 +204,16 @@ const Game1Result = () => {
         }
     };
 
-    const goGameMoni = () => {
-        navigate(ROUTE_PATH.game1_monitoring);
+    const goGame1Direct = async () => {
+        navigate(ROUTE_PATH.game1_direct);
     };
 
-    const goNextGameDir = () => {
+    const goGame2Direct = async () => {
         navigate(ROUTE_PATH.game2_direct);
     };
 
-    const goUserDetail = () => {
-        navigate(ROUTE_PATH.user_detail);
-    };
-
-    const goMonitoring = () => {
-        navigate(`${ROUTE_PATH.monitoring_workout}/${targetgetRecordId}`, {
-            replace: true,
-        });
+    const goGame3Direct = async () => {
+        navigate(ROUTE_PATH.game3_direct);
     };
 
     const confirmUserAndDiff = async () => {
@@ -360,14 +356,6 @@ const Game1Result = () => {
         setSelectedDiffData(selectedDiffData);
         setWarnHRValues(warnHRValues);
     };
-    const closeUserModal = () => {
-        setUserModalVis(false);
-        setSelectedUserData();
-    };
-    const closeDiffModal = () => {
-        setDiffModalVis(false);
-        setSelectedDiffData();
-    };
 
     const getExactThresholdValue = (upperLimitHeartRate) => {
         if (!_.isNumber(upperLimitHeartRate)) {
@@ -471,16 +459,46 @@ const Game1Result = () => {
                 <div className={styles.logo}>
                     <Logo_Icon onClick={goDashboard} />
                 </div>
-                <div className={styles.action} onClick={goGameMoni}>
+                <div className={styles.action} onClick={goGame1Direct}>
                     重新開始
                 </div>
-                <div className={styles.action} onClick={goNextGameDir}>
+                <div className={styles.action} onClick={goGame2Direct}>
                     下一關卡
                 </div>
-                <div className={styles.action} onClick={goUserDetail}>
+                <div className={styles.action} onClick={() => setOpen(true)}>
                     關卡選擇
                 </div>
             </div>
+            <CustomModal
+                open={open}
+                paddingTop="30px"
+                onClose={() => setOpen(false)}
+                overlayColour="rgba(243, 151, 0, 50%)"
+            >
+                <div className={styles.actionWrapper}>
+                    <h4>
+                        <span>關</span>
+                        <span>卡</span>
+                        <span>選</span>
+                        <span>擇</span>
+                    </h4>
+                    <div style={{ margin: '0.8em', width: '16%' }}>
+                        <Logo_Icon />
+                    </div>
+                    <div className={styles.modal_btn} onClick={goGame1Direct}>
+                        圓柱練習
+                    </div>
+                    <div className={styles.modal_btn} onClick={goGame2Direct}>
+                        多元練習
+                    </div>
+                    <div className={styles.modal_btn} onClick={goGame3Direct}>
+                        細圓柱練習
+                    </div>
+                    <div className={styles.home}>
+                        <Home_Icon />
+                    </div>
+                </div>
+            </CustomModal>
         </div>
     );
 
