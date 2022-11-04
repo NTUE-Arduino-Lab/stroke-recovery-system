@@ -443,13 +443,13 @@ const Game3Result = () => {
                     <Logo_Icon onClick={goDashboard} />
                 </div>
                 <div className={styles.action} onClick={goGameMoni}>
-                    繼續遊戲
+                    重新開始
                 </div>
                 <div className={styles.action} onClick={goNextGameDir}>
-                    重頭來過
+                    關卡選擇
                 </div>
                 <div className={styles.action} onClick={goUserDetail}>
-                    訓練結束看成績
+                    結束訓練
                 </div>
             </div>
         </div>

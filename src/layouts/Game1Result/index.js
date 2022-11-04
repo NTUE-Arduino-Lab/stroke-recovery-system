@@ -472,13 +472,13 @@ const Game1Result = () => {
                     <Logo_Icon onClick={goDashboard} />
                 </div>
                 <div className={styles.action} onClick={goGameMoni}>
-                    繼續遊戲
-                </div>
-                <div className={styles.action} onClick={goNextGameDir}>
                     重新開始
                 </div>
-                <div className={styles.action} onClick={goUserDetail}>
+                <div className={styles.action} onClick={goNextGameDir}>
                     下一關卡
+                </div>
+                <div className={styles.action} onClick={goUserDetail}>
+                    關卡選擇
                 </div>
             </div>
         </div>
