@@ -64,7 +64,7 @@ const AppRoutes = () => {
                     element={<DifficulityList />}
                 />
                 <Route
-                    path={ROUTE_PATH.personnel_info}
+                    path={`${ROUTE_PATH.personnel_info}/:action`}
                     element={<PersonnelInfo />}
                 />
                 <Route

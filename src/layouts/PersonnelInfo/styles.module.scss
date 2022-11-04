@@ -107,6 +107,10 @@
       width: fit-content;
       font-size: 1.4em;
     }
+
+    input:read-only {
+      background-color: #D9D9D9;
+    }
   }
 
   

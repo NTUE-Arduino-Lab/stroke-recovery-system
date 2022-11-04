@@ -42,7 +42,7 @@ const AdminDashboard = () => {
     };
     
     const goPersonnelInfo = () => {
-        navigate(ROUTE_PATH.personnel_info);
+        navigate(`${ROUTE_PATH.personnel_info}/new`);
     }
 
     return (

@@ -167,7 +167,7 @@ const PrepareWorkout = () => {
                                             : null
                                     }
                                 >
-                                    <span>{e?.seriel || '1235'}</span>
+                                    <span>{e?.serial || '1235'}</span>
                                     <span>{e?.name}</span>
                                     <span>{e?.idNumber}</span>
                                     <span>{e?.situation}</span>

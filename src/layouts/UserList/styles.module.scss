@@ -28,16 +28,30 @@
     padding-top: 28px;
   }
 
-  input {
+  .inputGroup {
+    display: flex;
+    flex-direction: row;
+    height: 7%;
     width: 70%;
-    border: 2px solid #3D4EAE;
-    border-radius: 71px;
-    font-size: 20px;
-    padding-left: 18px;
-    padding-top: 5px;
-    padding-bottom: 5px;
+    align-items: center;
+    gap: 1em;
+
+
+    input {
+      border: 2px solid #3D4EAE;
+      border-radius: 71px;
+      font-size: 24px;
+      padding-left: 18px;
+      padding-top: 5px;
+      padding-bottom: 5px;
+      height: 100%;
+    }
+
+    .iconWrapper {
+      height: 80%;
+    }
   }
-  
+
   // 近期病例
   caption {
     color: black;
@@ -72,6 +86,15 @@
     justify-content: space-around;
     align-items: center;
     font-size: 1.3em;
+
+    .name {
+      width: 12%;
+    }
+
+    .situation {
+      width: 12%;
+      overflow: hidden;
+    }
   }
 
   .item_btn {
