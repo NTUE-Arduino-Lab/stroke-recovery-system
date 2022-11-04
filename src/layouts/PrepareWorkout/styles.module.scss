@@ -77,6 +77,17 @@
     padding: 1em 3em;
   }
 
+  .noData {
+    height: 16em;
+    overflow-y: scroll;
+    width: 65%;
+    border: 1px solid #3D4EAE;
+    padding: 1em 3em;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
   section {
     color: black;
     letter-spacing: 3px;
