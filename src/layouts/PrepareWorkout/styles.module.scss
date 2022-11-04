@@ -100,6 +100,15 @@
     align-items: center;
     font-size: 1.5em;
 
+    .name {
+      width: 12%;
+    }
+
+    .situation {
+      width: 12%;
+      overflow: hidden;
+    }
+
     &.active {
       color: #3D4EAE;
       border-bottom: 2px solid #3D4EAE;

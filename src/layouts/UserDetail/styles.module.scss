@@ -89,7 +89,11 @@
 
       &.active {
         color: #3D4EAE;
-        border-bottom: 1px solid #3D4EAE;
+        border-bottom: 2px solid #3D4EAE;
+      
+        span {
+          font-weight: 600;
+        }
       }
     }
 

@@ -131,7 +131,21 @@ const UserList = () => {
         navigate(ROUTE_PATH.admin_dashbaord);
     };
 
-    const goUserDetail = () => {
+    const goUserDetail = (id, name) => {
+        if (!id || !name) {
+            message.error('操作有誤！');
+            return;
+        }
+
+        dispatch({
+            type: SET_CUR_USER,
+            payload: id,
+        });
+        dispatch({
+            type: SET_CUR_USER_NAME,
+            payload: name,
+        });
+
         navigate(ROUTE_PATH.user_detail);
     };
 
@@ -209,7 +223,7 @@ const UserList = () => {
                             <span>復健5次</span>
                             <div
                                 className={styles.item_btn}
-                                onClick={goUserDetail}
+                                onClick={() => goUserDetail(e.id, e.name)}
                             >
                                 詳情
                             </div>

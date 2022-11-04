@@ -162,18 +162,27 @@ const PrepareWorkout = () => {
                                 <section
                                     key={i}
                                     className={
-                                        selectedUser === e
+                                        selectedUser === e.id
                                             ? styles.active
                                             : null
                                     }
                                 >
                                     <span>{e?.serial || '1235'}</span>
-                                    <span>{e?.name}</span>
+                                    <span className={styles.name}>
+                                        {e?.name?.length > 4
+                                            ? e?.name.substring(0, 3) + '...'
+                                            : e?.name}
+                                    </span>
                                     <span>{e?.idNumber}</span>
-                                    <span>{e?.situation}</span>
+                                    <span className={styles.situation}>
+                                        {e?.situation?.length > 5
+                                            ? e?.situation.substring(0, 5) +
+                                              '...'
+                                            : e?.situation}
+                                    </span>
                                     <div
                                         className={`${styles.action} ${
-                                            selectedUser === e
+                                            selectedUser === e.id
                                                 ? styles.active
                                                 : null
                                         }`}
