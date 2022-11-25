@@ -16,6 +16,7 @@ import {
     getDoc,
 } from 'firebase/firestore';
 import _ from '../../util/helper';
+import moment from 'moment';
 
 import { ROUTE_PATH } from '../../constants';
 import styles from './styles.module.scss';
@@ -35,17 +36,59 @@ const UserDetail = () => {
     const [selectedRecordId, setSelectedRecordId] = useState();
     const [selectedRecord, setSelectedRecord] = useState();
 
+    const [selectedRecordIdLevel1, setSelectedRecordIdLevel1] = useState([]);
+    const [selectedRecordIdLevel2, setSelectedRecordIdLevel2] = useState([]);
+    const [selectedRecordIdLevel3, setSelectedRecordIdLevel3] = useState([]);
+
     useEffect(() => {
         init();
     }, []);
+
+    useEffect(() => {
+        fetchLevelsData();
+    }, [selectedRecordId]);
 
     const init = async () => {
         const user = await fetchUser();
         const records = await fetchUserRecords();
 
+        // 設第一筆為選起來的
+        setSelectedRecordId(records[0].id);
+        setSelectedRecord(records[0]);
+
         setUser(user);
         setRecords(records);
         setIsDone(true);
+    };
+
+    const fetchLevelsData = async () => {
+        const level1Data = await fetchLevelData('level1');
+        const level2Data = await fetchLevelData('level2');
+        const level3Data = await fetchLevelData('level3');
+
+        setSelectedRecordIdLevel1(level1Data);
+        setSelectedRecordIdLevel2(level2Data);
+        setSelectedRecordIdLevel3(level3Data);
+    };
+
+    const fetchLevelData = async (level) => {
+        const q = query(collection(recordsRef, selectedRecordId, level));
+
+        const levelData = [];
+        const querySnapshot = await getDocs(q);
+        querySnapshot.forEach((doc) => {
+            levelData.push({
+                ...doc.data(),
+                id: doc.id,
+            });
+        });
+
+        levelData.sort((a, b) => a.timeStamp - b.timeStamp);
+        levelData.splice(0, 1); // 排除掉第一筆
+
+        console.log(levelData);
+
+        return levelData;
     };
 
     const fetchUser = async () => {
@@ -80,6 +123,9 @@ const UserDetail = () => {
     };
 
     const onSelectRecord = (id) => {
+        const theRecord = records.find((r) => r.id == id);
+
+        setSelectedRecord(theRecord);
         setSelectedRecordId(id);
 
         // TODO:
@@ -88,6 +134,47 @@ const UserDetail = () => {
 
     const goDashboard = () => {
         navigate(ROUTE_PATH.admin_dashbaord);
+    };
+
+    const levelScore = (level) => {
+        if (level === 'level1') {
+            return selectedRecordIdLevel1.filter((sr) => sr.correct == true)
+                .length;
+        }
+        if (level === 'level2') {
+            return selectedRecordIdLevel2.filter((sr) => sr.correct == true)
+                .length;
+        }
+        if (level === 'level3') {
+            return selectedRecordIdLevel3.length;
+        }
+    };
+
+    const levelError = (level) => {
+        if (level === 'level1') {
+            return selectedRecordIdLevel1.filter((sr) => sr.correct == false)
+                .length;
+        }
+        if (level === 'level2') {
+            return selectedRecordIdLevel2.filter((sr) => sr.correct == false)
+                .length;
+        }
+        if (level === 'level3') {
+            return 0;
+        }
+    };
+
+    const levelCorrectRate = (level) => {
+        let correctCount = levelScore(level);
+        let unCorrectCount = levelError(level);
+
+        let levelCorrectRate =
+            (correctCount / (correctCount + unCorrectCount)) * 100;
+        if (_.isNaN(levelCorrectRate)) {
+            return 0;
+        } else {
+            return levelCorrectRate;
+        }
     };
 
     return (
@@ -104,43 +191,50 @@ const UserDetail = () => {
                     返回
                 </div>
                 <div className={styles.listWrapper}>
-                    {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15].map(
-                        (e, i) => (
-                            <section
-                                key={i}
-                                className={
-                                    selectedRecordId === i
-                                        ? styles.active
-                                        : null
-                                }
-                                onClick={() => onSelectRecord(i)}
-                            >
-                                <span>2022/05/03</span>
-                                <span>平均分數 1{e}</span>
-                                <span>平均正確率60.5%</span>
-                            </section>
-                        ),
-                    )}
+                    {records?.map((e, i) => (
+                        <section
+                            key={e.id}
+                            className={
+                                selectedRecordId === e.id ? styles.active : null
+                            }
+                            onClick={() => onSelectRecord(e.id)}
+                        >
+                            <span>
+                                {moment(e?.createdTime?.toDate()).format(
+                                    'YYYY/MM/DD',
+                                )}
+                            </span>
+                            <span>平均分數 {e?.avgScore}</span>
+                            <span>平均正確率 {e?.avgCorrectRate}%</span>
+                        </section>
+                    ))}
                 </div>
             </div>
 
             <div className={styles.bottom}>
-                <h2>2022/05/03</h2>
+                <h2>
+                    {moment(selectedRecord?.createdTime?.toDate()).format(
+                        'YYYY/MM/DD',
+                    )}
+                </h2>
                 <article>
                     <h3>關卡一</h3>
                     <section>
                         <div>
-                            花費時間<span>10:59</span>
+                            花費時間<span>02:00</span>
                         </div>
                         <div>
-                            得分<span>10</span>
+                            得分<span>{levelScore('level1')}</span>
                         </div>
                         <div>左手手部</div>
                         <div>
-                            錯誤<span className={styles.error}>2</span>
+                            錯誤
+                            <span className={styles.error}>
+                                {levelError('level1')}
+                            </span>
                         </div>
                         <div>
-                            正確率<span>60%</span>
+                            正確率<span>{levelCorrectRate('level1')}%</span>
                         </div>
                     </section>
                 </article>
@@ -148,17 +242,20 @@ const UserDetail = () => {
                     <h3>關卡二</h3>
                     <section>
                         <div>
-                            花費時間<span>10:59</span>
+                            花費時間<span>02:00</span>
                         </div>
                         <div>
-                            得分<span>10</span>
+                            得分<span>{levelScore('level2')}</span>
                         </div>
                         <div>左手手部</div>
                         <div>
-                            錯誤<span className={styles.error}>1</span>
+                            錯誤
+                            <span className={styles.error}>
+                                {levelError('level2')}
+                            </span>
                         </div>
                         <div>
-                            正確率<span>60%</span>
+                            正確率<span>{levelCorrectRate('level2')}%</span>
                         </div>
                     </section>
                 </article>
@@ -166,17 +263,20 @@ const UserDetail = () => {
                     <h3>關卡三</h3>
                     <section>
                         <div>
-                            花費時間<span>10:59</span>
+                            花費時間<span>02:00</span>
                         </div>
                         <div>
-                            得分<span>10</span>
+                            得分<span>{levelScore('level3')}</span>
                         </div>
                         <div>左手手部</div>
                         <div>
-                            錯誤<span className={styles.error}>2</span>
+                            錯誤
+                            <span className={styles.error}>
+                                {levelError('level3')}
+                            </span>
                         </div>
                         <div>
-                            正確率<span>60%</span>
+                            正確率<span>{levelCorrectRate('level3')}%</span>
                         </div>
                     </section>
                 </article>

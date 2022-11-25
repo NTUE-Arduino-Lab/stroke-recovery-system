@@ -35,9 +35,8 @@ const { Countdown } = Statistic;
 
 // TODO: 新增每關卡初始數據
 const initialLevelData = {
-    isStart: false,
-    isEnd: false,
-    data: [],
+    ansColor: '#D9D9D9',
+    timeStamp: Date.now(),
 };
 
 let unsubscribe = null;
@@ -143,14 +142,23 @@ const WaitingRoom = () => {
     };
 
     const goGame1Direct = async () => {
+        await updateDoc(doc(recordsRef, state.currentRecord), {
+            readyPage: 'level1',
+        });
         navigate(ROUTE_PATH.game1_direct);
     };
 
     const goGame2Direct = async () => {
+        await updateDoc(doc(recordsRef, state.currentRecord), {
+            readyPage: 'level2',
+        });
         navigate(ROUTE_PATH.game2_direct);
     };
 
     const goGame3Direct = async () => {
+        await updateDoc(doc(recordsRef, state.currentRecord), {
+            readyPage: 'level3',
+        });
         navigate(ROUTE_PATH.game3_direct);
     };
 

@@ -32,6 +32,8 @@ import {
     Descriptions,
     Typography,
     Badge,
+    Radio,
+    Space,
 } from 'antd';
 import Icon from '@ant-design/icons';
 import {
@@ -61,64 +63,19 @@ import {
     validateInputPairId,
 } from '../../services/firebase';
 import wait from '../../util/wait';
+import { useStore } from '../../store';
 
 const { Countdown } = Statistic;
-const { Content } = Layout;
-const { Option } = Select;
-const { Text } = Typography;
-
-const initialPacket = {
-    rpm: 0,
-    time: 0,
-    heartRate: 0,
-};
 
 let unsubscribe = null;
 
 const Game3Moni = () => {
     const navigate = useNavigate();
-    const [form] = Form.useForm();
+    const { state } = useStore();
+    const [packets, setPackets] = useState([]);
 
-    const [users, setUsers] = useState();
-    const [difficulties, setDifficulties] = useState([]);
-    const [isDone, setIsDone] = useState(false);
-
-    // store [id]
-    const [selectedUser, setSelectedUser] = useState();
-    const [selectedDiff, setSelectedDiff] = useState();
-
-    // 提供查看[使用者], [關卡]所需資訊。store data object
-    const [selectedUserData, setSelectedUserData] = useState();
-    const [selectedDiffData, setSelectedDiffData] = useState();
-    const [userModalVis, setUserModalVis] = useState(false);
-    const [diffModalVis, setDiffModalVis] = useState(false);
-
-    //
-    // 顯示”當前關卡“各階段警示心率的值
-    const [warnHRValues, setWarnHRValues] = useState([]);
-    //
-    //
-
-    const [isPairing, setIsPairing] = useState(false);
-
-    const [targetgetRecordId, setTargetRecordId] = useState();
-
-    const [pairId, setPairId] = useState(); // 產生的不重複配對碼
-    const [isAppConnected, setIsAppConnected] = useState(false);
-    const [pairDeadline, setPairDeadline] = useState();
-
-    // for functionality testing
-    const [inputPairId, setInputPairId] = useState(''); // 輸入的配對碼
-
-    //
-    /// 針對中風復健新增的內容
-    ////
-    /////
-    const [open, setOpen] = useState(false);
-    //
-    ///
-    ////
-    /////
+    // for testing
+    const [inputPosition, setInputPosition] = useState();
 
     useEffect(() => {
         init();
@@ -129,79 +86,48 @@ const Game3Moni = () => {
     }, []);
 
     const init = async () => {
-        const users = await fetchUsers();
-        const difficulties = await fetchDiffs();
-
-        setUsers(users);
-        setDifficulties(difficulties);
-        setIsDone(true);
+        console.log(state.currentRecord);
+        await updateDoc(doc(recordsRef, state.currentRecord), {
+            onBackCurrentReadyPage: false,
+        });
+        listenPacketsChange();
     };
 
-    useEffect(() => {
-        if (_.isEmpty(targetgetRecordId)) {
-            return;
-        }
+    const listenPacketsChange = () => {
+        const packetsRef = collection(
+            recordsRef,
+            state.currentRecord,
+            'level3',
+        );
 
-        const targetRecordRef = doc(recordsRef, targetgetRecordId);
-        unsubscribe = onSnapshot(targetRecordRef, async (doc) => {
-            const currData = doc.data();
-            if (currData?.pairId == null) {
-                // App 端連線後，會將 pairId 設成 null
-                // 藉由監聽是否為 null，判斷是否連上
-                // 若連上更新 record 的 [isAppConnected] 為 true
-                if (currData?.isAppConnected == false) {
-                    await updateDoc(targetRecordRef, {
-                        isAppConnected: true,
-                    });
-
-                    setPairDeadline(null);
-                    setIsPairing(false);
-                    setIsAppConnected(true);
-                    message.success('配對成功，您可以前往監視畫面了！');
-                }
+        unsubscribe = onSnapshot(packetsRef, (querySnapshot) => {
+            if (querySnapshot.empty) {
+                alert('監測數據有誤，請重新配對，即將退回選擇畫面！');
+                navigate(ROUTE_PATH.prepare_workout, { replace: true });
+                return;
             }
-        });
-
-        // going to listen doc change!
-    }, [targetgetRecordId]);
-
-    const fetchUsers = async () => {
-        const q = query(usersRef, where('isDeleted', '!=', true));
-
-        const users = [];
-        const querySnapshot = await getDocs(q);
-        querySnapshot.forEach((doc) => {
-            users.push({
-                ...doc.data(),
-                id: doc.id,
+            const newPackets = [];
+            querySnapshot.forEach((doc) => {
+                newPackets.push({
+                    ...doc.data(),
+                    // timeLabel: formatWithMoment(doc.data().time),
+                });
             });
+
+            newPackets.sort((a, b) => a.timeStamp - b.timeStamp);
+            newPackets.splice(0, 1);
+
+            setPackets(newPackets);
         });
-
-        return users;
-    };
-
-    const fetchDiffs = async () => {
-        const q = query(difficultiesRef, where('isDeleted', '!=', true));
-
-        const difficulties = [];
-        const querySnapshot = await getDocs(q);
-        querySnapshot.forEach((doc) => {
-            difficulties.push({
-                ...doc.data(),
-                id: doc.id,
-            });
-        });
-
-        return difficulties;
     };
 
     const goDashboard = async () => {
-        if (targetgetRecordId) {
+        if (state.currentRecord) {
             Modal.confirm({
                 title: '即將離開！',
                 icon: <ExclamationCircleOutlined />,
                 content: '將刪除所選資訊',
-                onOk: () => deleteRecord('leave'),
+                // onOk: () => deleteRecord('leave'),
             });
         } else {
             navigate(ROUTE_PATH.admin_dashbaord);
@@ -209,204 +135,77 @@ const Game3Moni = () => {
     };
 
     const goGameDirect = async () => {
+        await updateDoc(doc(recordsRef, state.currentRecord), {
+            onBackCurrentReadyPage: true, // 退回當前 Direct 畫面
+        });
         navigate(ROUTE_PATH.game3_direct);
     };
 
     const goGameResult = async () => {
+        await updateDoc(doc(recordsRef, state.currentRecord), {
+            currentLevelStart: false,
+        });
         navigate(ROUTE_PATH.game3_result);
     };
 
-    const goMonitoring = () => {
-        navigate(`${ROUTE_PATH.monitoring_workout}/${targetgetRecordId}`, {
-            replace: true,
-        });
+    const onFinish = () => {
+        console.log('finished');
+        goGameResult();
     };
 
-    const confirmUserAndDiff = async () => {
-        // const valid = await form.validateFields();
-
-        // console.log(valid);
-
-        if (selectedUser == null || selectedDiff == null) {
-            Modal.error({
-                title: '有內容沒有完成...',
-                content: '請填寫好騎乘者資訊以及關卡資訊',
-            });
-            return;
-        }
-
-        Modal.confirm({
-            title: '即將產生配對碼！',
-            icon: <ExclamationCircleOutlined />,
-            content: '資料一旦輸入將無法進行修改，請確認無誤！',
-            onOk: () => createRecord(),
+    const shapeColor = (position) => {
+        let test = false;
+        packets.forEach((p) => {
+            if (p.position == position) {
+                test = true;
+            }
         });
+
+        if (test == true) {
+            return '#000000';
+        } else {
+            return '#D9D9D9';
+        }
     };
 
-    const createRecord = async () => {
-        if (selectedUser == null || selectedDiff == null) {
-            return;
-        }
-
-        const theDiff = difficulties.find((d) => d.id === selectedDiff);
-
-        const targetHeartRate = theDiff.targetHeartRate; // careful the type
-        const upperLimitHeartRate = theDiff.upperLimitHeartRate; // careful the type
-        // constant
-        const user = selectedUser;
-        const difficulty = selectedDiff;
-        const pairId = await generateValidPairId();
-        const isAppConnected = false;
-        const createdTime = Timestamp.now();
-        const beginWorkoutTime = null;
-        const finishedWorkoutTime = null;
-
-        const targetRecordRef = await addDoc(recordsRef, {
-            targetHeartRate,
-            upperLimitHeartRate,
-            pairId,
-            isAppConnected,
-            user,
-            createdTime,
-            beginWorkoutTime,
-            finishedWorkoutTime,
-            difficulty,
-        });
-        console.log('Document written with ID: ', targetRecordRef.id);
-
-        // initialize sub collection - packets
-        await addDoc(
-            collection(recordsRef, targetRecordRef.id, 'packets'),
-            initialPacket,
+    // for prototype testing
+    const addTestPacket = async () => {
+        const packetsRef = collection(
+            recordsRef,
+            state.currentRecord,
+            'level3',
         );
 
-        setTargetRecordId(targetRecordRef.id);
-        setPairId(pairId);
+        const times = packets.length; // 預設會有一筆所以直接取長度即可
+        const position = parseInt(inputPosition);
+        const timeStamp = Date.now();
 
-        // start a count-down
-        const deadline = Date.now() + 1000 * 60 * VALID_MIN;
-        setPairDeadline(deadline);
+        // simulate incoming rpm & heart rate
+        const nextPacket = {
+            times,
+            position,
+            timeStamp,
+        };
 
-        message.info({ content: '配對碼已生成！請在時間內進行配對！' }, 5);
-
-        // targetHeartRate
-        // upperLimitHeartRate
-        // pairId
-        // isAppConnected
-        // user
-        // beginWorkoutTime
-        // finishedWorkoutTime
-        // createdTime
-        // difficulty
+        await addDoc(packetsRef, nextPacket);
     };
 
-    const deleteRecord = async (leave = false) => {
-        const targetRecordRef = doc(recordsRef, targetgetRecordId);
-        await deleteDoc(targetRecordRef);
-        if (leave) navigate(ROUTE_PATH.admin_dashbaord);
-    };
-
-    // for functionality testing
-    const pairWithApp = async () => {
-        setIsPairing(true);
-
-        const theRecordId = await validateInputPairId(inputPairId);
-
-        if (!theRecordId) {
-            alert('配對碼有誤或非本次記錄的配對碼');
-            setIsPairing(false);
-            setIsAppConnected(false);
-            return;
-        }
-
-        // update the isAppConnected Field!
-        const targetRecordRef = doc(recordsRef, theRecordId);
-        await wait(1500);
-        await updateDoc(targetRecordRef, {
-            pairId: null,
-        });
-    };
-
-    const onDeadlineExpired = async () => {
-        message.warn('連結過期，請重新選擇！', 3);
-
-        await wait(1000);
-        await deleteRecord();
-        setTargetRecordId(null);
-        setPairId(null);
-        setSelectedUser();
-        setSelectedDiff();
-        setPairDeadline(null);
-        setInputPairId(null);
-        form.resetFields();
-    };
-
-    const onUserChange = (value) => setSelectedUser(value);
-    const onDiffChange = (value) => setSelectedDiff(value);
-
-    const openUserModal = () => {
-        const selectedUserData = users.find((u) => u.id === selectedUser);
-
-        setUserModalVis(true);
-        setSelectedUserData(selectedUserData);
-    };
-    const openDiffModal = () => {
-        const selectedDiffData = difficulties.find(
-            (d) => d.id === selectedDiff,
-        );
-        const warnHRValues = getExactThresholdValue(
-            selectedDiffData.upperLimitHeartRate,
-        );
-
-        setDiffModalVis(true);
-        setSelectedDiffData(selectedDiffData);
-        setWarnHRValues(warnHRValues);
-    };
-    const closeUserModal = () => {
-        setUserModalVis(false);
-        setSelectedUserData();
-    };
-    const closeDiffModal = () => {
-        setDiffModalVis(false);
-        setSelectedDiffData();
-    };
-
-    const getExactThresholdValue = (upperLimitHeartRate) => {
-        if (!_.isNumber(upperLimitHeartRate)) {
-            return;
-        }
-
-        const calBase = upperLimitHeartRate / 100;
-
-        const overHigh = Math.ceil(calBase * WARN_THRESHOLD.High);
-        const overMedium = Math.ceil(calBase * WARN_THRESHOLD.Medium);
-        const overSlight = Math.ceil(calBase * WARN_THRESHOLD.Slight);
-
-        return [overSlight, overMedium, overHigh];
-    };
-
-    const simulateAppCotent = (
-        <div className={styles.pairing}>
+    const popoverContent = (
+        <>
             <Input.Search
-                placeholder="手動輸入配對碼"
+                placeholder="下個點亮的位置是？"
                 allowClear
-                value={inputPairId}
-                onChange={(e) => setInputPairId(e.target.value)}
-                onSearch={pairWithApp}
-                disabled={isAppConnected}
-                loading={isPairing}
+                enterButton="新增"
+                size="Large"
+                onChange={(e) => setInputPosition(e.target.value)}
+                onSearch={addTestPacket}
             />
-            {/* <Button onClick={pairWithApp} disabled={isAppConnected}>
-                我要配對
-            </Button> */}
-        </div>
+            {/* <Button onClick={confirmFinish}>結束騎乘</Button> */}
+        </>
     );
 
-    ///
-    const onSubmit = (e) => {
-        e.preventDefault();
-
-        console.log(e);
+    const scoreValue = () => {
+        return packets.filter((p) => p.correct == true).length;
     };
 
     return (
@@ -416,50 +215,50 @@ const Game3Moni = () => {
                 <div className={`${styles.hori} ${styles.separate_top}`} />
                 <div className={styles.hori} />
                 <div className={styles.dotsWrapper}>
-                    <ShapeDot fill="#000000" />
-                    <ShapeDot fill="#000000" />
-                    <ShapeDot fill="#000000" />
-                    <ShapeDot fill="#000000" />
-                    <ShapeDot fill="#000000" />
-                    <ShapeDot fill="#000000" />
-                    <ShapeDot fill="#000000" />
-                    <ShapeDot fill="#000000" />
-                    <ShapeDot fill="#000000" />
-                    <ShapeDot fill="#000000" />
-                    <ShapeDot fill="#000000" />
-                    <ShapeDot fill="#000000" />
-                    <ShapeDot fill="#000000" />
-                    <ShapeDot fill="#000000" />
-                    <ShapeDot fill="#000000" />
-                    <ShapeDot fill="#000000" />
-                    <ShapeDot fill="#000000" />
-                    <ShapeDot fill="#000000" />
-                    <ShapeDot fill="#000000" />
-                    <ShapeDot fill="#000000" />
-                    <ShapeDot fill="#000000" />
+                    <ShapeDot fill={shapeColor(0)} />
+                    <ShapeDot fill={shapeColor(1)} />
+                    <ShapeDot fill={shapeColor(2)} />
+                    <ShapeDot fill={shapeColor(3)} />
+                    <ShapeDot fill={shapeColor(4)} />
+                    <ShapeDot fill={shapeColor(5)} />
+                    <ShapeDot fill={shapeColor(6)} />
+                    <ShapeDot fill={shapeColor(7)} />
+                    <ShapeDot fill={shapeColor(8)} />
+                    <ShapeDot fill={shapeColor(9)} />
+                    <ShapeDot fill={shapeColor(10)} />
+                    <ShapeDot fill={shapeColor(11)} />
+                    <ShapeDot fill={shapeColor(12)} />
+                    <ShapeDot fill={shapeColor(13)} />
+                    <ShapeDot fill={shapeColor(14)} />
+                    <ShapeDot fill={shapeColor(15)} />
+                    <ShapeDot fill={shapeColor(16)} />
+                    <ShapeDot fill={shapeColor(17)} />
+                    <ShapeDot fill={shapeColor(18)} />
+                    <ShapeDot fill={shapeColor(19)} />
+                    <ShapeDot fill={shapeColor(20)} />
                 </div>
                 <div className={styles.dotsWrapper}>
-                    <ShapeDot fill="#000000" />
-                    <ShapeDot fill="#000000" />
-                    <ShapeDot fill="#000000" />
-                    <ShapeDot fill="#000000" />
-                    <ShapeDot fill="#000000" />
-                    <ShapeDot fill="#000000" />
-                    <ShapeDot fill="#000000" />
-                    <ShapeDot fill="#000000" />
-                    <ShapeDot fill="#000000" />
-                    <ShapeDot fill="#000000" />
-                    <ShapeDot fill="#000000" />
-                    <ShapeDot fill="#000000" />
-                    <ShapeDot fill="#000000" />
-                    <ShapeDot fill="#000000" />
-                    <ShapeDot fill="#000000" />
-                    <ShapeDot fill="#000000" />
-                    <ShapeDot fill="#000000" />
-                    <ShapeDot fill="#000000" />
-                    <ShapeDot fill="#000000" />
-                    <ShapeDot fill="#000000" />
-                    <ShapeDot fill="#000000" />
+                    <ShapeDot fill={shapeColor(21)} />
+                    <ShapeDot fill={shapeColor(22)} />
+                    <ShapeDot fill={shapeColor(23)} />
+                    <ShapeDot fill={shapeColor(24)} />
+                    <ShapeDot fill={shapeColor(25)} />
+                    <ShapeDot fill={shapeColor(26)} />
+                    <ShapeDot fill={shapeColor(27)} />
+                    <ShapeDot fill={shapeColor(28)} />
+                    <ShapeDot fill={shapeColor(29)} />
+                    <ShapeDot fill={shapeColor(30)} />
+                    <ShapeDot fill={shapeColor(31)} />
+                    <ShapeDot fill={shapeColor(32)} />
+                    <ShapeDot fill={shapeColor(33)} />
+                    <ShapeDot fill={shapeColor(34)} />
+                    <ShapeDot fill={shapeColor(35)} />
+                    <ShapeDot fill={shapeColor(36)} />
+                    <ShapeDot fill={shapeColor(37)} />
+                    <ShapeDot fill={shapeColor(38)} />
+                    <ShapeDot fill={shapeColor(39)} />
+                    <ShapeDot fill={shapeColor(40)} />
+                    <ShapeDot fill={shapeColor(41)} />
                 </div>
                 <div className={styles.hori} />
                 <div className={`${styles.hori} ${styles.separate_bottom}`} />
@@ -469,17 +268,36 @@ const Game3Moni = () => {
                 <div className={styles.infoWrapper}>
                     <div className={styles.section}>
                         <caption>計時</caption>
-                        <div className={styles.contentTime}>1:59</div>
+                        <div className={styles.contentTime}>
+                            <Countdown
+                                value={Date.now() + 10 * 1000}
+                                onFinish={onFinish}
+                                format="m:ss"
+                                valueStyle={{
+                                    color: '#3D4EAE',
+                                    fontSize: '32px',
+                                    textAlign: 'center',
+                                    marginTop: '5px',
+                                }}
+                            />
+                        </div>
                     </div>
                     <div className={styles.section}>
                         <caption>分數</caption>
-                        <div className={styles.contentScore}>5</div>
+                        <div className={styles.contentScore}>
+                            {scoreValue()}
+                        </div>
                     </div>
                 </div>
                 <div className={styles.actionWrapper}>
-                    <div>
-                        <Logo_Icon onClick={goGameResult} />
-                    </div>
+                    <Popover
+                        content={popoverContent}
+                        placement="bottomRight"
+                        title="更多操作"
+                        trigger="click"
+                    >
+                        <Logo_Icon />
+                    </Popover>
                     <div>
                         <Leave_Icon onClick={goGameDirect} />
                     </div>
@@ -490,61 +308,6 @@ const Game3Moni = () => {
             </div>
         </div>
     );
-
-    if (!isDone) {
-        return (
-            <Layout style={{ padding: '24px' }}>
-                <div className={styles.container}>
-                    <PageHeader
-                        className={styles.PageHeader}
-                        title="資料讀取中..."
-                    />
-                </div>
-            </Layout>
-        );
-    }
-};
-
-const WarnHRValueDisplay = (value, warn) => {
-    let phase;
-    let overVal;
-    if (warn === WARN.Slight) {
-        phase = '一';
-        overVal = WARN_THRESHOLD.Slight - 100;
-    }
-    if (warn === WARN.Medium) {
-        phase = '二';
-        overVal = WARN_THRESHOLD.Medium - 100;
-    }
-    if (warn === WARN.High) {
-        phase = '三';
-        overVal = WARN_THRESHOLD.High - 100;
-    }
-
-    return (
-        <div style={{ display: 'flex' }}>
-            第{phase}階段：{value}
-            <Text type="secondary" style={{ fontSize: '0.85em' }}>
-                （超出 {overVal}％）
-            </Text>
-        </div>
-    );
-};
-
-const formLayout = {
-    labelCol: {
-        span: 8,
-    },
-    wrapperCol: {
-        span: 10,
-    },
-};
-
-const tailLayout = {
-    wrapperCol: {
-        offset: 8,
-        span: 16,
-    },
 };
 
 export default Game3Moni;
