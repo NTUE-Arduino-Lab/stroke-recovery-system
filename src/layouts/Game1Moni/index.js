@@ -19,7 +19,12 @@ import { Statistic, Modal, Input, Button, Popover, Radio, Space } from 'antd';
 import { ExclamationCircleOutlined } from '@ant-design/icons';
 import _ from '../../util/helper';
 
-import { ROUTE_PATH, VALID_MIN, WARN_THRESHOLD, WARN } from '../../constants';
+import {
+    ROUTE_PATH,
+    COLOUR,
+    COUNTDOWM_VALUE,
+    GAME_LEVEL,
+} from '../../constants';
 import styles from './styles.module.scss';
 
 import CustomModal from '../../components/CustomModal';
@@ -42,6 +47,9 @@ const Game1Moni = () => {
     const { state } = useStore();
     const [packets, setPackets] = useState([]);
     const [latestPacket, setLatestPakcet] = useState();
+    const [countDown, setCountDown] = useState(
+        Date.now() + 1000 * COUNTDOWM_VALUE,
+    );
 
     // for testing
     const [inputPosition, setInputPosition] = useState();
@@ -67,7 +75,7 @@ const Game1Moni = () => {
         const packetsRef = collection(
             recordsRef,
             state.currentRecord,
-            'level1',
+            GAME_LEVEL.One,
         );
 
         unsubscribe = onSnapshot(packetsRef, (querySnapshot) => {
@@ -129,7 +137,7 @@ const Game1Moni = () => {
         if (latestPacket?.position == position) {
             return latestPacket.ansColor;
         }
-        return '#D9D9D9';
+        return COLOUR.Default;
     };
 
     // for prototype testing
@@ -137,7 +145,7 @@ const Game1Moni = () => {
         const packetsRef = collection(
             recordsRef,
             state.currentRecord,
-            'level1',
+            GAME_LEVEL.One,
         );
 
         const times = packets.length; // 預設會有一筆所以直接取長度即可
@@ -173,8 +181,8 @@ const Game1Moni = () => {
                 value={inputColor}
             >
                 <Space direction="vertical">
-                    <Radio value={'#ff70a7'}>#ff70a7(紅)</Radio>
-                    <Radio value={'#70d6ff'}>#70d6ff(藍)</Radio>
+                    <Radio value={COLOUR.Red}>#ff70a7(紅)</Radio>
+                    <Radio value={COLOUR.Blue}>#70d6ff(藍)</Radio>
                 </Space>
             </Radio.Group>
             {/* <Button onClick={confirmFinish}>結束騎乘</Button> */}
@@ -210,7 +218,7 @@ const Game1Moni = () => {
                         <caption>計時</caption>
                         <div className={styles.contentTime}>
                             <Countdown
-                                value={Date.now() + 10 * 1000}
+                                value={countDown}
                                 onFinish={onFinish}
                                 format="m:ss"
                                 valueStyle={{

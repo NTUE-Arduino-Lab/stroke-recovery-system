@@ -18,7 +18,7 @@ const initialState = {
         roles: [ROLES.Admin], // 1984: Editor ; 5150: Admin
     },
     currentUser: 'lhDOmjMXa3v59z89okhy', // lhDOmjMXa3v59z89okhy
-    currentRecord: '5NuwlfTTPa2xIgOKkjIN',
+    currentRecord: 'CBp8rtyooklek7YHTOYE',
 
     // 儲存經常顯示之用戶資訊，避免重複撈取資料
     currentUserName: '王曉東',

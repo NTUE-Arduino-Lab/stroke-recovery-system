@@ -41,7 +41,12 @@ import {
 } from '@ant-design/icons';
 import _ from '../../util/helper';
 
-import { ROUTE_PATH, VALID_MIN, WARN_THRESHOLD, WARN } from '../../constants';
+import {
+    ROUTE_PATH,
+    GAME_LEVEL,
+    COLOUR,
+    COUNTDOWM_VALUE,
+} from '../../constants';
 import styles from './styles.module.scss';
 
 import ShapeDot from '../../components/ShapeDot';
@@ -73,9 +78,9 @@ const Game3Result = () => {
     }, []);
 
     const init = async () => {
-        const level1Data = await fetchLevelData('level1');
-        const level2Data = await fetchLevelData('level2');
-        const level3Data = await fetchLevelData('level3');
+        const level1Data = await fetchLevelData(GAME_LEVEL.One);
+        const level2Data = await fetchLevelData(GAME_LEVEL.Two);
+        const level3Data = await fetchLevelData(GAME_LEVEL.Three);
         setLevel1Data(level1Data);
         setLevel2Data(level2Data);
         setLevel3Data(level3Data);
@@ -131,21 +136,21 @@ const Game3Result = () => {
 
     const goGame1Direct = async () => {
         await updateDoc(doc(recordsRef, state.currentRecord), {
-            readyPage: 'level1',
+            readyPage: GAME_LEVEL.One,
         });
         navigate(ROUTE_PATH.game1_direct);
     };
 
     const goGame2Direct = async () => {
         await updateDoc(doc(recordsRef, state.currentRecord), {
-            readyPage: 'level2',
+            readyPage: GAME_LEVEL.Two,
         });
         navigate(ROUTE_PATH.game2_direct);
     };
 
     const goGame3Direct = async () => {
         await updateDoc(doc(recordsRef, state.currentRecord), {
-            readyPage: 'level3',
+            readyPage: GAME_LEVEL.Three,
         });
         navigate(ROUTE_PATH.game3_direct);
     };
@@ -154,12 +159,22 @@ const Game3Result = () => {
         return level3Data?.length;
     };
 
+    const countDownDisplay = () => {
+        let min = Math.floor(COUNTDOWM_VALUE / 60);
+        let sec = COUNTDOWM_VALUE - min * 60;
+
+        let minDisplay = min < 10 ? '0' + min : min;
+        let secDisplay = sec < 10 ? '0' + sec : sec;
+
+        return `${minDisplay}:${secDisplay}`;
+    };
+
     return (
         <div className={styles.container}>
             <legend>醫生端</legend>
             <div className={styles.leftContainer}>
                 <div className={`${styles.infoBlock} ${styles.time}`}>
-                    <h2>02:00</h2>
+                    <h2>{countDownDisplay()}</h2>
                     <h3>花費時間</h3>
                 </div>
                 <div className={`${styles.infoBlock} ${styles.score}`}>

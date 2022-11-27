@@ -41,7 +41,12 @@ import {
 } from '@ant-design/icons';
 import _ from '../../util/helper';
 
-import { ROUTE_PATH, VALID_MIN, WARN_THRESHOLD, WARN } from '../../constants';
+import {
+    ROUTE_PATH,
+    COLOUR,
+    GAME_LEVEL,
+    COUNTDOWM_VALUE,
+} from '../../constants';
 import styles from './styles.module.scss';
 
 import Logo_Icon from '../../components/IconLogo';
@@ -79,7 +84,9 @@ const Game2Result = () => {
     };
 
     const fetchLevelData = async () => {
-        const q = query(collection(recordsRef, state.currentRecord, 'level2'));
+        const q = query(
+            collection(recordsRef, state.currentRecord, GAME_LEVEL.Two),
+        );
 
         const levelData = [];
         const querySnapshot = await getDocs(q);
@@ -111,21 +118,21 @@ const Game2Result = () => {
 
     const goGame1Direct = async () => {
         await updateDoc(doc(recordsRef, state.currentRecord), {
-            readyPage: 'level1',
+            readyPage: GAME_LEVEL.One,
         });
         navigate(ROUTE_PATH.game1_direct);
     };
 
     const goGame2Direct = async () => {
         await updateDoc(doc(recordsRef, state.currentRecord), {
-            readyPage: 'level2',
+            readyPage: GAME_LEVEL.Two,
         });
         navigate(ROUTE_PATH.game2_direct);
     };
 
     const goGame3Direct = async () => {
         await updateDoc(doc(recordsRef, state.currentRecord), {
-            readyPage: 'level3',
+            readyPage: GAME_LEVEL.Three,
         });
         navigate(ROUTE_PATH.game3_direct);
     };
@@ -136,19 +143,19 @@ const Game2Result = () => {
 
     const redCount = () => {
         return levelData.filter(
-            (l) => l?.correct == true && l?.ansColor == '#ff70a7',
+            (l) => l?.correct == true && l?.ansColor == COLOUR.Red,
         ).length;
     };
 
     const blueCount = () => {
         return levelData.filter(
-            (l) => l?.correct == true && l?.ansColor == '#70d6ff',
+            (l) => l?.correct == true && l?.ansColor == COLOUR.Blue,
         ).length;
     };
 
     const yellowCount = () => {
         return levelData.filter(
-            (l) => l?.correct == true && l?.ansColor == '#F6D735',
+            (l) => l?.correct == true && l?.ansColor == COLOUR.Yellow,
         ).length;
     };
 
@@ -156,12 +163,22 @@ const Game2Result = () => {
         return levelData.filter((l) => l?.correct == false).length;
     };
 
+    const countDownDisplay = () => {
+        let min = Math.floor(COUNTDOWM_VALUE / 60);
+        let sec = COUNTDOWM_VALUE - min * 60;
+
+        let minDisplay = min < 10 ? '0' + min : min;
+        let secDisplay = sec < 10 ? '0' + sec : sec;
+
+        return `${minDisplay}:${secDisplay}`;
+    };
+
     return (
         <div className={styles.container}>
             <legend>醫生端</legend>
             <div className={styles.leftContainer}>
                 <div className={`${styles.infoBlock} ${styles.time}`}>
-                    <h2>02:00</h2>
+                    <h2>{countDownDisplay()}</h2>
                     <h3>花費時間</h3>
                 </div>
                 <div className={`${styles.infoBlock} ${styles.score}`}>

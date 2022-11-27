@@ -44,7 +44,12 @@ import {
 } from '@ant-design/icons';
 import _ from '../../util/helper';
 
-import { ROUTE_PATH, VALID_MIN, WARN_THRESHOLD, WARN } from '../../constants';
+import {
+    ROUTE_PATH,
+    GAME_LEVEL,
+    COUNTDOWM_VALUE,
+    COLOUR,
+} from '../../constants';
 import styles from './styles.module.scss';
 
 import Logo from '../../assets/images/dashboard_icon.png';
@@ -73,6 +78,9 @@ const Game3Moni = () => {
     const navigate = useNavigate();
     const { state } = useStore();
     const [packets, setPackets] = useState([]);
+    const [countDown, setCountDown] = useState(
+        Date.now() + 1000 * COUNTDOWM_VALUE,
+    );
 
     // for testing
     const [inputPosition, setInputPosition] = useState();
@@ -97,7 +105,7 @@ const Game3Moni = () => {
         const packetsRef = collection(
             recordsRef,
             state.currentRecord,
-            'level3',
+            GAME_LEVEL.Three,
         );
 
         unsubscribe = onSnapshot(packetsRef, (querySnapshot) => {
@@ -162,9 +170,9 @@ const Game3Moni = () => {
         });
 
         if (test == true) {
-            return '#000000';
+            return COLOUR.Black;
         } else {
-            return '#D9D9D9';
+            return COLOUR.Default;
         }
     };
 
@@ -173,7 +181,7 @@ const Game3Moni = () => {
         const packetsRef = collection(
             recordsRef,
             state.currentRecord,
-            'level3',
+            GAME_LEVEL.Three,
         );
 
         const times = packets.length; // 預設會有一筆所以直接取長度即可
@@ -270,7 +278,7 @@ const Game3Moni = () => {
                         <caption>計時</caption>
                         <div className={styles.contentTime}>
                             <Countdown
-                                value={Date.now() + 10 * 1000}
+                                value={countDown}
                                 onFinish={onFinish}
                                 format="m:ss"
                                 valueStyle={{

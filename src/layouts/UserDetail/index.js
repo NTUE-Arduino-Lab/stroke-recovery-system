@@ -18,7 +18,7 @@ import {
 import _ from '../../util/helper';
 import moment from 'moment';
 
-import { ROUTE_PATH } from '../../constants';
+import { ROUTE_PATH, GAME_LEVEL, COUNTDOWM_VALUE } from '../../constants';
 import styles from './styles.module.scss';
 
 import { usersRef, recordsRef } from '../../services/firebase';
@@ -62,9 +62,9 @@ const UserDetail = () => {
     };
 
     const fetchLevelsData = async () => {
-        const level1Data = await fetchLevelData('level1');
-        const level2Data = await fetchLevelData('level2');
-        const level3Data = await fetchLevelData('level3');
+        const level1Data = await fetchLevelData(GAME_LEVEL.One);
+        const level2Data = await fetchLevelData(GAME_LEVEL.Two);
+        const level3Data = await fetchLevelData(GAME_LEVEL.Three);
 
         setSelectedRecordIdLevel1(level1Data);
         setSelectedRecordIdLevel2(level2Data);
@@ -119,6 +119,8 @@ const UserDetail = () => {
             });
         });
 
+        records.sort((a, b) => b.createdTime - a.createdTime);
+
         return records;
     };
 
@@ -137,29 +139,29 @@ const UserDetail = () => {
     };
 
     const levelScore = (level) => {
-        if (level === 'level1') {
+        if (level === GAME_LEVEL.One) {
             return selectedRecordIdLevel1.filter((sr) => sr.correct == true)
                 .length;
         }
-        if (level === 'level2') {
+        if (level === GAME_LEVEL.Two) {
             return selectedRecordIdLevel2.filter((sr) => sr.correct == true)
                 .length;
         }
-        if (level === 'level3') {
+        if (level === GAME_LEVEL.Three) {
             return selectedRecordIdLevel3.length;
         }
     };
 
     const levelError = (level) => {
-        if (level === 'level1') {
+        if (level === GAME_LEVEL.One) {
             return selectedRecordIdLevel1.filter((sr) => sr.correct == false)
                 .length;
         }
-        if (level === 'level2') {
+        if (level === GAME_LEVEL.Two) {
             return selectedRecordIdLevel2.filter((sr) => sr.correct == false)
                 .length;
         }
-        if (level === 'level3') {
+        if (level === GAME_LEVEL.Three) {
             return 0;
         }
     };
@@ -175,6 +177,16 @@ const UserDetail = () => {
         } else {
             return levelCorrectRate;
         }
+    };
+
+    const countDownDisplay = () => {
+        let min = Math.floor(COUNTDOWM_VALUE / 60);
+        let sec = COUNTDOWM_VALUE - min * 60;
+
+        let minDisplay = min < 10 ? '0' + min : min;
+        let secDisplay = sec < 10 ? '0' + sec : sec;
+
+        return `${minDisplay}:${secDisplay}`;
     };
 
     return (
@@ -221,20 +233,21 @@ const UserDetail = () => {
                     <h3>關卡一</h3>
                     <section>
                         <div>
-                            花費時間<span>02:00</span>
+                            花費時間<span>{countDownDisplay()}</span>
                         </div>
                         <div>
-                            得分<span>{levelScore('level1')}</span>
+                            得分<span>{levelScore(GAME_LEVEL.One)}</span>
                         </div>
                         <div>左手手部</div>
                         <div>
                             錯誤
                             <span className={styles.error}>
-                                {levelError('level1')}
+                                {levelError(GAME_LEVEL.One)}
                             </span>
                         </div>
                         <div>
-                            正確率<span>{levelCorrectRate('level1')}%</span>
+                            正確率
+                            <span>{levelCorrectRate(GAME_LEVEL.One)}%</span>
                         </div>
                     </section>
                 </article>
@@ -242,20 +255,21 @@ const UserDetail = () => {
                     <h3>關卡二</h3>
                     <section>
                         <div>
-                            花費時間<span>02:00</span>
+                            花費時間<span>{countDownDisplay()}</span>
                         </div>
                         <div>
-                            得分<span>{levelScore('level2')}</span>
+                            得分<span>{levelScore(GAME_LEVEL.Two)}</span>
                         </div>
                         <div>左手手部</div>
                         <div>
                             錯誤
                             <span className={styles.error}>
-                                {levelError('level2')}
+                                {levelError(GAME_LEVEL.Two)}
                             </span>
                         </div>
                         <div>
-                            正確率<span>{levelCorrectRate('level2')}%</span>
+                            正確率
+                            <span>{levelCorrectRate(GAME_LEVEL.Two)}%</span>
                         </div>
                     </section>
                 </article>
@@ -263,20 +277,21 @@ const UserDetail = () => {
                     <h3>關卡三</h3>
                     <section>
                         <div>
-                            花費時間<span>02:00</span>
+                            花費時間<span>{countDownDisplay()}</span>
                         </div>
                         <div>
-                            得分<span>{levelScore('level3')}</span>
+                            得分<span>{levelScore(GAME_LEVEL.Three)}</span>
                         </div>
                         <div>左手手部</div>
                         <div>
                             錯誤
                             <span className={styles.error}>
-                                {levelError('level3')}
+                                {levelError(GAME_LEVEL.Three)}
                             </span>
                         </div>
                         <div>
-                            正確率<span>{levelCorrectRate('level3')}%</span>
+                            正確率
+                            <span>{levelCorrectRate(GAME_LEVEL.Three)}%</span>
                         </div>
                     </section>
                 </article>

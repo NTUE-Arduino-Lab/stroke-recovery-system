@@ -41,7 +41,7 @@ import {
 } from '@ant-design/icons';
 import _ from '../../util/helper';
 
-import { ROUTE_PATH, VALID_MIN, WARN_THRESHOLD, WARN } from '../../constants';
+import { ROUTE_PATH, GAME_LEVEL } from '../../constants';
 import styles from './styles.module.scss';
 
 import Leave_Icon from '../../components/IconLeave';
@@ -75,7 +75,9 @@ const Game1Direct = () => {
     };
 
     const fetchLevelData = async () => {
-        const q = query(collection(recordsRef, state.currentRecord, 'level1'));
+        const q = query(
+            collection(recordsRef, state.currentRecord, GAME_LEVEL.One),
+        );
 
         const levelData = [];
         const querySnapshot = await getDocs(q);
@@ -98,7 +100,7 @@ const Game1Direct = () => {
             const datumRef = doc(
                 recordsRef,
                 state.currentRecord,
-                'level1',
+                GAME_LEVEL.One,
                 datum.id,
             );
             await deleteDoc(datumRef);
