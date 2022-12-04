@@ -4,7 +4,7 @@ import { WARN, WARN_THRESHOLD } from './warn';
 
 const VALID_MIN = 3; // pair id valid minutes
 
-const COUNTDOWM_VALUE = 20; // 單位：秒
+const COUNTDOWM_VALUE = 20; // 單位：秒，未使用
 
 const GAME_LEVEL = {
     One: 'level1',

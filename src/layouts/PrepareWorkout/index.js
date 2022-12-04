@@ -16,7 +16,11 @@ import CustomModal from '../../components/CustomModal';
 
 import { usersRef } from '../../services/firebase';
 import { useStore } from '../../store';
-import { SET_CUR_USER } from '../../store/actions';
+import {
+    SET_CUR_USER,
+    SET_CUR_USER_NAME,
+    SET_CUR_USER_SERIAL,
+} from '../../store/actions';
 import wait from '../../util/wait';
 import IconSearch from '../../components/IconSearch';
 
@@ -85,6 +89,15 @@ const PrepareWorkout = () => {
             return;
         }
 
+        const theUser = users.find((u) => u.id == selectedUser);
+        dispatch({
+            type: SET_CUR_USER_NAME,
+            payload: theUser?.name,
+        });
+        dispatch({
+            type: SET_CUR_USER_SERIAL,
+            payload: theUser?.idNumber.slice(0, 4),
+        });
         dispatch({
             type: SET_CUR_USER,
             payload: selectedUser,
@@ -167,7 +180,7 @@ const PrepareWorkout = () => {
                                             : null
                                     }
                                 >
-                                    <span>{e?.serial || '1235'}</span>
+                                    {/* <span>{e?.serial || '1235'}</span> */}
                                     <span className={styles.name}>
                                         {e?.name?.length > 4
                                             ? e?.name.substring(0, 3) + '...'

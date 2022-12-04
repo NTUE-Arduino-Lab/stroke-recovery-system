@@ -79,7 +79,7 @@ const Game3Moni = () => {
     const { state } = useStore();
     const [packets, setPackets] = useState([]);
     const [countDown, setCountDown] = useState(
-        Date.now() + 1000 * COUNTDOWM_VALUE,
+        Date.now() + 1000 * state.countDownValue,
     );
 
     // for testing
@@ -213,7 +213,7 @@ const Game3Moni = () => {
     );
 
     const scoreValue = () => {
-        return packets.filter((p) => p.correct == true).length;
+        return packets.length;
     };
 
     return (

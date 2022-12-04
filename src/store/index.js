@@ -6,6 +6,7 @@ import {
     SET_CUR_RECORD,
     SET_CUR_USER_NAME,
     SET_CUR_USER_SERIAL,
+    SET_COUNTDOWN_VALUE,
 } from './actions';
 
 import { ROLES } from '../constants';
@@ -23,6 +24,8 @@ const initialState = {
     // 儲存經常顯示之用戶資訊，避免重複撈取資料
     currentUserName: '王曉東',
     currentUserSerial: '1325',
+
+    countDownValue: localStorage.getItem('stroke-app-countdown'),
 };
 
 const reducer = (state, action) => {
@@ -53,6 +56,15 @@ const reducer = (state, action) => {
             return {
                 ...state,
                 currentUserSerial: action.payload,
+            };
+        case SET_COUNTDOWN_VALUE:
+            localStorage.setItem(
+                'stroke-app-countdown',
+                parseInt(action.payload),
+            );
+            return {
+                ...state,
+                countDownValue: parseInt(action.payload),
             };
         default:
             return state;

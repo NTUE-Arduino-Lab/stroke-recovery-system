@@ -164,8 +164,8 @@ const Game2Result = () => {
     };
 
     const countDownDisplay = () => {
-        let min = Math.floor(COUNTDOWM_VALUE / 60);
-        let sec = COUNTDOWM_VALUE - min * 60;
+        let min = Math.floor(state.countDownValue / 60);
+        let sec = state.countDownValue - min * 60;
 
         let minDisplay = min < 10 ? '0' + min : min;
         let secDisplay = sec < 10 ? '0' + sec : sec;

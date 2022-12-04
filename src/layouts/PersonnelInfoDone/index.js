@@ -106,9 +106,7 @@ const PersonnelInfoDone = () => {
             <legend>醫生端</legend>
             <div className={styles.innerContainer}>
                 <div className={styles.grid_wrapper}>
-                    <h2 className={styles.title}>
-                        序號<span>1325</span>填寫完成
-                    </h2>
+                    <h2 className={styles.title}>填寫完成</h2>
                     <div className={styles.name}>姓名-{user?.name}</div>
                     <div className={styles.birth}>生日-{user?.birthday}</div>
                     <div className={styles.age}>年齡-{user?.age}</div>

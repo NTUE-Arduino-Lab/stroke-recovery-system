@@ -138,6 +138,7 @@ const WaitingRoom = () => {
     }, [targetgetRecordId]);
 
     const goDashboard = async () => {
+        await deleteRecord();
         navigate(ROUTE_PATH.admin_dashbaord);
     };
 

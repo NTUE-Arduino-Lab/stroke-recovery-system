@@ -36,18 +36,23 @@ import {
     CloseCircleFilled,
     ExclamationCircleOutlined,
 } from '@ant-design/icons';
+import moment from 'moment';
 
 import { ROUTE_PATH } from '../../constants';
 import styles from './styles.module.scss';
 
-import { usersRef } from '../../services/firebase';
+import { recordsRef, usersRef } from '../../services/firebase';
 
 import Logo from '../../assets/images/page_icon.png';
 import Leave_Icon from '../../assets/images/leave_icon.png';
 import IconSearch from '../../components/IconSearch';
 
 import { useStore } from '../../store';
-import { SET_CUR_USER, SET_CUR_USER_NAME } from '../../store/actions';
+import {
+    SET_CUR_USER,
+    SET_CUR_USER_NAME,
+    SET_CUR_USER_SERIAL,
+} from '../../store/actions';
 
 const UserList = () => {
     const navigate = useNavigate();
@@ -86,6 +91,27 @@ const UserList = () => {
                 id: doc.id,
             });
         });
+
+        for (let i = 0; i < users.length; i++) {
+            let theUser = users[i];
+            console.log(theUser);
+
+            let q = query(recordsRef, where('user', '==', theUser.id));
+            const querySnapshot = await getDocs(q);
+
+            const records = [];
+            querySnapshot.forEach((doc) => {
+                records.push({
+                    ...doc.data(),
+                    id: doc.id,
+                });
+            });
+
+            records.sort((a, b) => b.createdTime - a.createdTime);
+            theUser.latestRecordTime = records?.[0]?.createdTime;
+
+            console.log(records);
+        }
 
         return users;
     };
@@ -131,7 +157,7 @@ const UserList = () => {
         navigate(ROUTE_PATH.admin_dashbaord);
     };
 
-    const goUserDetail = (id, name) => {
+    const goUserDetail = (id, name, idNumber) => {
         if (!id || !name) {
             message.error('操作有誤！');
             return;
@@ -144,6 +170,10 @@ const UserList = () => {
         dispatch({
             type: SET_CUR_USER_NAME,
             payload: name,
+        });
+        dispatch({
+            type: SET_CUR_USER_SERIAL,
+            payload: idNumber.slice(0, 4),
         });
 
         navigate(ROUTE_PATH.user_detail);
@@ -208,22 +238,28 @@ const UserList = () => {
                 <div className={styles.listWrapper}>
                     {userSearchedResult.map((e, i) => (
                         <section key={e.id}>
-                            <span>2022/10/2</span>
+                            <span>
+                                {moment(e?.latestRecordTime?.toDate()).format(
+                                    'YYYY/MM/DD',
+                                )}
+                            </span>
                             <span className={styles.name}>
                                 {e?.name?.length > 4
                                     ? e?.name.substring(0, 3) + '...'
                                     : e?.name}
                             </span>
-                            <span>{e?.serial || '1235'}</span>
+                            <span>{e?.idNumber?.slice(0, 4)}</span>
                             <span className={styles.situation}>
-                                {e?.situation?.length > 5
-                                    ? e?.situation.substring(0, 5) + '...'
+                                {e?.situation?.length > 7
+                                    ? e?.situation.substring(0, 7) + '...'
                                     : e?.situation}
                             </span>
-                            <span>復健5次</span>
+                            {/* <span>復健5次</span> */}
                             <div
                                 className={styles.item_btn}
-                                onClick={() => goUserDetail(e.id, e.name)}
+                                onClick={() =>
+                                    goUserDetail(e.id, e.name, e.idNumber)
+                                }
                             >
                                 詳情
                             </div>

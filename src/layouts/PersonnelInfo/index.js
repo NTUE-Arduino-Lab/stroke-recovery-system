@@ -152,7 +152,7 @@ const PersonnelInfo = () => {
         console.log('Document written with ID: ', targetUserRef.id);
         dispatch({ type: SET_CUR_USER, payload: targetUserRef.id });
         dispatch({ type: SET_CUR_USER_NAME, payload: name });
-        dispatch({ type: SET_CUR_USER_SERIAL, payload: '1325' });
+        dispatch({ type: SET_CUR_USER_SERIAL, payload: idNumber.slice(0, 3) });
 
         // 成功前往配對畫面;
         goPersonnelInfoDone();

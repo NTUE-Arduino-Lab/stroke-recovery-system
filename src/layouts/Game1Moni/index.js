@@ -48,7 +48,7 @@ const Game1Moni = () => {
     const [packets, setPackets] = useState([]);
     const [latestPacket, setLatestPakcet] = useState();
     const [countDown, setCountDown] = useState(
-        Date.now() + 1000 * COUNTDOWM_VALUE,
+        Date.now() + 1000 * state.countDownValue,
     );
 
     // for testing
