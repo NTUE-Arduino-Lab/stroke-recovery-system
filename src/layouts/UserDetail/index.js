@@ -177,7 +177,7 @@ const UserDetail = () => {
         if (_.isNaN(levelCorrectRate)) {
             return 0;
         } else {
-            return levelCorrectRate;
+            return levelCorrectRate.toFixed(1);
         }
     };
 

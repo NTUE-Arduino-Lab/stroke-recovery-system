@@ -36,7 +36,7 @@ const { Countdown } = Statistic;
 // TODO: 新增每關卡初始數據
 const initialLevelData = {
     ansColor: '#D9D9D9',
-    timeStamp: Date.now(),
+    timeStamp: Timestamp.now(),
 };
 
 let unsubscribe = null;
