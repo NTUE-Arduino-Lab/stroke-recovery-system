@@ -25,7 +25,7 @@ const initialState = {
     currentUserName: '王曉東',
     currentUserSerial: '1325',
 
-    countDownValue: localStorage.getItem('stroke-app-countdown'),
+    countDownValue: localStorage.getItem('stroke-app-countdown') || 120,
 };
 
 const reducer = (state, action) => {
