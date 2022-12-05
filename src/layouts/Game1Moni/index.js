@@ -92,10 +92,14 @@ const Game1Moni = () => {
                 });
             });
 
-            newPackets.sort((a, b) => a.timeStamp - b.timeStamp);
+            newPackets.sort((a, b) => {
+                return a.timeStamp?.toDate?.() - b.timeStamp?.toDate?.();
+            });
             newPackets.splice(0, 1);
 
             const latestPacket = newPackets[newPackets.length - 1];
+
+            console.log(latestPacket);
 
             setPackets(newPackets);
             setLatestPakcet(latestPacket);
@@ -157,7 +161,7 @@ const Game1Moni = () => {
         const times = packets.length; // 預設會有一筆所以直接取長度即可
         const position = parseInt(inputPosition);
         const ansColor = inputColor; // 只會得到回答後的顏色
-        const timeStamp = Date.now();
+        const timeStamp = Timestamp.now();
         const correct = true; // 代表有放置正確，測試階段皆正確
 
         // simulate incoming rpm & heart rate

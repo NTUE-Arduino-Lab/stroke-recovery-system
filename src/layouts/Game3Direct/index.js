@@ -88,7 +88,9 @@ const Game3Direct = () => {
             });
         });
 
-        levelData.sort((a, b) => a.timeStamp - b.timeStamp);
+        levelData.sort((a, b) => {
+            return a.timeStamp?.toDate?.() - b.timeStamp?.toDate?.();
+        });
         levelData.splice(0, 1); // 排除掉第一筆
 
         return levelData;

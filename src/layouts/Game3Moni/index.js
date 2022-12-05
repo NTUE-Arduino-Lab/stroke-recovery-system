@@ -122,7 +122,9 @@ const Game3Moni = () => {
                 });
             });
 
-            newPackets.sort((a, b) => a.timeStamp - b.timeStamp);
+            newPackets.sort((a, b) => {
+                return a.timeStamp?.toDate?.() - b.timeStamp?.toDate?.();
+            });
             newPackets.splice(0, 1);
 
             setPackets(newPackets);
@@ -192,7 +194,7 @@ const Game3Moni = () => {
 
         const times = packets.length; // 預設會有一筆所以直接取長度即可
         const position = parseInt(inputPosition);
-        const timeStamp = Date.now();
+        const timeStamp = Timestamp.now();
 
         // simulate incoming rpm & heart rate
         const nextPacket = {
