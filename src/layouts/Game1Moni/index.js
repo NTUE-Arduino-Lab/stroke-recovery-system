@@ -107,11 +107,17 @@ const Game1Moni = () => {
             Modal.confirm({
                 title: '即將離開！',
                 icon: <ExclamationCircleOutlined />,
-                // onOk: () => deleteRecord('leave'),
+                onOk: () => deleteRecord('leave'),
             });
         } else {
             navigate(ROUTE_PATH.admin_dashbaord);
         }
+    };
+
+    const deleteRecord = async (leave = false) => {
+        const targetRecordRef = doc(recordsRef, state.currentRecord);
+        await deleteDoc(targetRecordRef);
+        if (leave) navigate(ROUTE_PATH.admin_dashbaord);
     };
 
     const goGameDirect = async () => {

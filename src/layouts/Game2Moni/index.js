@@ -143,11 +143,17 @@ const Game2Moni = () => {
                 title: '即將離開！',
                 icon: <ExclamationCircleOutlined />,
                 content: '將刪除所選資訊',
-                // onOk: () => deleteRecord('leave'),
+                onOk: () => deleteRecord('leave'),
             });
         } else {
             navigate(ROUTE_PATH.admin_dashbaord);
         }
+    };
+
+    const deleteRecord = async (leave = false) => {
+        const targetRecordRef = doc(recordsRef, state.currentRecord);
+        await deleteDoc(targetRecordRef);
+        if (leave) navigate(ROUTE_PATH.admin_dashbaord);
     };
 
     const goGameDirect = async () => {

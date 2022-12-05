@@ -170,6 +170,10 @@ const WaitingRoom = () => {
         const createdTime = Timestamp.now();
         const beginWorkoutTime = null;
         const finishedWorkoutTime = null;
+        const currentLevelStart = false;
+        const onBackCurrentReadyPage = false;
+        const onRecordFinish = false;
+        const readyPage = null;
 
         const targetRecordRef = await addDoc(recordsRef, {
             pairId,
@@ -178,6 +182,10 @@ const WaitingRoom = () => {
             createdTime,
             beginWorkoutTime,
             finishedWorkoutTime,
+            currentLevelStart,
+            onBackCurrentReadyPage,
+            onRecordFinish,
+            readyPage,
         });
         console.log('Document written with ID: ', targetRecordRef.id);
 
