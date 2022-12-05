@@ -173,7 +173,7 @@ const WaitingRoom = () => {
         const currentLevelStart = false;
         const onBackCurrentReadyPage = false;
         const onRecordFinish = false;
-        const readyPage = null;
+        const readyPage = '';
 
         const targetRecordRef = await addDoc(recordsRef, {
             pairId,
