@@ -242,17 +242,26 @@ const Game2Moni = () => {
             <div className={styles.leftContainer}>
                 <ShapeHexagon fill={shapeColor(0)} />
                 <ShapeRectangle fill={shapeColor(3)} />
-                <ShapeTriangle fill={shapeColor(6)} />
+                <ShapeTriangle
+                    fill={shapeColor(6)}
+                    styles={{ transform: 'rotate(180deg)' }}
+                />
                 <ShapeSquare fill={shapeColor(9)} />
                 <ShapeCircle fill={shapeColor(12)} />
                 <ShapeHexagon fill={shapeColor(1)} />
                 <ShapeRectangle fill={shapeColor(4)} />
-                <ShapeTriangle fill={shapeColor(7)} />
+                <ShapeTriangle
+                    fill={shapeColor(7)}
+                    styles={{ transform: 'rotate(180deg)' }}
+                />
                 <ShapeSquare fill={shapeColor(10)} />
                 <ShapeCircle fill={shapeColor(13)} />
                 <ShapeHexagon fill={shapeColor(2)} />
                 <ShapeRectangle fill={shapeColor(5)} />
-                <ShapeTriangle fill={shapeColor(8)} />
+                <ShapeTriangle
+                    fill={shapeColor(8)}
+                    styles={{ transform: 'rotate(180deg)' }}
+                />
                 <ShapeSquare fill={shapeColor(11)} />
                 <ShapeCircle fill={shapeColor(14)} />
             </div>

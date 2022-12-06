@@ -169,10 +169,10 @@ const Game3Moni = () => {
         goGameResult();
     };
 
-    const shapeColor = (position) => {
+    const shapeColor = (place) => {
         let test = false;
         packets.forEach((p) => {
-            if (p.position == position) {
+            if (p.place == place) {
                 test = true;
             }
         });
@@ -193,13 +193,13 @@ const Game3Moni = () => {
         );
 
         const times = packets.length; // 預設會有一筆所以直接取長度即可
-        const position = parseInt(inputPosition);
+        const place = parseInt(inputPosition);
         const timeStamp = Timestamp.now();
 
         // simulate incoming rpm & heart rate
         const nextPacket = {
             times,
-            position,
+            place,
             timeStamp,
         };
 
