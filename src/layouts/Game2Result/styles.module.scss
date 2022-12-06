@@ -69,7 +69,6 @@
     flex-direction: row;
     justify-content: center;
     align-items: center;
-    padding-bottom: 1em;
 
     gap: 25px;
   }
@@ -95,6 +94,7 @@
 
   .shapeWrapper {
     position: relative;
+    width: 75%;
     
     h4 {
       position: absolute;
