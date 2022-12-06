@@ -276,9 +276,9 @@ const Game1Result = () => {
                     <div className={styles.modal_btn} onClick={goGame3Direct}>
                         細圓柱練習
                     </div>
-                    <div className={styles.home}>
+                    {/* <div className={styles.home}>
                         <Home_Icon />
-                    </div>
+                    </div> */}
                 </div>
             </CustomModal>
         </div>
