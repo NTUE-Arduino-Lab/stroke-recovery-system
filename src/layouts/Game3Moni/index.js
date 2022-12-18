@@ -249,9 +249,6 @@ const Game3Moni = () => {
                     <ShapeDot fill={shapeColor(15)} />
                     <ShapeDot fill={shapeColor(16)} />
                     <ShapeDot fill={shapeColor(17)} />
-                    <ShapeDot fill={shapeColor(18)} />
-                    <ShapeDot fill={shapeColor(19)} />
-                    <ShapeDot fill={shapeColor(20)} />
                 </div>
                 <div className={styles.dotsWrapper}>
                     <ShapeDot fill={shapeColor(21)} />
@@ -272,9 +269,6 @@ const Game3Moni = () => {
                     <ShapeDot fill={shapeColor(36)} />
                     <ShapeDot fill={shapeColor(37)} />
                     <ShapeDot fill={shapeColor(38)} />
-                    <ShapeDot fill={shapeColor(39)} />
-                    <ShapeDot fill={shapeColor(40)} />
-                    <ShapeDot fill={shapeColor(41)} />
                 </div>
                 <div className={styles.hori} />
                 <div className={`${styles.hori} ${styles.separate_bottom}`} />
