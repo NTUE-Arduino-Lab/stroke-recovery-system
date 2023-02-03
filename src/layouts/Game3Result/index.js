@@ -206,9 +206,9 @@ const Game3Result = () => {
                 <div className={styles.logo}>
                     <Logo_Icon />
                 </div>
-                <div className={styles.action} onClick={goGame3Direct}>
+                {/* <div className={styles.action} onClick={goGame3Direct}>
                     重新開始
-                </div>
+                </div> */}
                 <div className={styles.action} onClick={() => setOpen(true)}>
                     關卡選擇
                 </div>

@@ -245,9 +245,9 @@ const Game2Result = () => {
                 <div className={styles.logo}>
                     <Logo_Icon onClick={goDashboard} />
                 </div>
-                <div className={styles.action} onClick={goGame2Direct}>
+                {/* <div className={styles.action} onClick={goGame2Direct}>
                     重新開始
-                </div>
+                </div> */}
                 <div className={styles.action} onClick={goGame3Direct}>
                     下一關卡
                 </div>
