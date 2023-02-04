@@ -152,7 +152,7 @@ const Game3Result = () => {
 
     const goGame3Direct = async () => {
         await updateDoc(doc(recordsRef, state.currentRecord), {
-            onRechooseGameLevel: true,
+            onRechooseGameLevel: GAME_LEVEL.Three,
         });
         navigate(ROUTE_PATH.game3_direct);
     };

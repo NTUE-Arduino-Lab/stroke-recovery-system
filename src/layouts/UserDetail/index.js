@@ -1,3 +1,4 @@
+/* eslint-disable use-isnan */
 /* eslint-disable no-unreachable */
 /* eslint-disable no-unused-vars */
 import React, { useEffect, useState } from 'react';
@@ -219,7 +220,13 @@ const UserDetail = () => {
                                 )}
                             </span>
                             <span>平均分數 {e?.avgScore}</span>
-                            <span>平均正確率 {e?.avgCorrectRate}%</span>
+                            <span>
+                                平均正確率{' '}
+                                {_.isNaN(e.avgCorrectRate)
+                                    ? ''
+                                    : e.avgCorrectRate}
+                                %
+                            </span>
                         </section>
                     ))}
                 </div>
