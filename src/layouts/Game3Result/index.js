@@ -138,21 +138,21 @@ const Game3Result = () => {
 
     const goGame1Direct = async () => {
         await updateDoc(doc(recordsRef, state.currentRecord), {
-            readyPage: GAME_LEVEL.One,
+            onRechooseGameLevel: GAME_LEVEL.One,
         });
         navigate(ROUTE_PATH.game1_direct);
     };
 
     const goGame2Direct = async () => {
         await updateDoc(doc(recordsRef, state.currentRecord), {
-            readyPage: GAME_LEVEL.Two,
+            onRechooseGameLevel: GAME_LEVEL.Two,
         });
         navigate(ROUTE_PATH.game2_direct);
     };
 
     const goGame3Direct = async () => {
         await updateDoc(doc(recordsRef, state.currentRecord), {
-            readyPage: GAME_LEVEL.Three,
+            onRechooseGameLevel: true,
         });
         navigate(ROUTE_PATH.game3_direct);
     };
@@ -206,9 +206,9 @@ const Game3Result = () => {
                 <div className={styles.logo}>
                     <Logo_Icon />
                 </div>
-                {/* <div className={styles.action} onClick={goGame3Direct}>
+                <div className={styles.action} onClick={goGame3Direct}>
                     重新開始
-                </div> */}
+                </div>
                 <div className={styles.action} onClick={() => setOpen(true)}>
                     關卡選擇
                 </div>

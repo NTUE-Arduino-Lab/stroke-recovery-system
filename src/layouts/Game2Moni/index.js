@@ -103,6 +103,7 @@ const Game2Moni = () => {
         console.log(state.currentRecord);
         await updateDoc(doc(recordsRef, state.currentRecord), {
             onBackCurrentReadyPage: false,
+            onRechooseGameLevel: '',
         });
         listenPacketsChange();
     };
@@ -179,6 +180,9 @@ const Game2Moni = () => {
 
     const shapeColor = (position) => {
         if (latestPacket?.position == position) {
+            if (latestPacket.ansColor === '') {
+                return COLOUR.Default; // 沒放的情形
+            }
             return latestPacket.ansColor;
         }
         return COLOUR.Default;
@@ -240,6 +244,34 @@ const Game2Moni = () => {
     return (
         <div className={styles.container}>
             <div className={styles.leftContainer}>
+                <ShapeCircle fill={shapeColor(0)} />
+                <ShapeSquare fill={shapeColor(3)} />
+                <ShapeTriangle
+                    fill={shapeColor(6)}
+                    styles={{ transform: 'rotate(180deg)' }}
+                />
+                <ShapeRectangle fill={shapeColor(9)} />
+                <ShapeHexagon fill={shapeColor(12)} />
+
+                <ShapeCircle fill={shapeColor(1)} />
+                <ShapeSquare fill={shapeColor(4)} />
+                <ShapeTriangle
+                    fill={shapeColor(7)}
+                    styles={{ transform: 'rotate(180deg)' }}
+                />
+                <ShapeRectangle fill={shapeColor(10)} />
+                <ShapeHexagon fill={shapeColor(13)} />
+
+                <ShapeCircle fill={shapeColor(2)} />
+                <ShapeSquare fill={shapeColor(5)} />
+                <ShapeTriangle
+                    fill={shapeColor(8)}
+                    styles={{ transform: 'rotate(180deg)' }}
+                />
+                <ShapeRectangle fill={shapeColor(11)} />
+                <ShapeHexagon fill={shapeColor(14)} />
+
+                {/* 
                 <ShapeHexagon fill={shapeColor(0)} />
                 <ShapeRectangle fill={shapeColor(3)} />
                 <ShapeTriangle
@@ -248,6 +280,7 @@ const Game2Moni = () => {
                 />
                 <ShapeSquare fill={shapeColor(9)} />
                 <ShapeCircle fill={shapeColor(12)} />
+
                 <ShapeHexagon fill={shapeColor(1)} />
                 <ShapeRectangle fill={shapeColor(4)} />
                 <ShapeTriangle
@@ -256,6 +289,7 @@ const Game2Moni = () => {
                 />
                 <ShapeSquare fill={shapeColor(10)} />
                 <ShapeCircle fill={shapeColor(13)} />
+
                 <ShapeHexagon fill={shapeColor(2)} />
                 <ShapeRectangle fill={shapeColor(5)} />
                 <ShapeTriangle
@@ -263,7 +297,7 @@ const Game2Moni = () => {
                     styles={{ transform: 'rotate(180deg)' }}
                 />
                 <ShapeSquare fill={shapeColor(11)} />
-                <ShapeCircle fill={shapeColor(14)} />
+                <ShapeCircle fill={shapeColor(14)} /> */}
             </div>
             <div className={styles.rightContainer}>
                 <div className={styles.infoWrapper}>

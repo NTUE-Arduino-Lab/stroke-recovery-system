@@ -97,6 +97,7 @@ const Game3Moni = () => {
         console.log(state.currentRecord);
         await updateDoc(doc(recordsRef, state.currentRecord), {
             onBackCurrentReadyPage: false,
+            onRechooseGameLevel: '',
         });
         listenPacketsChange();
     };
@@ -251,6 +252,9 @@ const Game3Moni = () => {
                     <ShapeDot fill={shapeColor(17)} />
                 </div>
                 <div className={styles.dotsWrapper}>
+                    <ShapeDot fill={shapeColor(18)} />
+                    <ShapeDot fill={shapeColor(19)} />
+                    <ShapeDot fill={shapeColor(20)} />
                     <ShapeDot fill={shapeColor(21)} />
                     <ShapeDot fill={shapeColor(22)} />
                     <ShapeDot fill={shapeColor(23)} />
@@ -266,9 +270,6 @@ const Game3Moni = () => {
                     <ShapeDot fill={shapeColor(33)} />
                     <ShapeDot fill={shapeColor(34)} />
                     <ShapeDot fill={shapeColor(35)} />
-                    <ShapeDot fill={shapeColor(36)} />
-                    <ShapeDot fill={shapeColor(37)} />
-                    <ShapeDot fill={shapeColor(38)} />
                 </div>
                 <div className={styles.hori} />
                 <div className={`${styles.hori} ${styles.separate_bottom}`} />

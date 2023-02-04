@@ -67,6 +67,7 @@ const Game1Moni = () => {
         console.log(state.currentRecord);
         await updateDoc(doc(recordsRef, state.currentRecord), {
             onBackCurrentReadyPage: false,
+            onRechooseGameLevel: '',
         });
         listenPacketsChange();
     };
@@ -145,6 +146,9 @@ const Game1Moni = () => {
 
     const shapeColor = (position) => {
         if (latestPacket?.position == position) {
+            if (latestPacket.ansColor === '') {
+                return COLOUR.Default; // 沒放的情形
+            }
             return latestPacket.ansColor;
         }
         return COLOUR.Default;

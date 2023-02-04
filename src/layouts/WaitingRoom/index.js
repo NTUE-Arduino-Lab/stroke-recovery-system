@@ -174,6 +174,7 @@ const WaitingRoom = () => {
         const onBackCurrentReadyPage = false;
         const onRecordFinish = false;
         const readyPage = '';
+        const onRechooseGameLevel = '';
 
         const targetRecordRef = await addDoc(recordsRef, {
             pairId,
@@ -186,6 +187,7 @@ const WaitingRoom = () => {
             onBackCurrentReadyPage,
             onRecordFinish,
             readyPage,
+            onRechooseGameLevel,
         });
         console.log('Document written with ID: ', targetRecordRef.id);
 
