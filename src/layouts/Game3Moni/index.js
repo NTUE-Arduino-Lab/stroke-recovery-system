@@ -132,23 +132,31 @@ const Game3Moni = () => {
         });
     };
 
+    const forceLeave = async () => {
+        await updateDoc(doc(recordsRef, state.currentRecord), {
+            onRecordFinish: true,
+        });
+    };
+
     const goDashboard = async () => {
         if (state.currentRecord) {
             Modal.confirm({
                 title: '即將離開！',
                 icon: <ExclamationCircleOutlined />,
                 content: '將刪除所選資訊',
-                onOk: () => deleteRecord('leave'),
+                onOk: () => deleteRecord(),
             });
         } else {
             navigate(ROUTE_PATH.admin_dashbaord);
         }
     };
 
-    const deleteRecord = async (leave = false) => {
+    const deleteRecord = async () => {
         const targetRecordRef = doc(recordsRef, state.currentRecord);
+        await forceLeave();
+        await wait(1500);
         await deleteDoc(targetRecordRef);
-        if (leave) navigate(ROUTE_PATH.admin_dashbaord);
+        navigate(ROUTE_PATH.admin_dashbaord);
     };
 
     const goGameDirect = async () => {
